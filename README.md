@@ -4,7 +4,7 @@
         <img src="https://user-images.githubusercontent.com/6267663/229776275-b670d564-fc2e-4843-b061-adf230737e3f.svg">
     </picture>
     <h1>Python SDK</h1>
-   <p>Developer infrastructure for internal tools</p>
+   <p>The modern pricing platform to bill for seats, consumption, and everything in between.</p>
    <a href="https://docs.withorb.com/docs/orb-docs/overview"><img src="https://img.shields.io/static/v1?label=Docs&message=API Ref&color=5444e4&style=for-the-badge" /></a>
    <a href="https://github.com/speakeasy-sdks/orb-python/actions"><img src="https://img.shields.io/github/actions/workflow/status/speakeasy-sdks/orb-python/speakeasy_sdk_generation.yml?style=for-the-badge" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" /></a>
