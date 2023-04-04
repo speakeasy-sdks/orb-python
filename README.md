@@ -15,7 +15,7 @@
 ## SDK Installation
 
 ```bash
-pip install git+https://github.com/speakeasy-sdks/orb-python.git
+pip install orb-billing
 ```
 <!-- End SDK Installation -->
 
