@@ -20,6 +20,7 @@ jobs:
       openapi_doc_auth_header: x-api-key
       languages: |-
         - python
+      publish_python: true
       mode: pr
     secrets:
       speakeasy_api_key: ${{ secrets.SPEAKEASY_PROD_API_KEY }}
