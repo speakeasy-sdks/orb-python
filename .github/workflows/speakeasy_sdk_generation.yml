@@ -16,7 +16,7 @@ jobs:
     with:
       force: ${{ github.event.inputs.force }}
       speakeasy_version: latest
-      openapi_doc_location: https://prod.speakeasyapi.dev/v1/apis/Orb/version/v1.0/schema/download
+      openapi_doc_location: ./openapi/openapi.yaml
       openapi_doc_auth_header: x-api-key
       languages: |-
         - python
