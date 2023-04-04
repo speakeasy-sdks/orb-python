@@ -1,17 +1,18 @@
 <!-- Start SDK Example Usage -->
 ```python
-import sdk
-from sdk.models import operations, shared
+import orb
+from orb.models import operations, shared
 
-s = sdk.SDK(
+s = orb.Orb(
     security=shared.Security(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-req = operations.PostCustomersRequestBody(
-    billing_address=operations.PostCustomersRequestBodyBillingAddress(
+req = shared.Customer(
+    balance="33.00",
+    billing_address=shared.BillingAddress(
         city="Laruecester",
         country="US",
         line1="quibusdam",
@@ -19,21 +20,23 @@ req = operations.PostCustomersRequestBody(
         postal_code="58466-3428",
         state="ipsa",
     ),
-    currency="delectus",
-    email="Geraldine_Kreiger52@gmail.com",
-    external_customer_id="iusto",
-    name="excepturi",
-    payment_provider="bill.com",
-    payment_provider_id="recusandae",
-    shipping_address=operations.PostCustomersRequestBodyShippingAddress(
-        city="Belleville",
+    created_at="2022-03-08T10:35:32.561Z",
+    currency="suscipit",
+    email="Paxton.Schulist@yahoo.com",
+    external_customer_id="excepturi",
+    id="nisi",
+    name="recusandae",
+    payment_provider="null",
+    payment_provider_id="ab",
+    shipping_address=shared.ShippingAddress(
+        city="North Lydia",
         country="US",
-        line1="quis",
-        line2="veritatis",
-        postal_code="03897-1889",
-        state="molestiae",
+        line1="perferendis",
+        line2="ipsam",
+        postal_code="97188-9478",
+        state="esse",
     ),
-    timezone="Etc/UTC",
+    timezone="America/Los_Angeles",
 )
     
 res = s.customer.create(req)
