@@ -6,7 +6,7 @@ management:
   generationVersion: 2.16.7
 generation:
   telemetryEnabled: false
-  sdkClassName: SDK
+  sdkClassName: Orb
   sdkFlattening: true
   singleTagPerOp: false
 python:
