@@ -17,6 +17,17 @@ info:
 servers:
   - url: https://api.billwithorb.com/v1
     description: Production server
+x-speakeasy-name-override:
+  - operationId: get*
+    methodNameOverride: get
+  - operationId: list*
+    methodNameOverride: list
+  - operationId: cancel*
+    methodNameOverride: cancel
+  - operationId: submit*
+    methodNameOverride: submit
+  - operationId: execute*
+    methodNameOverride: execute
 paths:
   /ingest:
     post:
