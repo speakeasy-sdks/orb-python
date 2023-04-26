@@ -1,7 +1,8 @@
 <!-- Start SDK Example Usage -->
 ```python
 import orb
-from orb.models import operations, shared
+import dateutil.parser
+from orb.models import shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -20,7 +21,7 @@ req = shared.Customer(
         postal_code="58466-3428",
         state="ipsa",
     ),
-    created_at="2022-03-08T10:35:32.561Z",
+    created_at=dateutil.parser.isoparse('2022-03-08T10:35:32.561Z'),
     currency="suscipit",
     email="Paxton.Schulist@yahoo.com",
     external_customer_id="excepturi",
@@ -38,7 +39,7 @@ req = shared.Customer(
     ),
     timezone="America/Los_Angeles",
 )
-    
+
 res = s.customer.create(req)
 
 if res.customer is not None:
