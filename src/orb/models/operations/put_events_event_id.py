@@ -16,23 +16,30 @@ from typing import Any, Optional
 class PutEventsEventIDRequestBody:
     
     event_name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('event_name') }})
-    r"""A name to meaningfully identify the action or event type."""  
+
+    r"""A name to meaningfully identify the action or event type."""
     properties: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('properties') }})
-    r"""A dictionary of custom properties. Values in this dictionary must be numeric, boolean, or strings. Nested dictionaries are disallowed."""  
+
+    r"""A dictionary of custom properties. Values in this dictionary must be numeric, boolean, or strings. Nested dictionaries are disallowed."""
     timestamp: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timestamp'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
-    r"""An ISO 8601 format date with no timezone offset (i.e. UTC). This should represent the time that usage was recorded, and is particularly important to attribute usage to a given billing period."""  
+
+    r"""An ISO 8601 format date with no timezone offset (i.e. UTC). This should represent the time that usage was recorded, and is particularly important to attribute usage to a given billing period."""
     customer_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('customer_id'), 'exclude': lambda f: f is None }})
-    r"""The Orb Customer identifier"""  
+
+    r"""The Orb Customer identifier"""
     external_customer_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id'), 'exclude': lambda f: f is None }})
-    r"""An alias for the Orb customer, whose mapping is specified when creating the customer"""  
+
+    r"""An alias for the Orb customer, whose mapping is specified when creating the customer"""
     
 
 @dataclasses.dataclass
 class PutEventsEventIDRequest:
     
     event_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'event_id', 'style': 'simple', 'explode': False }})
-    r"""Identical to the `idempotency_key` provided on event ingestion. Uniquely identifies an event in the system."""  
-    request_body: Optional[PutEventsEventIDRequestBody] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})  
+
+    r"""Identical to the `idempotency_key` provided on event ingestion. Uniquely identifies an event in the system."""
+    request_body: Optional[PutEventsEventIDRequestBody] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -41,12 +48,16 @@ class PutEventsEventID400ApplicationJSON:
     r"""Bad Request"""
     
     status: Optional[int] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status'), 'exclude': lambda f: f is None }})
-    r"""HTTP Code"""  
+
+    r"""HTTP Code"""
     title: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('title'), 'exclude': lambda f: f is None }})
-    r"""Error message"""  
-    type: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})  
+
+    r"""Error message"""
+    type: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})
+
     validation_errors: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('validation_errors'), 'exclude': lambda f: f is None }})
-    r"""An array of strings corresponding to the validation failures"""  
+
+    r"""An array of strings corresponding to the validation failures"""
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -55,17 +66,23 @@ class PutEventsEventID200ApplicationJSON:
     r"""OK"""
     
     amended: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amended'), 'exclude': lambda f: f is None }})
-    r"""event_id of the amended event, if successfully ingested"""  
+
+    r"""event_id of the amended event, if successfully ingested"""
     
 
 @dataclasses.dataclass
 class PutEventsEventIDResponse:
     
-    content_type: str = dataclasses.field()  
-    status_code: int = dataclasses.field()  
+    content_type: str = dataclasses.field()
+
+    status_code: int = dataclasses.field()
+
     put_events_event_id_200_application_json_object: Optional[PutEventsEventID200ApplicationJSON] = dataclasses.field(default=None)
-    r"""OK"""  
+
+    r"""OK"""
     put_events_event_id_400_application_json_object: Optional[PutEventsEventID400ApplicationJSON] = dataclasses.field(default=None)
-    r"""Bad Request"""  
-    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)  
+
+    r"""Bad Request"""
+    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
+
     

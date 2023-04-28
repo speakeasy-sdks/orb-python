@@ -15,7 +15,8 @@ from typing import Any, Optional
 @dataclasses.dataclass
 class PriceBillableMetric:
     
-    id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})  
+    id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -23,17 +24,22 @@ class PriceBillableMetric:
 class PriceBpsConfig:
     r"""Provided when model_type is `bps`"""
     
-    bps: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bps'), 'exclude': lambda f: f is None }})  
-    per_unit_maximum: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_unit_maximum'), 'exclude': lambda f: f is None }})  
+    bps: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bps'), 'exclude': lambda f: f is None }})
+
+    per_unit_maximum: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_unit_maximum'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class PriceBulkBpsConfigTiers:
     
-    bps: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bps'), 'exclude': lambda f: f is None }})  
-    maximum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('maximum_amount'), 'exclude': lambda f: f is None }})  
-    per_unit_maximum: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_unit_maximum'), 'exclude': lambda f: f is None }})  
+    bps: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bps'), 'exclude': lambda f: f is None }})
+
+    maximum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('maximum_amount'), 'exclude': lambda f: f is None }})
+
+    per_unit_maximum: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_unit_maximum'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -41,15 +47,18 @@ class PriceBulkBpsConfigTiers:
 class PriceBulkBpsConfig:
     r"""Provided when model_type is `bulk_bps`"""
     
-    tiers: Optional[list[PriceBulkBpsConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})  
+    tiers: Optional[list[PriceBulkBpsConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class PriceBulkConfigTiers:
     
-    maximum_units: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('maximum_units'), 'exclude': lambda f: f is None }})  
-    unit_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount'), 'exclude': lambda f: f is None }})  
+    maximum_units: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('maximum_units'), 'exclude': lambda f: f is None }})
+
+    unit_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -57,7 +66,8 @@ class PriceBulkConfigTiers:
 class PriceBulkConfig:
     r"""Provided when model_type is `bulk`"""
     
-    tiers: Optional[list[PriceBulkConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})  
+    tiers: Optional[list[PriceBulkConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})
+
     
 class PriceCadenceEnum(str, Enum):
     ANNUAL = 'annual'
@@ -69,8 +79,10 @@ class PriceCadenceEnum(str, Enum):
 @dataclasses.dataclass
 class PriceMatrixConfigMatrixValues:
     
-    dimension_values: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dimension_values'), 'exclude': lambda f: f is None }})  
-    unit_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount'), 'exclude': lambda f: f is None }})  
+    dimension_values: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dimension_values'), 'exclude': lambda f: f is None }})
+
+    unit_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -78,9 +90,12 @@ class PriceMatrixConfigMatrixValues:
 class PriceMatrixConfig:
     r"""Provided when model_type is `matrix`"""
     
-    default_unit_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('default_unit_amount'), 'exclude': lambda f: f is None }})  
-    dimensions: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dimensions'), 'exclude': lambda f: f is None }})  
-    matrix_values: Optional[list[PriceMatrixConfigMatrixValues]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('matrix_values'), 'exclude': lambda f: f is None }})  
+    default_unit_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('default_unit_amount'), 'exclude': lambda f: f is None }})
+
+    dimensions: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dimensions'), 'exclude': lambda f: f is None }})
+
+    matrix_values: Optional[list[PriceMatrixConfigMatrixValues]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('matrix_values'), 'exclude': lambda f: f is None }})
+
     
 class PriceModelTypeEnum(str, Enum):
     UNIT = 'unit'
@@ -98,18 +113,24 @@ class PriceModelTypeEnum(str, Enum):
 class PricePackageConfig:
     r"""Provided when model_type is `package`"""
     
-    package_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('package_amount'), 'exclude': lambda f: f is None }})  
-    package_size: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('package_size'), 'exclude': lambda f: f is None }})  
+    package_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('package_amount'), 'exclude': lambda f: f is None }})
+
+    package_size: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('package_size'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class PriceTieredBpsConfigTiers:
     
-    bps: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bps'), 'exclude': lambda f: f is None }})  
-    maximum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('maximum_amount'), 'exclude': lambda f: f is None }})  
-    minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})  
-    per_unit_maximum: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_unit_maximum'), 'exclude': lambda f: f is None }})  
+    bps: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bps'), 'exclude': lambda f: f is None }})
+
+    maximum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('maximum_amount'), 'exclude': lambda f: f is None }})
+
+    minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
+
+    per_unit_maximum: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_unit_maximum'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -117,16 +138,20 @@ class PriceTieredBpsConfigTiers:
 class PriceTieredBpsConfig:
     r"""Provided when model_type is `tiered_bps`"""
     
-    tiers: Optional[list[PriceTieredBpsConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})  
+    tiers: Optional[list[PriceTieredBpsConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class PriceTieredConfigTiers:
     
-    first_unit: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('first_unit'), 'exclude': lambda f: f is None }})  
-    last_unit: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('last_unit'), 'exclude': lambda f: f is None }})  
-    unit_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount'), 'exclude': lambda f: f is None }})  
+    first_unit: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('first_unit'), 'exclude': lambda f: f is None }})
+
+    last_unit: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('last_unit'), 'exclude': lambda f: f is None }})
+
+    unit_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -134,7 +159,8 @@ class PriceTieredConfigTiers:
 class PriceTieredConfig:
     r"""Provided when model_type is`tiered`"""
     
-    tiers: Optional[list[PriceTieredConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})  
+    tiers: Optional[list[PriceTieredConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -142,7 +168,8 @@ class PriceTieredConfig:
 class PriceUnitConfig:
     r"""Provided when model_type is `unit`"""
     
-    unit_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount'), 'exclude': lambda f: f is None }})  
+    unit_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -327,33 +354,52 @@ class Price:
     """
     
     currency: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('currency') }})
-    r"""An ISO 4217 currency string for this plan's prices."""  
-    discount: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})  
-    minimum: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum') }})  
+
+    r"""An ISO 4217 currency string for this plan's prices."""
+    discount: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
+
+    minimum: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum') }})
+
     plan_phase_order: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('plan_phase_order') }})
-    r"""The phase order which includes this price, only applicable to a plan with phases."""  
-    billable_metric: Optional[PriceBillableMetric] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('billable_metric'), 'exclude': lambda f: f is None }})  
+
+    r"""The phase order which includes this price, only applicable to a plan with phases."""
+    billable_metric: Optional[PriceBillableMetric] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('billable_metric'), 'exclude': lambda f: f is None }})
+
     bps_config: Optional[PriceBpsConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bps_config'), 'exclude': lambda f: f is None }})
-    r"""Provided when model_type is `bps`"""  
+
+    r"""Provided when model_type is `bps`"""
     bulk_bps_config: Optional[PriceBulkBpsConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bulk_bps_config'), 'exclude': lambda f: f is None }})
-    r"""Provided when model_type is `bulk_bps`"""  
+
+    r"""Provided when model_type is `bulk_bps`"""
     bulk_config: Optional[PriceBulkConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bulk_config'), 'exclude': lambda f: f is None }})
-    r"""Provided when model_type is `bulk`"""  
-    cadence: Optional[PriceCadenceEnum] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cadence'), 'exclude': lambda f: f is None }})  
-    created_at: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})  
+
+    r"""Provided when model_type is `bulk`"""
+    cadence: Optional[PriceCadenceEnum] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cadence'), 'exclude': lambda f: f is None }})
+
+    created_at: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
+
     fixed_price_quantity: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('fixed_price_quantity'), 'exclude': lambda f: f is None }})
-    r"""If the Price represents a fixed cost, this represents the quantity of units applied. Mutually exclusive with billable_metric."""  
-    id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})  
+
+    r"""If the Price represents a fixed cost, this represents the quantity of units applied. Mutually exclusive with billable_metric."""
+    id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
+
     matrix_config: Optional[PriceMatrixConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('matrix_config'), 'exclude': lambda f: f is None }})
-    r"""Provided when model_type is `matrix`"""  
-    model_type: Optional[PriceModelTypeEnum] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type'), 'exclude': lambda f: f is None }})  
-    name: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name'), 'exclude': lambda f: f is None }})  
+
+    r"""Provided when model_type is `matrix`"""
+    model_type: Optional[PriceModelTypeEnum] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type'), 'exclude': lambda f: f is None }})
+
+    name: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name'), 'exclude': lambda f: f is None }})
+
     package_config: Optional[PricePackageConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('package_config'), 'exclude': lambda f: f is None }})
-    r"""Provided when model_type is `package`"""  
+
+    r"""Provided when model_type is `package`"""
     tiered_bps_config: Optional[PriceTieredBpsConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiered_bps_config'), 'exclude': lambda f: f is None }})
-    r"""Provided when model_type is `tiered_bps`"""  
+
+    r"""Provided when model_type is `tiered_bps`"""
     tiered_config: Optional[PriceTieredConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiered_config'), 'exclude': lambda f: f is None }})
-    r"""Provided when model_type is`tiered`"""  
+
+    r"""Provided when model_type is`tiered`"""
     unit_config: Optional[PriceUnitConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_config'), 'exclude': lambda f: f is None }})
-    r"""Provided when model_type is `unit`"""  
+
+    r"""Provided when model_type is `unit`"""
     

@@ -17,18 +17,23 @@ class CreditLedgerEntryCreditBlock:
     r"""Credit block that the entry affected"""
     
     expiry_date: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('expiry_date') }})
-    r"""Complete timestamp with date and time for when this block expires"""  
-    id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})  
+
+    r"""Complete timestamp with date and time for when this block expires"""
+    id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
+
     per_unit_cost_basis: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_unit_cost_basis') }})
-    r"""How much, in USD, a customer paid for a single credit in this block"""  
+
+    r"""How much, in USD, a customer paid for a single credit in this block"""
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class CreditLedgerEntryCustomer:
     
-    external_customer_id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id') }})  
-    id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})  
+    external_customer_id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id') }})
+
+    id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
+
     
 class CreditLedgerEntryEntryStatusEnum(str, Enum):
     r"""Committed entries are older than the ingestion grace period, and cannot change. Pending entries are newer than the grace period and are subject to updates"""
@@ -51,21 +56,34 @@ class CreditLedgerEntry:
     """
     
     amount: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
-    r"""Number of credits that were impacted"""  
-    created_at: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})  
+
+    r"""Number of credits that were impacted"""
+    created_at: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
+
     credit_block: CreditLedgerEntryCreditBlock = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('credit_block') }})
-    r"""Credit block that the entry affected"""  
-    customer: CreditLedgerEntryCustomer = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('customer') }})  
+
+    r"""Credit block that the entry affected"""
+    customer: CreditLedgerEntryCustomer = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('customer') }})
+
     description: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('description') }})
-    r"""Optional metadata that can be specified when adding ledger results via the API"""  
-    ending_balance: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ending_balance') }})  
+
+    r"""Optional metadata that can be specified when adding ledger results via the API"""
+    ending_balance: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ending_balance') }})
+
     entry_status: CreditLedgerEntryEntryStatusEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_status') }})
-    r"""Committed entries are older than the ingestion grace period, and cannot change. Pending entries are newer than the grace period and are subject to updates"""  
-    entry_type: CreditLedgerEntryEntryTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_type') }})  
-    id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})  
+
+    r"""Committed entries are older than the ingestion grace period, and cannot change. Pending entries are newer than the grace period and are subject to updates"""
+    entry_type: CreditLedgerEntryEntryTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_type') }})
+
+    id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
+
     ledger_sequence_number: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ledger_sequence_number') }})
-    r"""The position in which this entry appears in the ledger, starting at 0"""  
-    starting_balance: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('starting_balance') }})  
-    event_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('event_id'), 'exclude': lambda f: f is None }})  
-    price_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('price_id'), 'exclude': lambda f: f is None }})  
+
+    r"""The position in which this entry appears in the ledger, starting at 0"""
+    starting_balance: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('starting_balance') }})
+
+    event_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('event_id'), 'exclude': lambda f: f is None }})
+
+    price_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('price_id'), 'exclude': lambda f: f is None }})
+
     

@@ -15,15 +15,20 @@ from typing import Any, Optional
 @dataclasses.dataclass
 class GetSubscriptionsSubscriptionIDCostRequest:
     
-    subscription_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'subscription_id', 'style': 'simple', 'explode': False }})  
+    subscription_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'subscription_id', 'style': 'simple', 'explode': False }})
+
     group_by: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'group_by', 'style': 'form', 'explode': True }})
-    r"""Groups per-price costs by the key provided."""  
+
+    r"""Groups per-price costs by the key provided."""
     timeframe_end: Optional[datetime] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'timeframe_end', 'style': 'form', 'explode': True }})
-    r"""Revenue returned is _exclusive_ of `timeframe_end`"""  
+
+    r"""Revenue returned is _exclusive_ of `timeframe_end`"""
     timeframe_start: Optional[datetime] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'timeframe_start', 'style': 'form', 'explode': True }})
-    r"""Revenue returned is _inclusive_ of `timeframe_start`"""  
+
+    r"""Revenue returned is _inclusive_ of `timeframe_start`"""
     view_mode: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'view_mode', 'style': 'form', 'explode': True }})
-    r"""Controls whether Orb returns cumulative costs since the start of the billing period, or incremental day-by-day costs. If your customer has minimums or discounts, it's strongly recommended that you use the default cumulative behavior."""  
+
+    r"""Controls whether Orb returns cumulative costs since the start of the billing period, or incremental day-by-day costs. If your customer has minimums or discounts, it's strongly recommended that you use the default cumulative behavior."""
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -31,13 +36,18 @@ class GetSubscriptionsSubscriptionIDCostRequest:
 class GetSubscriptionsSubscriptionIDCost200ApplicationJSONDataPerPriceCostsPriceGroups:
     
     grouping_key: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('grouping_key') }})
-    r"""Grouping key to break down a single price's costs"""  
-    grouping_value: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('grouping_value') }})  
+
+    r"""Grouping key to break down a single price's costs"""
+    grouping_value: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('grouping_value') }})
+
     total: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('total') }})
-    r"""Total costs for this group for the timeframe. Note that this does not account for any minimums or discounts."""  
+
+    r"""Total costs for this group for the timeframe. Note that this does not account for any minimums or discounts."""
     secondary_grouping_key: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('secondary_grouping_key'), 'exclude': lambda f: f is None }})
-    r"""If the price is a matrix price, this is the second dimension key"""  
-    secondary_grouping_value: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('secondary_grouping_value'), 'exclude': lambda f: f is None }})  
+
+    r"""If the price is a matrix price, this is the second dimension key"""
+    secondary_grouping_value: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('secondary_grouping_value'), 'exclude': lambda f: f is None }})
+
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -46,8 +56,10 @@ class GetSubscriptionsSubscriptionIDCost200ApplicationJSONDataPerPriceCosts:
     r"""Price's contributions for the timeframe, excluding any transforms (minimums and discounts)."""
     
     price_groups: list[GetSubscriptionsSubscriptionIDCost200ApplicationJSONDataPerPriceCostsPriceGroups] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('price_groups') }})
-    r"""If a `group_by` attribute is passed in, array of costs per `grouping_key`, `grouping_value` or `secondary_grouping_key`, `secondary_grouping_value`."""  
+
+    r"""If a `group_by` attribute is passed in, array of costs per `grouping_key`, `grouping_value` or `secondary_grouping_key`, `secondary_grouping_value`."""
     price: Optional[shared_price.Price] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('price'), 'exclude': lambda f: f is None }})
+
     r"""Orb supports a few different pricing models out of the box. Each of these models is serialized differently in a given Price object. The model_type field determines the key for the configuration object that is present.
     
     ## Unit pricing
@@ -224,24 +236,31 @@ class GetSubscriptionsSubscriptionIDCost200ApplicationJSONDataPerPriceCosts:
         ...
     }
     ```
-    """  
+    """
     subtotal: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('subtotal'), 'exclude': lambda f: f is None }})
-    r"""Price's contributions for the timeframe, excluding any minimums and discounts."""  
+
+    r"""Price's contributions for the timeframe, excluding any minimums and discounts."""
     total: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('total'), 'exclude': lambda f: f is None }})
-    r"""Price's contributions for the timeframe, including minimums and discounts."""  
+
+    r"""Price's contributions for the timeframe, including minimums and discounts."""
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class GetSubscriptionsSubscriptionIDCost200ApplicationJSONData:
     
-    per_price_costs: list[GetSubscriptionsSubscriptionIDCost200ApplicationJSONDataPerPriceCosts] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_price_costs') }})  
+    per_price_costs: list[GetSubscriptionsSubscriptionIDCost200ApplicationJSONDataPerPriceCosts] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_price_costs') }})
+
     subtotal: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('subtotal') }})
-    r"""Total costs for the timeframe, excluding any minimums and discounts."""  
-    timeframe_end: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timeframe_end'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})  
-    timeframe_start: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timeframe_start'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})  
+
+    r"""Total costs for the timeframe, excluding any minimums and discounts."""
+    timeframe_end: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timeframe_end'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
+
+    timeframe_start: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timeframe_start'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
+
     total: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('total') }})
-    r"""Total costs for the timeframe, including any minimums and discounts."""  
+
+    r"""Total costs for the timeframe, including any minimums and discounts."""
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -249,16 +268,22 @@ class GetSubscriptionsSubscriptionIDCost200ApplicationJSONData:
 class GetSubscriptionsSubscriptionIDCost200ApplicationJSON:
     r"""OK"""
     
-    data: list[GetSubscriptionsSubscriptionIDCost200ApplicationJSONData] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data') }})  
-    pagination_metadata: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata') }})  
+    data: list[GetSubscriptionsSubscriptionIDCost200ApplicationJSONData] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data') }})
+
+    pagination_metadata: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata') }})
+
     
 
 @dataclasses.dataclass
 class GetSubscriptionsSubscriptionIDCostResponse:
     
-    content_type: str = dataclasses.field()  
-    status_code: int = dataclasses.field()  
+    content_type: str = dataclasses.field()
+
+    status_code: int = dataclasses.field()
+
     get_subscriptions_subscription_id_cost_200_application_json_object: Optional[GetSubscriptionsSubscriptionIDCost200ApplicationJSON] = dataclasses.field(default=None)
-    r"""OK"""  
-    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)  
+
+    r"""OK"""
+    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
+
     
