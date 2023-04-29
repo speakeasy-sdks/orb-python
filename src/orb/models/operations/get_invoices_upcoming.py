@@ -11,19 +11,14 @@ from typing import Optional
 class GetInvoicesUpcomingRequest:
     
     subscription_id: str = dataclasses.field(metadata={'query_param': { 'field_name': 'subscription_id', 'style': 'form', 'explode': True }})
-
     
 
 @dataclasses.dataclass
 class GetInvoicesUpcomingResponse:
     
     content_type: str = dataclasses.field()
-
     status_code: int = dataclasses.field()
-
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
-
     upcoming_invoice: Optional[shared_upcominginvoice.UpcomingInvoice] = dataclasses.field(default=None)
-
     r"""OK"""
     

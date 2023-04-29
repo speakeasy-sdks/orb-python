@@ -11,19 +11,14 @@ from typing import Optional
 class GetCustomersExternalCustomerIDExternalCustomerIDRequest:
     
     external_customer_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'external_customer_id', 'style': 'simple', 'explode': False }})
-
     
 
 @dataclasses.dataclass
 class GetCustomersExternalCustomerIDExternalCustomerIDResponse:
     
     content_type: str = dataclasses.field()
-
     status_code: int = dataclasses.field()
-
     customer: Optional[shared_customer.Customer] = dataclasses.field(default=None)
-
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
-
     
