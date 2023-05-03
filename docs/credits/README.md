@@ -84,14 +84,14 @@ s = orb.Orb(
 req = operations.PostCustomersCustomerIDCreditsLedgerEntryRequest(
     request_body=operations.PostCustomersCustomerIDCreditsLedgerEntryRequestBody(
         amount=3864.89,
-        block_id="hic",
-        description="saepe",
-        entry_type="expiration_change",
+        block_id='hic',
+        description='saepe',
+        entry_type=operations.PostCustomersCustomerIDCreditsLedgerEntryRequestBodyEntryTypeEnum.EXPIRATION_CHANGE,
         expiry_date=dateutil.parser.parse('2023-01-01').date(),
-        per_unit_cost_basis="in",
+        per_unit_cost_basis='in',
         target_expiry_date=dateutil.parser.parse('2023-02-01').date(),
     ),
-    customer_id="corporis",
+    customer_id='corporis',
 )
 
 res = s.credits.create(req)
@@ -122,7 +122,7 @@ s = orb.Orb(
 
 
 req = operations.GetCustomersCustomerIDCreditsRequest(
-    customer_id="iste",
+    customer_id='iste',
 )
 
 res = s.credits.get_credits(req)
@@ -177,9 +177,9 @@ s = orb.Orb(
 
 
 req = operations.GetCustomersCustomerIDCreditsLedgerRequest(
-    customer_id="iure",
-    entry_status="pending",
-    entry_type="expiration_change",
+    customer_id='iure',
+    entry_status=operations.GetCustomersCustomerIDCreditsLedgerEntryStatusEnum.PENDING,
+    entry_type=operations.GetCustomersCustomerIDCreditsLedgerEntryTypeEnum.EXPIRATION_CHANGE,
     minimum_amount=992.8,
 )
 

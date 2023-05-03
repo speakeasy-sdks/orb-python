@@ -44,7 +44,7 @@ s = orb.Orb(
 
 
 req = operations.PutDeprecateEventsEventIDRequest(
-    event_id="fQp2wSmK7CF9oPcu",
+    event_id='fQp2wSmK7CF9oPcu',
 )
 
 res = s.event.deprecate(req)
@@ -210,42 +210,42 @@ req = operations.PostIngestRequest(
     request_body=operations.PostIngestRequestBody(
         events=[
             operations.PostIngestRequestBodyEvents(
-                customer_id="natus",
-                event_name="magni",
-                external_customer_id="sunt",
-                idempotency_key="quo",
+                customer_id='natus',
+                event_name='magni',
+                external_customer_id='sunt',
+                idempotency_key='quo',
                 properties={
-                    "pariatur": "maxime",
-                    "ea": "excepturi",
-                    "odit": "ea",
-                    "accusantium": "ab",
+                    "pariatur": 'maxime',
+                    "ea": 'excepturi',
+                    "odit": 'ea',
+                    "accusantium": 'ab',
                 },
-                timestamp="2020-12-09T16:09:53Z",
+                timestamp='2020-12-09T16:09:53Z',
             ),
             operations.PostIngestRequestBodyEvents(
-                customer_id="maiores",
-                event_name="quidem",
-                external_customer_id="ipsam",
-                idempotency_key="voluptate",
+                customer_id='maiores',
+                event_name='quidem',
+                external_customer_id='ipsam',
+                idempotency_key='voluptate',
                 properties={
-                    "nam": "eaque",
-                    "pariatur": "nemo",
+                    "nam": 'eaque',
+                    "pariatur": 'nemo',
                 },
-                timestamp="2020-12-09T16:09:53Z",
+                timestamp='2020-12-09T16:09:53Z',
             ),
             operations.PostIngestRequestBodyEvents(
-                customer_id="voluptatibus",
-                event_name="perferendis",
-                external_customer_id="fugiat",
-                idempotency_key="amet",
+                customer_id='voluptatibus',
+                event_name='perferendis',
+                external_customer_id='fugiat',
+                idempotency_key='amet',
                 properties={
-                    "cumque": "corporis",
+                    "cumque": 'corporis',
                 },
-                timestamp="2020-12-09T16:09:53Z",
+                timestamp='2020-12-09T16:09:53Z',
             ),
         ],
     ),
-    debug="false",
+    debug=operations.PostIngestDebugEnum.FALSE,
 )
 
 res = s.event.ingest(req)
@@ -283,11 +283,11 @@ s = orb.Orb(
 
 req = operations.PostEventsSearchRequestBody(
     event_ids=[
-        "nobis",
-        "dolores",
-        "quis",
+        'nobis',
+        'dolores',
+        'quis',
     ],
-    invoice_id="totam",
+    invoice_id='totam',
 )
 
 res = s.event.search(req)
@@ -330,15 +330,15 @@ s = orb.Orb(
 
 req = operations.PutEventsEventIDRequest(
     request_body=operations.PutEventsEventIDRequestBody(
-        customer_id="dignissimos",
-        event_name="eaque",
-        external_customer_id="quis",
+        customer_id='dignissimos',
+        event_name='eaque',
+        external_customer_id='quis',
         properties={
-            "eos": "perferendis",
+            "eos": 'perferendis',
         },
         timestamp=dateutil.parser.isoparse('2020-12-09T16:09:53Z'),
     ),
-    event_id="fQp2wSmK7CF9oPcu",
+    event_id='fQp2wSmK7CF9oPcu',
 )
 
 res = s.event.update(req)

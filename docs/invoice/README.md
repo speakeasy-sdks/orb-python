@@ -28,7 +28,7 @@ s = orb.Orb(
 
 
 req = operations.GetInvoiceInvoiceIDRequest(
-    invoice_id="dolores",
+    invoice_id='dolores',
 )
 
 res = s.invoice.get(req)
@@ -55,7 +55,7 @@ s = orb.Orb(
 
 
 req = operations.GetInvoicesUpcomingRequest(
-    subscription_id="minus",
+    subscription_id='minus',
 )
 
 res = s.invoice.get_upcoming(req)
@@ -84,9 +84,9 @@ s = orb.Orb(
 
 
 req = operations.ListInvoicesRequest(
-    customer_id="quam",
-    external_customer_id="dolor",
-    subscription_id="vero",
+    customer_id='quam',
+    external_customer_id='dolor',
+    subscription_id='vero',
 )
 
 res = s.invoice.list(req)

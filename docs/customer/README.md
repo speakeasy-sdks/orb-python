@@ -42,32 +42,32 @@ s = orb.Orb(
 
 
 req = shared.Customer(
-    balance="33.00",
+    balance='33.00',
     billing_address=shared.BillingAddress(
-        city="Fort Manuelachester",
-        country="US",
-        line1="laborum",
-        line2="dolores",
-        postal_code="31736",
-        state="nemo",
+        city='Fort Manuelachester',
+        country='US',
+        line1='laborum',
+        line2='dolores',
+        postal_code='31736',
+        state='nemo',
     ),
     created_at=dateutil.parser.isoparse('2022-06-06T21:04:34.044Z'),
-    currency="accusantium",
-    email="Lorenza.Yundt65@yahoo.com",
-    external_customer_id="dolorem",
-    id="a2fa9467-7392-451a-a52c-3f5ad019da1f",
-    name="Caleb Koss",
-    payment_provider="stripe",
-    payment_provider_id="omnis",
+    currency='accusantium',
+    email='Lorenza.Yundt65@yahoo.com',
+    external_customer_id='dolorem',
+    id='a2fa9467-7392-451a-a52c-3f5ad019da1f',
+    name='Caleb Koss',
+    payment_provider=shared.CustomerPaymentProviderEnum.STRIPE,
+    payment_provider_id='omnis',
     shipping_address=shared.ShippingAddress(
-        city="Myrtistown",
-        country="US",
-        line1="doloremque",
-        line2="reprehenderit",
-        postal_code="91324",
-        state="dicta",
+        city='Myrtistown',
+        country='US',
+        line1='doloremque',
+        line2='reprehenderit',
+        postal_code='91324',
+        state='dicta',
     ),
-    timezone="America/Los_Angeles",
+    timezone='America/Los_Angeles',
 )
 
 res = s.customer.create(req)
@@ -96,7 +96,7 @@ s = orb.Orb(
 
 
 req = operations.GetCustomersCustomerIDRequest(
-    customer_id="harum",
+    customer_id='harum',
 )
 
 res = s.customer.get(req)
@@ -135,7 +135,7 @@ s = orb.Orb(
 
 
 req = operations.GetCustomersCustomerIDBalanceTransactionsRequest(
-    customer_id="enim",
+    customer_id='enim',
 )
 
 res = s.customer.get_balance(req)
@@ -164,7 +164,7 @@ s = orb.Orb(
 
 
 req = operations.GetCustomersExternalCustomerIDExternalCustomerIDRequest(
-    external_customer_id="accusamus",
+    external_customer_id='accusamus',
 )
 
 res = s.customer.get_by_external_id(req)
@@ -258,11 +258,11 @@ s = orb.Orb(
 
 
 req = operations.GetCustomerCostsRequest(
-    customer_id="commodi",
-    group_by="repudiandae",
-    timeframe_end="2022-03-01T05:00:00Z",
+    customer_id='commodi',
+    group_by='repudiandae',
+    timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
-    view_mode="periodic",
+    view_mode=operations.GetCustomerCostsViewModeEnum.PERIODIC,
 )
 
 res = s.customer.get_costs(req)
@@ -290,11 +290,11 @@ s = orb.Orb(
 
 
 req = operations.GetExternalCustomerCostsRequest(
-    external_customer_id="ipsum",
-    group_by="quidem",
-    timeframe_end="2022-03-01T05:00:00Z",
+    external_customer_id='ipsum',
+    group_by='quidem',
+    timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
-    view_mode="cumulative",
+    view_mode=operations.GetExternalCustomerCostsViewModeEnum.CUMULATIVE,
 )
 
 res = s.customer.get_costs_by_external_id(req)
@@ -352,27 +352,27 @@ s = orb.Orb(
 req = operations.PutCustomersCustomerIDRequest(
     request_body=operations.PutCustomersCustomerIDRequestBody(
         billing_address=operations.PutCustomersCustomerIDRequestBodyBillingAddress(
-            city="Samanthaboro",
-            country="US",
-            line1="praesentium",
-            line2="rem",
-            postal_code="09509-2306",
-            state="quibusdam",
+            city='Samanthaboro',
+            country='US',
+            line1='praesentium',
+            line2='rem',
+            postal_code='09509-2306',
+            state='quibusdam',
         ),
-        email="Luther.Rau26@gmail.com",
-        name="Beth McGlynn Sr.",
-        payment_provider="null",
-        payment_provider_id="ipsam",
+        email='Luther.Rau26@gmail.com',
+        name='Beth McGlynn Sr.',
+        payment_provider=operations.PutCustomersCustomerIDRequestBodyPaymentProviderEnum.NULL,
+        payment_provider_id='ipsam',
         shipping_address=operations.PutCustomersCustomerIDRequestBodyShippingAddress(
-            city="East Marianostead",
-            country="US",
-            line1="tempora",
-            line2="facilis",
-            postal_code="29427-5358",
-            state="sint",
+            city='East Marianostead',
+            country='US',
+            line1='tempora',
+            line2='facilis',
+            postal_code='29427-5358',
+            state='sint',
         ),
     ),
-    customer_id="officia",
+    customer_id='officia',
 )
 
 res = s.customer.update(req)
@@ -403,27 +403,27 @@ s = orb.Orb(
 req = operations.PutCustomersExternalCustomerIDExternalCustomerIDRequest(
     request_body=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBody(
         billing_address=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyBillingAddress(
-            city="Fort Veda",
-            country="US",
-            line1="dolorum",
-            line2="in",
-            postal_code="89612",
-            state="cumque",
+            city='Fort Veda',
+            country='US',
+            line1='dolorum',
+            line2='in',
+            postal_code='89612',
+            state='cumque',
         ),
-        email="Hans_Hyatt24@hotmail.com",
-        name="Jon Tillman",
-        payment_provider="stripe_invoice",
-        payment_provider_id="nam",
+        email='Hans_Hyatt24@hotmail.com',
+        name='Jon Tillman',
+        payment_provider=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyPaymentProviderEnum.STRIPE_INVOICE,
+        payment_provider_id='nam',
         shipping_address=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyShippingAddress(
-            city="Kuvalisstad",
-            country="US",
-            line1="sapiente",
-            line2="amet",
-            postal_code="34664-0437",
-            state="id",
+            city='Kuvalisstad',
+            country='US',
+            line1='sapiente',
+            line2='amet',
+            postal_code='34664-0437',
+            state='id',
         ),
     ),
-    external_customer_id="labore",
+    external_customer_id='labore',
 )
 
 res = s.customer.update_by_external_id(req)
@@ -507,25 +507,25 @@ req = operations.PatchCustomersCustomerIDUsageRequest(
     request_body=operations.PatchCustomersCustomerIDUsageRequestBody(
         events=[
             operations.PatchCustomersCustomerIDUsageRequestBodyEvents(
-                event_name="suscipit",
+                event_name='suscipit',
                 properties={
-                    "nobis": "eum",
-                    "vero": "aspernatur",
-                    "architecto": "magnam",
+                    "nobis": 'eum',
+                    "vero": 'aspernatur',
+                    "architecto": 'magnam',
                 },
-                timestamp="et",
+                timestamp='et',
             ),
             operations.PatchCustomersCustomerIDUsageRequestBodyEvents(
-                event_name="excepturi",
+                event_name='excepturi',
                 properties={
-                    "provident": "quos",
-                    "sint": "accusantium",
+                    "provident": 'quos',
+                    "sint": 'accusantium',
                 },
-                timestamp="mollitia",
+                timestamp='mollitia',
             ),
         ],
     ),
-    customer_id="reiciendis",
+    customer_id='reiciendis',
     timeframe_end=dateutil.parser.isoparse('2022-05-11T17:46:20Z'),
     timeframe_start=dateutil.parser.isoparse('2022-05-11T17:46:20Z'),
 )
@@ -558,35 +558,35 @@ req = operations.PatchExternalCustomersCustomerIDUsageRequest(
     request_body=operations.PatchExternalCustomersCustomerIDUsageRequestBody(
         events=[
             operations.PatchExternalCustomersCustomerIDUsageRequestBodyEvents(
-                event_name="ad",
+                event_name='ad',
                 properties={
-                    "dolor": "necessitatibus",
-                    "odit": "nemo",
+                    "dolor": 'necessitatibus',
+                    "odit": 'nemo',
                 },
-                timestamp="quasi",
+                timestamp='quasi',
             ),
             operations.PatchExternalCustomersCustomerIDUsageRequestBodyEvents(
-                event_name="iure",
+                event_name='iure',
                 properties={
-                    "debitis": "eius",
-                    "maxime": "deleniti",
-                    "facilis": "in",
-                    "architecto": "architecto",
+                    "debitis": 'eius',
+                    "maxime": 'deleniti',
+                    "facilis": 'in',
+                    "architecto": 'architecto',
                 },
-                timestamp="repudiandae",
+                timestamp='repudiandae',
             ),
             operations.PatchExternalCustomersCustomerIDUsageRequestBodyEvents(
-                event_name="ullam",
+                event_name='ullam',
                 properties={
-                    "nihil": "repellat",
-                    "quibusdam": "sed",
-                    "saepe": "pariatur",
+                    "nihil": 'repellat',
+                    "quibusdam": 'sed',
+                    "saepe": 'pariatur',
                 },
-                timestamp="accusantium",
+                timestamp='accusantium',
             ),
         ],
     ),
-    external_customer_id="consequuntur",
+    external_customer_id='consequuntur',
     timeframe_end=dateutil.parser.isoparse('2022-05-11T17:46:20Z'),
     timeframe_start=dateutil.parser.isoparse('2022-05-11T17:46:20Z'),
 )
