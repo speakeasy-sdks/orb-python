@@ -10,7 +10,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = shared.Customer(
     balance='33.00',
     billing_address=shared.BillingAddress(

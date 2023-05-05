@@ -22,6 +22,7 @@ class Availability:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
+    
     def ping(self) -> operations.GetPingResponse:
         r"""Check availability
         This endpoint allows you to test your connection to the Orb API and check the validity of your API key, passed in the `Authorization` header. This is particularly useful for checking that your environment is set up properly, and is a great choice for connectors and integrations.

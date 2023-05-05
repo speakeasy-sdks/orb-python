@@ -33,7 +33,7 @@ class PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyPaymentProvider
     STRIPE_CHARGE = 'stripe_charge'
     STRIPE_INVOICE = 'stripe_invoice'
     BILL_COM = 'bill.com'
-    NULL = 'null'
+    LESS_THAN_NIL_GREATER_THAN_ = '<nil>'
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)

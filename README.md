@@ -29,7 +29,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = shared.Customer(
     balance='33.00',
     billing_address=shared.BillingAddress(
@@ -76,7 +75,7 @@ if res.customer is not None:
 
 ### [credits](docs/credits/README.md)
 
-* [create](docs/credits/README.md#create) - Add credit ledger entry
+* [get](docs/credits/README.md#get) - Add credit ledger entry
 * [get_credits](docs/credits/README.md#get_credits) - Retrieve credit balance
 * [get_credits_ledger](docs/credits/README.md#get_credits_ledger) - View credits ledger
 

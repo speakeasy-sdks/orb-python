@@ -22,6 +22,7 @@ class Customer:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
+    
     def create(self, request: shared.Customer) -> operations.PostCustomersResponse:
         r"""Create customer
         This operation is used to create an Orb customer, who is party to the core billing relationship. See [Customer](../reference/Orb-API.json/components/schemas/Customer) for an overview of the customer resource.
@@ -54,6 +55,7 @@ class Customer:
 
         return res
 
+    
     def get(self, request: operations.GetCustomersCustomerIDRequest) -> operations.GetCustomersCustomerIDResponse:
         r"""Retrieve a customer
         This endpoint is used to fetch customer details given an identifier.
@@ -79,6 +81,7 @@ class Customer:
 
         return res
 
+    
     def get_balance(self, request: operations.GetCustomersCustomerIDBalanceTransactionsRequest) -> operations.GetCustomersCustomerIDBalanceTransactionsResponse:
         r"""Get customer balance transactions
         # The customer balance
@@ -114,6 +117,7 @@ class Customer:
 
         return res
 
+    
     def get_by_external_id(self, request: operations.GetCustomersExternalCustomerIDExternalCustomerIDRequest) -> operations.GetCustomersExternalCustomerIDExternalCustomerIDResponse:
         r"""Retrieve a customer by external ID
         This endpoint is used to fetch customer details given an `external_customer_id` (see [Customer ID Aliases](../docs/Customer-ID-Aliases.md)).
@@ -139,6 +143,7 @@ class Customer:
 
         return res
 
+    
     def get_costs(self, request: operations.GetCustomerCostsRequest) -> operations.GetCustomerCostsResponse:
         r"""View customer costs
         This endpoint is used to fetch a day-by-day snapshot of a customer's costs in Orb, calculated by applying pricing information to the underlying usage (see the [subscription usage endpoint](../reference/Orb-API.json/paths/~1subscriptions~1{subscription_id}~1usage/get) to fetch usage per metric, in usage units rather than a currency). 
@@ -228,6 +233,7 @@ class Customer:
 
         return res
 
+    
     def get_costs_by_external_id(self, request: operations.GetExternalCustomerCostsRequest) -> operations.GetExternalCustomerCostsResponse:
         r"""View customer costs by external customer ID
         This endpoint's resource and semantics exactly mirror [View customer costs](../reference/Orb-API.json/paths/~1customers~1{customer_id}~1costs/get) but operates on an [external customer ID](../docs/Customer-ID-Aliases.md) rather than an Orb issued identifier.
@@ -252,6 +258,7 @@ class Customer:
 
         return res
 
+    
     def list(self) -> operations.ListCustomersResponse:
         r"""List customers
         This endpoint returns a list of all customers for an account. The list of customers is ordered starting from the most recently created customer. This endpoint follows Orb's [standardized pagination format](../docs/Pagination.md).
@@ -277,6 +284,7 @@ class Customer:
 
         return res
 
+    
     def update(self, request: operations.PutCustomersCustomerIDRequest) -> operations.PutCustomersCustomerIDResponse:
         r"""Update customer
         This endpoint can be used to update the `payment_provider`, `payment_provider_id`, `name`, `email`, `shipping_address`, and `billing_address` of an existing customer.
@@ -306,6 +314,7 @@ class Customer:
 
         return res
 
+    
     def update_by_external_id(self, request: operations.PutCustomersExternalCustomerIDExternalCustomerIDRequest) -> operations.PutCustomersExternalCustomerIDExternalCustomerIDResponse:
         r"""Update a customer by external ID
         This endpoint is used to update customer details given an `external_customer_id` (see [Customer ID Aliases](../docs/Customer-ID-Aliases.md)).
@@ -335,6 +344,7 @@ class Customer:
 
         return res
 
+    
     def update_usage(self, request: operations.PatchCustomersCustomerIDUsageRequest) -> operations.PatchCustomersCustomerIDUsageResponse:
         r"""Amend customer usage
         This endpoint is used to amend usage within a timeframe for a customer that has an active subscription.
@@ -420,6 +430,7 @@ class Customer:
 
         return res
 
+    
     def update_usage_by_external_id(self, request: operations.PatchExternalCustomersCustomerIDUsageRequest) -> operations.PatchExternalCustomersCustomerIDUsageResponse:
         r"""Amend customer usage by external ID
         This endpoint's resource and semantics exactly mirror [Amend customer usage](../reference/Orb-API.json/paths/~1customers~1{customer_id}~1usage/patch) but operates on an [external customer ID](see (../docs/Customer-ID-Aliases.md)) rather than an Orb issued identifier.

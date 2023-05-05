@@ -47,7 +47,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.PostSubscriptionsSubscriptionIDCancelRequest(
     cancel_option=operations.PostSubscriptionsSubscriptionIDCancelCancelOptionEnum.IMMEDIATE,
     subscription_id='doloribus',
@@ -93,7 +92,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequest(
     request_body=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBody(
@@ -491,7 +489,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.PostSubscriptionsRequestBody(
     align_billing_with_subscription_start_date=False,
     customer_id='97DPcZE9hxsbb9Y9',
@@ -610,7 +607,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.GetSubscriptionsSubscriptionIDRequest(
     subscription_id='mollitia',
 )
@@ -641,7 +637,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.GetSubscriptionsSubscriptionIDCostRequest(
     group_by='accusamus',
     subscription_id='harum',
@@ -671,7 +666,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.GetSubscriptionsSubscriptionIDScheduleRequest(
     subscription_id='doloremque',
@@ -822,7 +816,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.GetSubscriptionsSubscriptionIDUsageRequest(
     billable_metric_id='expedita',
     granularity=operations.GetSubscriptionsSubscriptionIDUsageGranularityEnum.DAY,
@@ -856,7 +849,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.ListSubscriptionsRequest(
     customer_id='deserunt',
     external_customer_id='aliquid',
@@ -883,7 +875,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesRequest(
     subscription_id='excepturi',

@@ -33,7 +33,7 @@ class PutCustomersCustomerIDRequestBodyPaymentProviderEnum(str, Enum):
     QUICKBOOKS = 'quickbooks'
     BILL_COM = 'bill.com'
     STRIPE_CHARGE = 'stripe_charge'
-    NULL = 'null'
+    LESS_THAN_NIL_GREATER_THAN_ = '<nil>'
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)

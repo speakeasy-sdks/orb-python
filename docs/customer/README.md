@@ -40,7 +40,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = shared.Customer(
     balance='33.00',
     billing_address=shared.BillingAddress(
@@ -94,7 +93,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.GetCustomersCustomerIDRequest(
     customer_id='harum',
 )
@@ -133,7 +131,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.GetCustomersCustomerIDBalanceTransactionsRequest(
     customer_id='enim',
 )
@@ -161,7 +158,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.GetCustomersExternalCustomerIDExternalCustomerIDRequest(
     external_customer_id='accusamus',
@@ -256,7 +252,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.GetCustomerCostsRequest(
     customer_id='commodi',
     group_by='repudiandae',
@@ -287,7 +282,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.GetExternalCustomerCostsRequest(
     external_customer_id='ipsum',
@@ -348,7 +342,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.PutCustomersCustomerIDRequest(
     request_body=operations.PutCustomersCustomerIDRequestBody(
         billing_address=operations.PutCustomersCustomerIDRequestBodyBillingAddress(
@@ -361,7 +354,7 @@ req = operations.PutCustomersCustomerIDRequest(
         ),
         email='Luther.Rau26@gmail.com',
         name='Beth McGlynn Sr.',
-        payment_provider=operations.PutCustomersCustomerIDRequestBodyPaymentProviderEnum.NULL,
+        payment_provider=operations.PutCustomersCustomerIDRequestBodyPaymentProviderEnum.LESS_THAN_NIL_GREATER_THAN_,
         payment_provider_id='ipsam',
         shipping_address=operations.PutCustomersCustomerIDRequestBodyShippingAddress(
             city='East Marianostead',
@@ -398,7 +391,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.PutCustomersExternalCustomerIDExternalCustomerIDRequest(
     request_body=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBody(
@@ -502,7 +494,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.PatchCustomersCustomerIDUsageRequest(
     request_body=operations.PatchCustomersCustomerIDUsageRequestBody(
         events=[
@@ -552,7 +543,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.PatchExternalCustomersCustomerIDUsageRequest(
     request_body=operations.PatchExternalCustomersCustomerIDUsageRequestBody(

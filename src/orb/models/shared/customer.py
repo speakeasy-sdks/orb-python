@@ -19,7 +19,7 @@ class CustomerPaymentProviderEnum(str, Enum):
     BILL_COM = 'bill.com'
     STRIPE_CHARGE = 'stripe_charge'
     STRIPE_INVOICE = 'stripe_invoice'
-    NULL = 'null'
+    LESS_THAN_NIL_GREATER_THAN_ = '<nil>'
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)

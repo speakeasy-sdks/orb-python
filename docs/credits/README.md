@@ -6,11 +6,11 @@ Actions related to credit management.
 
 ### Available Operations
 
-* [create](#create) - Add credit ledger entry
+* [get](#get) - Add credit ledger entry
 * [get_credits](#get_credits) - Retrieve credit balance
 * [get_credits_ledger](#get_credits_ledger) - View credits ledger
 
-## create
+## get
 
 This endpoint allows you to create a new ledger entry for a specified customer's balance. This can be used to increment balance, deduct credits, and change the expiry date of existing credits.
 
@@ -80,7 +80,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.PostCustomersCustomerIDCreditsLedgerEntryRequest(
     request_body=operations.PostCustomersCustomerIDCreditsLedgerEntryRequestBody(
         amount=3864.89,
@@ -94,7 +93,7 @@ req = operations.PostCustomersCustomerIDCreditsLedgerEntryRequest(
     customer_id='corporis',
 )
 
-res = s.credits.create(req)
+res = s.credits.get(req)
 
 if res.credit_ledger_entry is not None:
     # handle response
@@ -119,7 +118,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.GetCustomersCustomerIDCreditsRequest(
     customer_id='iste',
@@ -174,7 +172,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.GetCustomersCustomerIDCreditsLedgerRequest(
     customer_id='iure',

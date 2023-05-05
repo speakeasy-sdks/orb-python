@@ -42,7 +42,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.PutDeprecateEventsEventIDRequest(
     event_id='fQp2wSmK7CF9oPcu',
 )
@@ -205,7 +204,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.PostIngestRequest(
     request_body=operations.PostIngestRequestBody(
         events=[
@@ -280,7 +278,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.PostEventsSearchRequestBody(
     event_ids=[
         'nobis',
@@ -326,7 +323,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.PutEventsEventIDRequest(
     request_body=operations.PutEventsEventIDRequestBody(

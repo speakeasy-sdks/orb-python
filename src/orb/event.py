@@ -22,6 +22,7 @@ class Event:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
+    
     def deprecate(self, request: operations.PutDeprecateEventsEventIDRequest) -> operations.PutDeprecateEventsEventIDResponse:
         r"""Deprecate single event
         This endpoint is used to deprecate a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. 
@@ -64,6 +65,7 @@ class Event:
 
         return res
 
+    
     def ingest(self, request: operations.PostIngestRequest) -> operations.PostIngestResponse:
         r"""Ingest events
         Orb's event ingestion model and API is designed around two core principles:
@@ -232,6 +234,7 @@ class Event:
 
         return res
 
+    
     def search(self, request: operations.PostEventsSearchRequestBody) -> operations.PostEventsSearchResponse:
         r"""Search events
         This endpoint returns a filtered set of events for an account in a paginated list format. 
@@ -269,6 +272,7 @@ class Event:
 
         return res
 
+    
     def update(self, request: operations.PutEventsEventIDRequest) -> operations.PutEventsEventIDResponse:
         r"""Amend single event
         This endpoint is used to amend a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. The event will maintain its existing `event_id` after the amendment.

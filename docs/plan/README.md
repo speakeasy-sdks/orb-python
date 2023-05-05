@@ -32,7 +32,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.GetPlansPlanIDRequest(
     plan_id='nostrum',
 )
@@ -62,7 +61,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.GetPlansExternalPlanIDRequest(
     plan=shared.Plan(
@@ -516,7 +514,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.ListPlansRequestBody(
     data=[

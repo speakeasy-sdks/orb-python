@@ -26,7 +26,6 @@ s = orb.Orb(
     ),
 )
 
-
 req = operations.GetInvoiceInvoiceIDRequest(
     invoice_id='dolores',
 )
@@ -52,7 +51,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.GetInvoicesUpcomingRequest(
     subscription_id='minus',
@@ -81,7 +79,6 @@ s = orb.Orb(
         bearer_auth="Bearer YOUR_BEARER_TOKEN_HERE",
     ),
 )
-
 
 req = operations.ListInvoicesRequest(
     customer_id='quam',
