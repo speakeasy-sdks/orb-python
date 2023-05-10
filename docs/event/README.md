@@ -42,11 +42,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PutDeprecateEventsEventIDRequest(
-    event_id='fQp2wSmK7CF9oPcu',
-)
 
-res = s.event.deprecate(req)
+res = s.event.deprecate('fQp2wSmK7CF9oPcu')
 
 if res.put_deprecate_events_event_id_200_application_json_object is not None:
     # handle response
@@ -204,49 +201,24 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PostIngestRequest(
-    request_body=operations.PostIngestRequestBody(
-        events=[
-            operations.PostIngestRequestBodyEvents(
-                customer_id='natus',
-                event_name='magni',
-                external_customer_id='sunt',
-                idempotency_key='quo',
-                properties={
-                    "pariatur": 'maxime',
-                    "ea": 'excepturi',
-                    "odit": 'ea',
-                    "accusantium": 'ab',
-                },
-                timestamp='2020-12-09T16:09:53Z',
-            ),
-            operations.PostIngestRequestBodyEvents(
-                customer_id='maiores',
-                event_name='quidem',
-                external_customer_id='ipsam',
-                idempotency_key='voluptate',
-                properties={
-                    "nam": 'eaque',
-                    "pariatur": 'nemo',
-                },
-                timestamp='2020-12-09T16:09:53Z',
-            ),
-            operations.PostIngestRequestBodyEvents(
-                customer_id='voluptatibus',
-                event_name='perferendis',
-                external_customer_id='fugiat',
-                idempotency_key='amet',
-                properties={
-                    "cumque": 'corporis',
-                },
-                timestamp='2020-12-09T16:09:53Z',
-            ),
-        ],
-    ),
-    debug=operations.PostIngestDebugEnum.FALSE,
-)
 
-res = s.event.ingest(req)
+res = s.event.ingest(operations.PostIngestRequestBody(
+    events=[
+        operations.PostIngestRequestBodyEvents(
+            customer_id='praesentium',
+            event_name='natus',
+            external_customer_id='magni',
+            idempotency_key='sunt',
+            properties={
+                "illum": 'pariatur',
+                "maxime": 'ea',
+                "excepturi": 'odit',
+                "ea": 'accusantium',
+            },
+            timestamp='2020-12-09T16:09:53Z',
+        ),
+    ],
+), operations.PostIngestDebugEnum.TRUE)
 
 if res.post_ingest_200_application_json_object is not None:
     # handle response
@@ -280,11 +252,12 @@ s = orb.Orb(
 
 req = operations.PostEventsSearchRequestBody(
     event_ids=[
-        'nobis',
-        'dolores',
-        'quis',
+        'quidem',
+        'ipsam',
+        'voluptate',
+        'autem',
     ],
-    invoice_id='totam',
+    invoice_id='nam',
 )
 
 res = s.event.search(req)
@@ -324,20 +297,19 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PutEventsEventIDRequest(
-    request_body=operations.PutEventsEventIDRequestBody(
-        customer_id='dignissimos',
-        event_name='eaque',
-        external_customer_id='quis',
-        properties={
-            "eos": 'perferendis',
-        },
-        timestamp=dateutil.parser.isoparse('2020-12-09T16:09:53Z'),
-    ),
-    event_id='fQp2wSmK7CF9oPcu',
-)
 
-res = s.event.update(req)
+res = s.event.update('fQp2wSmK7CF9oPcu', operations.PutEventsEventIDRequestBody(
+    customer_id='eaque',
+    event_name='pariatur',
+    external_customer_id='nemo',
+    properties={
+        "perferendis": 'fugiat',
+        "amet": 'aut',
+        "cumque": 'corporis',
+        "hic": 'libero',
+    },
+    timestamp=dateutil.parser.isoparse('2020-12-09T16:09:53Z'),
+))
 
 if res.put_events_event_id_200_application_json_object is not None:
     # handle response

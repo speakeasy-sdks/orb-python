@@ -47,12 +47,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PostSubscriptionsSubscriptionIDCancelRequest(
-    cancel_option=operations.PostSubscriptionsSubscriptionIDCancelCancelOptionEnum.IMMEDIATE,
-    subscription_id='doloribus',
-)
 
-res = s.subscription.cancel(req)
+res = s.subscription.cancel(operations.PostSubscriptionsSubscriptionIDCancelCancelOptionEnum.END_OF_SUBSCRIPTION_TERM, 'quas')
 
 if res.subscription is not None:
     # handle response
@@ -93,38 +89,38 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequest(
-    request_body=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBody(
-        align_billing_with_plan_change_date=False,
-        change_date=dateutil.parser.parse('2022-01-01').date(),
-        change_option=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyChangeOptionEnum.REQUESTED_DATE,
-        external_plan_id='ZMwNQefe7J3ecf7W',
-        minimum_amount='1.23',
-        plan_id='ZMwNQefe7J3ecf7W',
-        price_overrides=[
-            operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides4(
-                id='7c13e902-c141-425b-8960-a668151a472a',
-                minimum_amount='1.23',
-                model_type=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides4ModelTypeEnum.PACKAGE,
-                package_config=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides4PackageConfig(
-                    num_units=9650.95,
-                    unit_amount='omnis',
-                ),
-            ),
-            operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides2(
-                id='3c5949f8-3f35-40cf-876f-fb901c6ecbb4',
-                minimum_amount='1.23',
-                model_type=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides2ModelTypeEnum.UNIT,
-                unit_config=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides2UnitConfig(
-                    unit_amount='voluptates',
-                ),
-            ),
-        ],
-    ),
-    subscription_id='fugit',
-)
 
-res = s.subscription.change_schedule(req)
+res = s.subscription.change_schedule('et', operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBody(
+    align_billing_with_plan_change_date=False,
+    change_date=dateutil.parser.parse('2022-01-01').date(),
+    change_option=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyChangeOptionEnum.IMMEDIATE,
+    external_plan_id='ZMwNQefe7J3ecf7W',
+    minimum_amount='1.23',
+    plan_id='ZMwNQefe7J3ecf7W',
+    price_overrides=[
+        operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3(
+            bulk_config=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3BulkConfig(
+                tiers=[
+                    operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3BulkConfigTiers(
+                        maximum_units='alias',
+                        unit_amount='rem',
+                    ),
+                    operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3BulkConfigTiers(
+                        maximum_units='aut',
+                        unit_amount='quos',
+                    ),
+                    operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3BulkConfigTiers(
+                        maximum_units='laudantium',
+                        unit_amount='repellendus',
+                    ),
+                ],
+            ),
+            id='100efada-200e-4f04-a2eb-2164cf9ab836',
+            minimum_amount='1.23',
+            model_type=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3ModelTypeEnum.BULK,
+        ),
+    ],
+))
 
 if res.subscription is not None:
     # handle response
@@ -492,92 +488,78 @@ s = orb.Orb(
 req = operations.PostSubscriptionsRequestBody(
     align_billing_with_subscription_start_date=False,
     customer_id='97DPcZE9hxsbb9Y9',
-    external_customer_id='eius',
+    external_customer_id='ea',
     external_marketplace=operations.PostSubscriptionsRequestBodyExternalMarketplaceEnum.GOOGLE,
     external_marketplace_reporting_id='project_number:983410661111',
-    external_plan_id='sequi',
+    external_plan_id='impedit',
     minimum_amount='1.23',
     phase_overrides=[
         operations.PostSubscriptionsRequestBodyPhaseOverrides(
             discount={
-                "esse": 'blanditiis',
-                "sint": 'repellat',
-                "a": 'animi',
-                "maiores": 'itaque',
+                "velit": 'reiciendis',
             },
-            minimum_amount='nulla',
-            order=6434.19,
+            minimum_amount='repellat',
+            order=8611.23,
         ),
         operations.PostSubscriptionsRequestBodyPhaseOverrides(
             discount={
-                "velit": 'officiis',
-                "enim": 'officia',
+                "natus": 'accusamus',
+                "doloremque": 'nisi',
+                "rerum": 'recusandae',
             },
-            minimum_amount='saepe',
-            order=4299.97,
-        ),
-        operations.PostSubscriptionsRequestBodyPhaseOverrides(
-            discount={
-                "accusantium": 'officia',
-                "impedit": 'quasi',
-                "blanditiis": 'eius',
-                "quisquam": 'eos',
-            },
-            minimum_amount='nobis',
-            order=6200.54,
-        ),
-        operations.PostSubscriptionsRequestBodyPhaseOverrides(
-            discount={
-                "quia": 'magnam',
-                "reprehenderit": 'quod',
-                "quos": 'corrupti',
-                "amet": 'molestiae',
-            },
-            minimum_amount='amet',
-            order=6751.26,
+            minimum_amount='voluptates',
+            order=2516.27,
         ),
     ],
     plan_id='ZMwNQefe7J3ecf7W',
     price_overrides=[
-        operations.PostSubscriptionsRequestBodyPriceOverrides1(
+        operations.PostSubscriptionsRequestBodyPriceOverrides2(
             discount={
-                "architecto": 'molestias',
-                "dolore": 'sunt',
-                "maiores": 'neque',
-                "odit": 'earum',
+                "quisquam": 'dicta',
+                "voluptatibus": 'eligendi',
             },
-            id='2dbSXs47wDkmtEME',
+            fixed_price_quantity=62035,
+            id='e115c80b-ff91-4854-8ec4-2defcce8f197',
             minimum_amount='1.23',
-            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides1ModelTypeEnum.TIERED,
-            tiered_config=operations.PostSubscriptionsRequestBodyPriceOverrides1TieredConfig(
-                tiers=[
-                    operations.PostSubscriptionsRequestBodyPriceOverrides1TieredConfigTiers(
-                        first_unit='0',
-                        last_unit='10',
-                        unit_amount='2.5',
-                    ),
-                    operations.PostSubscriptionsRequestBodyPriceOverrides1TieredConfigTiers(
-                        first_unit='0',
-                        last_unit='10',
-                        unit_amount='2.5',
-                    ),
-                ],
+            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides2ModelTypeEnum.UNIT,
+            unit_config=operations.PostSubscriptionsRequestBodyPriceOverrides2UnitConfig(
+                unit_amount='esse',
+            ),
+        ),
+        operations.PostSubscriptionsRequestBodyPriceOverrides4(
+            discount={
+                "nesciunt": 'debitis',
+                "vel": 'neque',
+            },
+            id='562a7b40-8f05-4e3d-88fd-af313a1f5fd9',
+            minimum_amount='1.23',
+            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides4ModelTypeEnum.PACKAGE,
+            package_config=operations.PostSubscriptionsRequestBodyPriceOverrides4PackageConfig(
+                package_amount='incidunt',
+                package_size=1280.21,
             ),
         ),
         operations.PostSubscriptionsRequestBodyPriceOverrides3(
             bulk_config=operations.PostSubscriptionsRequestBodyPriceOverrides3BulkConfig(
                 tiers=[
                     operations.PostSubscriptionsRequestBodyPriceOverrides3BulkConfigTiers(
-                        maximum_units='exercitationem',
-                        unit_amount='veniam',
+                        maximum_units='optio',
+                        unit_amount='alias',
+                    ),
+                    operations.PostSubscriptionsRequestBodyPriceOverrides3BulkConfigTiers(
+                        maximum_units='quidem',
+                        unit_amount='nesciunt',
+                    ),
+                    operations.PostSubscriptionsRequestBodyPriceOverrides3BulkConfigTiers(
+                        maximum_units='commodi',
+                        unit_amount='sapiente',
                     ),
                 ],
             ),
             discount={
-                "ad": 'nisi',
-                "tenetur": 'quis',
+                "veniam": 'debitis',
             },
-            id='d56d0bd0-af2d-4fe1-bdb4-f62cba3f8941',
+            id='a944f3b7-56c1-41f6-837a-5126243835bb',
             minimum_amount='1.23',
             model_type=operations.PostSubscriptionsRequestBodyPriceOverrides3ModelTypeEnum.BULK,
         ),
@@ -607,11 +589,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.GetSubscriptionsSubscriptionIDRequest(
-    subscription_id='mollitia',
-)
 
-res = s.subscription.get(req)
+res = s.subscription.get('impedit')
 
 if res.subscription is not None:
     # handle response
@@ -638,11 +617,11 @@ s = orb.Orb(
 )
 
 req = operations.GetSubscriptionsSubscriptionIDCostRequest(
-    group_by='accusamus',
-    subscription_id='harum',
+    group_by='sit',
+    subscription_id='nemo',
     timeframe_end=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
     timeframe_start=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
-    view_mode='cumque',
+    view_mode='culpa',
 )
 
 res = s.subscription.get_cost(req)
@@ -667,11 +646,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.GetSubscriptionsSubscriptionIDScheduleRequest(
-    subscription_id='doloremque',
-)
 
-res = s.subscription.get_schedule(req)
+res = s.subscription.get_schedule('consequuntur')
 
 if res.get_subscriptions_subscription_id_schedule_200_application_json_object is not None:
     # handle response
@@ -817,10 +793,10 @@ s = orb.Orb(
 )
 
 req = operations.GetSubscriptionsSubscriptionIDUsageRequest(
-    billable_metric_id='expedita',
+    billable_metric_id='amet',
     granularity=operations.GetSubscriptionsSubscriptionIDUsageGranularityEnum.DAY,
-    group_by='corrupti',
-    subscription_id='eaque',
+    group_by='deserunt',
+    subscription_id='modi',
     timeframe_end=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
     timeframe_start=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
 )
@@ -849,12 +825,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.ListSubscriptionsRequest(
-    customer_id='deserunt',
-    external_customer_id='aliquid',
-)
 
-res = s.subscription.list(req)
+res = s.subscription.list('veniam', 'quod')
 
 if res.list_subscriptions_200_application_json_object is not None:
     # handle response
@@ -876,11 +848,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesRequest(
-    subscription_id='excepturi',
-)
 
-res = s.subscription.unschedule(req)
+res = s.subscription.unschedule('itaque')
 
 if res.subscription is not None:
     # handle response

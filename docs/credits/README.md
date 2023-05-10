@@ -80,20 +80,16 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PostCustomersCustomerIDCreditsLedgerEntryRequest(
-    request_body=operations.PostCustomersCustomerIDCreditsLedgerEntryRequestBody(
-        amount=3864.89,
-        block_id='hic',
-        description='saepe',
-        entry_type=operations.PostCustomersCustomerIDCreditsLedgerEntryRequestBodyEntryTypeEnum.EXPIRATION_CHANGE,
-        expiry_date=dateutil.parser.parse('2023-01-01').date(),
-        per_unit_cost_basis='in',
-        target_expiry_date=dateutil.parser.parse('2023-02-01').date(),
-    ),
-    customer_id='corporis',
-)
 
-res = s.credits.get(req)
+res = s.credits.get('laboriosam', operations.PostCustomersCustomerIDCreditsLedgerEntryRequestBody(
+    amount=9437.49,
+    block_id='saepe',
+    description='fuga',
+    entry_type=operations.PostCustomersCustomerIDCreditsLedgerEntryRequestBodyEntryTypeEnum.DECREMENT,
+    expiry_date=dateutil.parser.parse('2023-01-01').date(),
+    per_unit_cost_basis='corporis',
+    target_expiry_date=dateutil.parser.parse('2023-02-01').date(),
+))
 
 if res.credit_ledger_entry is not None:
     # handle response
@@ -119,11 +115,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.GetCustomersCustomerIDCreditsRequest(
-    customer_id='iste',
-)
 
-res = s.credits.get_credits(req)
+res = s.credits.get_credits('iste')
 
 if res.get_customers_customer_id_credits_200_application_json_object is not None:
     # handle response
@@ -173,14 +166,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.GetCustomersCustomerIDCreditsLedgerRequest(
-    customer_id='iure',
-    entry_status=operations.GetCustomersCustomerIDCreditsLedgerEntryStatusEnum.PENDING,
-    entry_type=operations.GetCustomersCustomerIDCreditsLedgerEntryTypeEnum.EXPIRATION_CHANGE,
-    minimum_amount=992.8,
-)
 
-res = s.credits.get_credits_ledger(req)
+res = s.credits.get_credits_ledger('iure', operations.GetCustomersCustomerIDCreditsLedgerEntryStatusEnum.PENDING, operations.GetCustomersCustomerIDCreditsLedgerEntryTypeEnum.EXPIRATION_CHANGE, 992.8)
 
 if res.get_customers_customer_id_credits_ledger_200_application_json_object is not None:
     # handle response
