@@ -26,11 +26,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.GetInvoiceInvoiceIDRequest(
-    invoice_id='dolores',
-)
 
-res = s.invoice.get(req)
+res = s.invoice.get('nobis')
 
 if res.invoice is not None:
     # handle response
@@ -52,11 +49,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.GetInvoicesUpcomingRequest(
-    subscription_id='minus',
-)
 
-res = s.invoice.get_upcoming(req)
+res = s.invoice.get_upcoming('dolores')
 
 if res.upcoming_invoice is not None:
     # handle response
@@ -80,13 +74,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.ListInvoicesRequest(
-    customer_id='quam',
-    external_customer_id='dolor',
-    subscription_id='vero',
-)
 
-res = s.invoice.list(req)
+res = s.invoice.list('quis', 'totam', 'dignissimos')
 
 if res.list_invoices_200_application_json_object is not None:
     # handle response

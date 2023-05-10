@@ -93,11 +93,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.GetCustomersCustomerIDRequest(
-    customer_id='harum',
-)
 
-res = s.customer.get(req)
+res = s.customer.get('harum')
 
 if res.customer is not None:
     # handle response
@@ -131,11 +128,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.GetCustomersCustomerIDBalanceTransactionsRequest(
-    customer_id='enim',
-)
 
-res = s.customer.get_balance(req)
+res = s.customer.get_balance('enim')
 
 if res.get_customers_customer_id_balance_transactions_200_application_json_object is not None:
     # handle response
@@ -159,11 +153,8 @@ s = orb.Orb(
     ),
 )
 
-req = operations.GetCustomersExternalCustomerIDExternalCustomerIDRequest(
-    external_customer_id='accusamus',
-)
 
-res = s.customer.get_by_external_id(req)
+res = s.customer.get_by_external_id('accusamus')
 
 if res.customer is not None:
     # handle response
@@ -342,33 +333,29 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PutCustomersCustomerIDRequest(
-    request_body=operations.PutCustomersCustomerIDRequestBody(
-        billing_address=operations.PutCustomersCustomerIDRequestBodyBillingAddress(
-            city='Samanthaboro',
-            country='US',
-            line1='praesentium',
-            line2='rem',
-            postal_code='09509-2306',
-            state='quibusdam',
-        ),
-        email='Luther.Rau26@gmail.com',
-        name='Beth McGlynn Sr.',
-        payment_provider=operations.PutCustomersCustomerIDRequestBodyPaymentProviderEnum.LESS_THAN_NIL_GREATER_THAN_,
-        payment_provider_id='ipsam',
-        shipping_address=operations.PutCustomersCustomerIDRequestBodyShippingAddress(
-            city='East Marianostead',
-            country='US',
-            line1='tempora',
-            line2='facilis',
-            postal_code='29427-5358',
-            state='sint',
-        ),
-    ),
-    customer_id='officia',
-)
 
-res = s.customer.update(req)
+res = s.customer.update('excepturi', operations.PutCustomersCustomerIDRequestBody(
+    billing_address=operations.PutCustomersCustomerIDRequestBodyBillingAddress(
+        city='East Orange',
+        country='US',
+        line1='praesentium',
+        line2='rem',
+        postal_code='09509-2306',
+        state='quibusdam',
+    ),
+    email='Luther.Rau26@gmail.com',
+    name='Beth McGlynn Sr.',
+    payment_provider=operations.PutCustomersCustomerIDRequestBodyPaymentProviderEnum.LESS_THAN_NIL_GREATER_THAN_,
+    payment_provider_id='ipsam',
+    shipping_address=operations.PutCustomersCustomerIDRequestBodyShippingAddress(
+        city='East Marianostead',
+        country='US',
+        line1='tempora',
+        line2='facilis',
+        postal_code='29427-5358',
+        state='sint',
+    ),
+))
 
 if res.customer is not None:
     # handle response
@@ -392,33 +379,29 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PutCustomersExternalCustomerIDExternalCustomerIDRequest(
-    request_body=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBody(
-        billing_address=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyBillingAddress(
-            city='Fort Veda',
-            country='US',
-            line1='dolorum',
-            line2='in',
-            postal_code='89612',
-            state='cumque',
-        ),
-        email='Hans_Hyatt24@hotmail.com',
-        name='Jon Tillman',
-        payment_provider=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyPaymentProviderEnum.STRIPE_INVOICE,
-        payment_provider_id='nam',
-        shipping_address=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyShippingAddress(
-            city='Kuvalisstad',
-            country='US',
-            line1='sapiente',
-            line2='amet',
-            postal_code='34664-0437',
-            state='id',
-        ),
-    ),
-    external_customer_id='labore',
-)
 
-res = s.customer.update_by_external_id(req)
+res = s.customer.update_by_external_id('officia', operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBody(
+    billing_address=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyBillingAddress(
+        city='Fort Veda',
+        country='US',
+        line1='dolorum',
+        line2='in',
+        postal_code='89612',
+        state='cumque',
+    ),
+    email='Hans_Hyatt24@hotmail.com',
+    name='Jon Tillman',
+    payment_provider=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyPaymentProviderEnum.STRIPE_INVOICE,
+    payment_provider_id='nam',
+    shipping_address=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyShippingAddress(
+        city='Kuvalisstad',
+        country='US',
+        line1='sapiente',
+        line2='amet',
+        postal_code='34664-0437',
+        state='id',
+    ),
+))
 
 if res.customer is not None:
     # handle response
@@ -494,34 +477,28 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PatchCustomersCustomerIDUsageRequest(
-    request_body=operations.PatchCustomersCustomerIDUsageRequestBody(
-        events=[
-            operations.PatchCustomersCustomerIDUsageRequestBodyEvents(
-                event_name='suscipit',
-                properties={
-                    "nobis": 'eum',
-                    "vero": 'aspernatur',
-                    "architecto": 'magnam',
-                },
-                timestamp='et',
-            ),
-            operations.PatchCustomersCustomerIDUsageRequestBodyEvents(
-                event_name='excepturi',
-                properties={
-                    "provident": 'quos',
-                    "sint": 'accusantium',
-                },
-                timestamp='mollitia',
-            ),
-        ],
-    ),
-    customer_id='reiciendis',
-    timeframe_end=dateutil.parser.isoparse('2022-05-11T17:46:20Z'),
-    timeframe_start=dateutil.parser.isoparse('2022-05-11T17:46:20Z'),
-)
 
-res = s.customer.update_usage(req)
+res = s.customer.update_usage('labore', dateutil.parser.isoparse('2022-05-11T17:46:20Z'), dateutil.parser.isoparse('2022-05-11T17:46:20Z'), operations.PatchCustomersCustomerIDUsageRequestBody(
+    events=[
+        operations.PatchCustomersCustomerIDUsageRequestBodyEvents(
+            event_name='suscipit',
+            properties={
+                "nobis": 'eum',
+                "vero": 'aspernatur',
+                "architecto": 'magnam',
+            },
+            timestamp='et',
+        ),
+        operations.PatchCustomersCustomerIDUsageRequestBodyEvents(
+            event_name='excepturi',
+            properties={
+                "provident": 'quos',
+                "sint": 'accusantium',
+            },
+            timestamp='mollitia',
+        ),
+    ],
+))
 
 if res.patch_customers_customer_id_usage_200_application_json_object is not None:
     # handle response
@@ -544,44 +521,38 @@ s = orb.Orb(
     ),
 )
 
-req = operations.PatchExternalCustomersCustomerIDUsageRequest(
-    request_body=operations.PatchExternalCustomersCustomerIDUsageRequestBody(
-        events=[
-            operations.PatchExternalCustomersCustomerIDUsageRequestBodyEvents(
-                event_name='ad',
-                properties={
-                    "dolor": 'necessitatibus',
-                    "odit": 'nemo',
-                },
-                timestamp='quasi',
-            ),
-            operations.PatchExternalCustomersCustomerIDUsageRequestBodyEvents(
-                event_name='iure',
-                properties={
-                    "debitis": 'eius',
-                    "maxime": 'deleniti',
-                    "facilis": 'in',
-                    "architecto": 'architecto',
-                },
-                timestamp='repudiandae',
-            ),
-            operations.PatchExternalCustomersCustomerIDUsageRequestBodyEvents(
-                event_name='ullam',
-                properties={
-                    "nihil": 'repellat',
-                    "quibusdam": 'sed',
-                    "saepe": 'pariatur',
-                },
-                timestamp='accusantium',
-            ),
-        ],
-    ),
-    external_customer_id='consequuntur',
-    timeframe_end=dateutil.parser.isoparse('2022-05-11T17:46:20Z'),
-    timeframe_start=dateutil.parser.isoparse('2022-05-11T17:46:20Z'),
-)
 
-res = s.customer.update_usage_by_external_id(req)
+res = s.customer.update_usage_by_external_id('reiciendis', dateutil.parser.isoparse('2022-05-11T17:46:20Z'), dateutil.parser.isoparse('2022-05-11T17:46:20Z'), operations.PatchExternalCustomersCustomerIDUsageRequestBody(
+    events=[
+        operations.PatchExternalCustomersCustomerIDUsageRequestBodyEvents(
+            event_name='ad',
+            properties={
+                "dolor": 'necessitatibus',
+                "odit": 'nemo',
+            },
+            timestamp='quasi',
+        ),
+        operations.PatchExternalCustomersCustomerIDUsageRequestBodyEvents(
+            event_name='iure',
+            properties={
+                "debitis": 'eius',
+                "maxime": 'deleniti',
+                "facilis": 'in',
+                "architecto": 'architecto',
+            },
+            timestamp='repudiandae',
+        ),
+        operations.PatchExternalCustomersCustomerIDUsageRequestBodyEvents(
+            event_name='ullam',
+            properties={
+                "nihil": 'repellat',
+                "quibusdam": 'sed',
+                "saepe": 'pariatur',
+            },
+            timestamp='accusantium',
+        ),
+    ],
+))
 
 if res.patch_external_customers_customer_id_usage_200_application_json_object is not None:
     # handle response

@@ -23,7 +23,7 @@ class Event:
         self._gen_version = gen_version
         
     
-    def deprecate(self, request: operations.PutDeprecateEventsEventIDRequest) -> operations.PutDeprecateEventsEventIDResponse:
+    def deprecate(self, event_id: str) -> operations.PutDeprecateEventsEventIDResponse:
         r"""Deprecate single event
         This endpoint is used to deprecate a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. 
         
@@ -42,6 +42,10 @@ class Event:
         * The event's `timestamp` must fall within the customer's current subscription's billing period, or within the grace period of the customer's current subscription's previous billing period. Orb does not allow deprecating events for billing periods that have already invoiced customers.
         * The `customer_id` or the `external_customer_id` of the original event ingestion request must identify a Customer resource within Orb, even if this event was ingested during the initial integration period. We do not allow deprecating events for customers not in the Orb system.
         """
+        request = operations.PutDeprecateEventsEventIDRequest(
+            event_id=event_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.PutDeprecateEventsEventIDRequest, base_url, '/events/{event_id}/deprecate', request)
@@ -66,7 +70,7 @@ class Event:
         return res
 
     
-    def ingest(self, request: operations.PostIngestRequest) -> operations.PostIngestResponse:
+    def ingest(self, request_body: Optional[operations.PostIngestRequestBody] = None, debug: Optional[operations.PostIngestDebugEnum] = None) -> operations.PostIngestResponse:
         r"""Ingest events
         Orb's event ingestion model and API is designed around two core principles:
         
@@ -206,6 +210,11 @@ class Event:
         }
         ```
         """
+        request = operations.PostIngestRequest(
+            request_body=request_body,
+            debug=debug,
+        )
+        
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/ingest'
@@ -273,7 +282,7 @@ class Event:
         return res
 
     
-    def update(self, request: operations.PutEventsEventIDRequest) -> operations.PutEventsEventIDResponse:
+    def update(self, event_id: str, request_body: Optional[operations.PutEventsEventIDRequestBody] = None) -> operations.PutEventsEventIDResponse:
         r"""Amend single event
         This endpoint is used to amend a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. The event will maintain its existing `event_id` after the amendment.
         
@@ -291,6 +300,11 @@ class Event:
         * Orb does not accept an `idempotency_key` with the event in this endpoint, since this request is by design idempotent. On retryable errors, you should retry the request and assume the amendment operation has not succeeded until receipt of a 2xx. 
         * The event's `timestamp` must fall within the customer's current subscription's billing period, or within the grace period of the customer's current subscription's previous billing period.
         """
+        request = operations.PutEventsEventIDRequest(
+            event_id=event_id,
+            request_body=request_body,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.PutEventsEventIDRequest, base_url, '/events/{event_id}', request)

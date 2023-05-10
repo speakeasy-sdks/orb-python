@@ -23,7 +23,7 @@ class Credits:
         self._gen_version = gen_version
         
     
-    def get(self, request: operations.PostCustomersCustomerIDCreditsLedgerEntryRequest) -> operations.PostCustomersCustomerIDCreditsLedgerEntryResponse:
+    def get(self, customer_id: str, request_body: Optional[operations.PostCustomersCustomerIDCreditsLedgerEntryRequestBody] = None) -> operations.PostCustomersCustomerIDCreditsLedgerEntryResponse:
         r"""Add credit ledger entry
         This endpoint allows you to create a new ledger entry for a specified customer's balance. This can be used to increment balance, deduct credits, and change the expiry date of existing credits.
         
@@ -80,6 +80,11 @@ class Credits:
         }
         ```
         """
+        request = operations.PostCustomersCustomerIDCreditsLedgerEntryRequest(
+            customer_id=customer_id,
+            request_body=request_body,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.PostCustomersCustomerIDCreditsLedgerEntryRequest, base_url, '/customers/{customer_id}/credits/ledger_entry', request)
@@ -104,7 +109,7 @@ class Credits:
         return res
 
     
-    def get_credits(self, request: operations.GetCustomersCustomerIDCreditsRequest) -> operations.GetCustomersCustomerIDCreditsResponse:
+    def get_credits(self, customer_id: str) -> operations.GetCustomersCustomerIDCreditsResponse:
         r"""Retrieve credit balance
         This [paginated endpoint](docs/Pagination.md) can be used to fetch the current state of credit balance for the specified `customer_id`.
         
@@ -112,6 +117,10 @@ class Credits:
         
         Orb only returns _unexpired_ credit blocks in this response. For credits that have already expired, you can view this deduction from the customer's balance in the [Credit Ledger](../reference/Orb-API.json/paths/~1customers~1{customer_id}~1credits~1ledger/get) response.
         """
+        request = operations.GetCustomersCustomerIDCreditsRequest(
+            customer_id=customer_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetCustomersCustomerIDCreditsRequest, base_url, '/customers/{customer_id}/credits', request)
@@ -132,7 +141,7 @@ class Credits:
         return res
 
     
-    def get_credits_ledger(self, request: operations.GetCustomersCustomerIDCreditsLedgerRequest) -> operations.GetCustomersCustomerIDCreditsLedgerResponse:
+    def get_credits_ledger(self, customer_id: str, entry_status: Optional[operations.GetCustomersCustomerIDCreditsLedgerEntryStatusEnum] = None, entry_type: Optional[operations.GetCustomersCustomerIDCreditsLedgerEntryTypeEnum] = None, minimum_amount: Optional[float] = None) -> operations.GetCustomersCustomerIDCreditsLedgerResponse:
         r"""View credits ledger
         The credits ledger provides _auditing_ functionality over Orb's credits system with a list of actions that have taken place to modify a customer's credit balance. This [paginated endpoint](../docs/Pagination.md) lists these entries, starting from the most recent ledger entry.
         
@@ -164,6 +173,13 @@ class Credits:
         
         When a set of credits expire on pre-set expiration date, the customer's balance automatically reflects this change and adds an entry to the ledger indicating this event. Note that credit expiry should always happen close to a date boundary in the customer's timezone.
         """
+        request = operations.GetCustomersCustomerIDCreditsLedgerRequest(
+            customer_id=customer_id,
+            entry_status=entry_status,
+            entry_type=entry_type,
+            minimum_amount=minimum_amount,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetCustomersCustomerIDCreditsLedgerRequest, base_url, '/customers/{customer_id}/credits/ledger', request)

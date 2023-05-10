@@ -23,10 +23,14 @@ class Invoice:
         self._gen_version = gen_version
         
     
-    def get(self, request: operations.GetInvoiceInvoiceIDRequest) -> operations.GetInvoiceInvoiceIDResponse:
+    def get(self, invoice_id: str) -> operations.GetInvoiceInvoiceIDResponse:
         r"""Retrieve an Invoice
         This endpoint is used to fetch an [`Invoice`](../reference/Orb-API.json/components/schemas/Invoice) given an identifier.
         """
+        request = operations.GetInvoiceInvoiceIDRequest(
+            invoice_id=invoice_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetInvoiceInvoiceIDRequest, base_url, '/invoices/{invoice_id}', request)
@@ -47,10 +51,14 @@ class Invoice:
         return res
 
     
-    def get_upcoming(self, request: operations.GetInvoicesUpcomingRequest) -> operations.GetInvoicesUpcomingResponse:
+    def get_upcoming(self, subscription_id: str) -> operations.GetInvoicesUpcomingResponse:
         r"""Retrieve upcoming invoice
         This endpoint can be used to fetch the [`UpcomingInvoice`](../reference/Orb-API.json/components/schemas/Upcoming%20Invoice) for the current billing period given a subscription.
         """
+        request = operations.GetInvoicesUpcomingRequest(
+            subscription_id=subscription_id,
+        )
+        
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/invoices/upcoming'
@@ -72,12 +80,18 @@ class Invoice:
         return res
 
     
-    def list(self, request: operations.ListInvoicesRequest) -> operations.ListInvoicesResponse:
+    def list(self, customer_id: Optional[str] = None, external_customer_id: Optional[str] = None, subscription_id: Optional[str] = None) -> operations.ListInvoicesResponse:
         r"""List invoices
         This endpoint returns a list of all [`Invoice`](../reference/Orb-API.json/components/schemas/Invoice)s for an account in a list format. 
         
         The list of invoices is ordered starting from the most recently issued invoice date. The response also includes `pagination_metadata`, which lets the caller retrieve the next page of results if they exist.
         """
+        request = operations.ListInvoicesRequest(
+            customer_id=customer_id,
+            external_customer_id=external_customer_id,
+            subscription_id=subscription_id,
+        )
+        
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/invoices'

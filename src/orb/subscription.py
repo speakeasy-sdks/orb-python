@@ -23,7 +23,7 @@ class Subscription:
         self._gen_version = gen_version
         
     
-    def cancel(self, request: operations.PostSubscriptionsSubscriptionIDCancelRequest) -> operations.PostSubscriptionsSubscriptionIDCancelResponse:
+    def cancel(self, cancel_option: operations.PostSubscriptionsSubscriptionIDCancelCancelOptionEnum, subscription_id: str) -> operations.PostSubscriptionsSubscriptionIDCancelResponse:
         r"""Cancel subscription
         This endpoint can be used to cancel an existing subscription. It returns the serialized subscription object with an `end_date` parameter that signifies when the subscription will transition to an ended state.
         
@@ -42,6 +42,11 @@ class Subscription:
         
         Upcoming subscriptions are only eligible for immediate cancellation, which will set the `end_date` equal to the `start_date` upon cancellation.
         """
+        request = operations.PostSubscriptionsSubscriptionIDCancelRequest(
+            cancel_option=cancel_option,
+            subscription_id=subscription_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.PostSubscriptionsSubscriptionIDCancelRequest, base_url, '/subscriptions/{subscription_id}/cancel', request)
@@ -63,7 +68,7 @@ class Subscription:
         return res
 
     
-    def change_schedule(self, request: operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequest) -> operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeResponse:
+    def change_schedule(self, subscription_id: str, request_body: Optional[operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBody] = None) -> operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeResponse:
         r"""Schedule plan change
         This endpoint can be used to change the plan on an existing subscription. It returns the serialized updated subscription object.
         
@@ -85,6 +90,11 @@ class Subscription:
         ## Prorations for in-advance fees
         By default, Orb calculates the prorated difference in any fixed fees when making a plan change, adjusting the customer balance as needed. For details on this behavior, [Subscription management](../docs/Subscription-management.md#prorations-for-in-advance-fees).
         """
+        request = operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequest(
+            subscription_id=subscription_id,
+            request_body=request_body,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequest, base_url, '/subscriptions/{subscription_id}/schedule_plan_change', request)
@@ -479,10 +489,14 @@ class Subscription:
         return res
 
     
-    def get(self, request: operations.GetSubscriptionsSubscriptionIDRequest) -> operations.GetSubscriptionsSubscriptionIDResponse:
+    def get(self, subscription_id: str) -> operations.GetSubscriptionsSubscriptionIDResponse:
         r"""Retrieve a subscription
         This endpoint is used to fetch a [Subscription](../reference/Orb-API.json/components/schemas/Subscription) given an identifier.
         """
+        request = operations.GetSubscriptionsSubscriptionIDRequest(
+            subscription_id=subscription_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetSubscriptionsSubscriptionIDRequest, base_url, '/subscriptions/{subscription_id}', request)
@@ -531,10 +545,14 @@ class Subscription:
         return res
 
     
-    def get_schedule(self, request: operations.GetSubscriptionsSubscriptionIDScheduleRequest) -> operations.GetSubscriptionsSubscriptionIDScheduleResponse:
+    def get_schedule(self, subscription_id: str) -> operations.GetSubscriptionsSubscriptionIDScheduleResponse:
         r"""View subscription schedule
         This endpoint returns a [paginated](../docs/Pagination.md) list of all plans associated with a subscription along with their start and end dates. This list contains the subscription's initial plan along with past and future plan changes.
         """
+        request = operations.GetSubscriptionsSubscriptionIDScheduleRequest(
+            subscription_id=subscription_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetSubscriptionsSubscriptionIDScheduleRequest, base_url, '/subscriptions/{subscription_id}/schedule', request)
@@ -698,12 +716,17 @@ class Subscription:
         return res
 
     
-    def list(self, request: operations.ListSubscriptionsRequest) -> operations.ListSubscriptionsResponse:
+    def list(self, customer_id: Optional[str] = None, external_customer_id: Optional[str] = None) -> operations.ListSubscriptionsResponse:
         r"""List subscriptions
         This endpoint returns a list of all subscriptions for an account as a [paginated](../docs/Pagination.md) list, ordered starting from the most recently created subscription. For a full discussion of the subscription resource, see [Subscription](../reference/Orb-API.json/components/schemas/Subscription).
         
         Subscriptions can be filtered to a single customer by passing in the `customer_id` query parameter or the `external_customer_id` query parameter.
         """
+        request = operations.ListSubscriptionsRequest(
+            customer_id=customer_id,
+            external_customer_id=external_customer_id,
+        )
+        
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/subscriptions'
@@ -725,10 +748,14 @@ class Subscription:
         return res
 
     
-    def unschedule(self, request: operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesRequest) -> operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesResponse:
+    def unschedule(self, subscription_id: str) -> operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesResponse:
         r"""Unschedule pending plan changes
         This endpoint can be used to unschedule any pending plan changes on an existing subscription.
         """
+        request = operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesRequest(
+            subscription_id=subscription_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesRequest, base_url, '/subscriptions/{subscription_id}/unschedule_pending_plan_changes', request)

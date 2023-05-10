@@ -2,6 +2,7 @@
 
 import requests as requests_http
 from . import utils
+from datetime import datetime
 from orb.models import operations, shared
 from typing import Optional
 
@@ -56,12 +57,16 @@ class Customer:
         return res
 
     
-    def get(self, request: operations.GetCustomersCustomerIDRequest) -> operations.GetCustomersCustomerIDResponse:
+    def get(self, customer_id: str) -> operations.GetCustomersCustomerIDResponse:
         r"""Retrieve a customer
         This endpoint is used to fetch customer details given an identifier.
         
         See the [Customer resource](Orb-API.json/components/schemas/Customer) for a full discussion of the Customer model.
         """
+        request = operations.GetCustomersCustomerIDRequest(
+            customer_id=customer_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetCustomersCustomerIDRequest, base_url, '/customers/{customer_id}', request)
@@ -82,7 +87,7 @@ class Customer:
         return res
 
     
-    def get_balance(self, request: operations.GetCustomersCustomerIDBalanceTransactionsRequest) -> operations.GetCustomersCustomerIDBalanceTransactionsResponse:
+    def get_balance(self, customer_id: str) -> operations.GetCustomersCustomerIDBalanceTransactionsResponse:
         r"""Get customer balance transactions
         # The customer balance
         
@@ -98,6 +103,10 @@ class Customer:
         
         The customer balance can only be applied to invoices or adjusted manually if invoices are not synced to a separate invoicing provider. If a payment gateway such as Stripe is used, the balance will be applied to the invoice before forwarding payment to the gateway.
         """
+        request = operations.GetCustomersCustomerIDBalanceTransactionsRequest(
+            customer_id=customer_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetCustomersCustomerIDBalanceTransactionsRequest, base_url, '/customers/{customer_id}/balance_transactions', request)
@@ -118,12 +127,16 @@ class Customer:
         return res
 
     
-    def get_by_external_id(self, request: operations.GetCustomersExternalCustomerIDExternalCustomerIDRequest) -> operations.GetCustomersExternalCustomerIDExternalCustomerIDResponse:
+    def get_by_external_id(self, external_customer_id: str) -> operations.GetCustomersExternalCustomerIDExternalCustomerIDResponse:
         r"""Retrieve a customer by external ID
         This endpoint is used to fetch customer details given an `external_customer_id` (see [Customer ID Aliases](../docs/Customer-ID-Aliases.md)).
         
         Note that the resource and semantics of this endpoint exactly mirror [Get Customer](Orb-API.json/paths/~1customers/get).
         """
+        request = operations.GetCustomersExternalCustomerIDExternalCustomerIDRequest(
+            external_customer_id=external_customer_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetCustomersExternalCustomerIDExternalCustomerIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}', request)
@@ -285,12 +298,17 @@ class Customer:
         return res
 
     
-    def update(self, request: operations.PutCustomersCustomerIDRequest) -> operations.PutCustomersCustomerIDResponse:
+    def update(self, customer_id: str, request_body: Optional[operations.PutCustomersCustomerIDRequestBody] = None) -> operations.PutCustomersCustomerIDResponse:
         r"""Update customer
         This endpoint can be used to update the `payment_provider`, `payment_provider_id`, `name`, `email`, `shipping_address`, and `billing_address` of an existing customer.
         
         Other fields on a customer are currently immutable.
         """
+        request = operations.PutCustomersCustomerIDRequest(
+            customer_id=customer_id,
+            request_body=request_body,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.PutCustomersCustomerIDRequest, base_url, '/customers/{customer_id}', request)
@@ -315,12 +333,17 @@ class Customer:
         return res
 
     
-    def update_by_external_id(self, request: operations.PutCustomersExternalCustomerIDExternalCustomerIDRequest) -> operations.PutCustomersExternalCustomerIDExternalCustomerIDResponse:
+    def update_by_external_id(self, external_customer_id: str, request_body: Optional[operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBody] = None) -> operations.PutCustomersExternalCustomerIDExternalCustomerIDResponse:
         r"""Update a customer by external ID
         This endpoint is used to update customer details given an `external_customer_id` (see [Customer ID Aliases](../docs/Customer-ID-Aliases.md)).
         
         Note that the resource and semantics of this endpoint exactly mirror [Update Customer](Orb-API.json/paths/~1customers~1{customer_id}/put).
         """
+        request = operations.PutCustomersExternalCustomerIDExternalCustomerIDRequest(
+            external_customer_id=external_customer_id,
+            request_body=request_body,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.PutCustomersExternalCustomerIDExternalCustomerIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}', request)
@@ -345,7 +368,7 @@ class Customer:
         return res
 
     
-    def update_usage(self, request: operations.PatchCustomersCustomerIDUsageRequest) -> operations.PatchCustomersCustomerIDUsageResponse:
+    def update_usage(self, customer_id: str, timeframe_end: datetime, timeframe_start: datetime, request_body: Optional[operations.PatchCustomersCustomerIDUsageRequestBody] = None) -> operations.PatchCustomersCustomerIDUsageResponse:
         r"""Amend customer usage
         This endpoint is used to amend usage within a timeframe for a customer that has an active subscription.
         
@@ -402,6 +425,13 @@ class Customer:
         
         In order to overwrite timeframes with a very large number of events, we suggest using multiple calls with small adjacent (e.g. every hour) timeframes.
         """
+        request = operations.PatchCustomersCustomerIDUsageRequest(
+            customer_id=customer_id,
+            timeframe_end=timeframe_end,
+            timeframe_start=timeframe_start,
+            request_body=request_body,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.PatchCustomersCustomerIDUsageRequest, base_url, '/customers/{customer_id}/usage', request)
@@ -431,10 +461,17 @@ class Customer:
         return res
 
     
-    def update_usage_by_external_id(self, request: operations.PatchExternalCustomersCustomerIDUsageRequest) -> operations.PatchExternalCustomersCustomerIDUsageResponse:
+    def update_usage_by_external_id(self, external_customer_id: str, timeframe_end: datetime, timeframe_start: datetime, request_body: Optional[operations.PatchExternalCustomersCustomerIDUsageRequestBody] = None) -> operations.PatchExternalCustomersCustomerIDUsageResponse:
         r"""Amend customer usage by external ID
         This endpoint's resource and semantics exactly mirror [Amend customer usage](../reference/Orb-API.json/paths/~1customers~1{customer_id}~1usage/patch) but operates on an [external customer ID](see (../docs/Customer-ID-Aliases.md)) rather than an Orb issued identifier.
         """
+        request = operations.PatchExternalCustomersCustomerIDUsageRequest(
+            external_customer_id=external_customer_id,
+            timeframe_end=timeframe_end,
+            timeframe_start=timeframe_start,
+            request_body=request_body,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.PatchExternalCustomersCustomerIDUsageRequest, base_url, '/customers/external_customer_id/{external_customer_id}/usage', request)

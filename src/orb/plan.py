@@ -23,7 +23,7 @@ class Plan:
         self._gen_version = gen_version
         
     
-    def get(self, request: operations.GetPlansPlanIDRequest) -> operations.GetPlansPlanIDResponse:
+    def get(self, plan_id: str) -> operations.GetPlansPlanIDResponse:
         r"""Retrieve a plan
         This endpoint is used to fetch [plan](../reference/Orb-API.json/components/schemas/Plan) details given a plan identifier. It returns information about the prices included in the plan and their configuration, as well as the product that the plan is attached to.
         
@@ -33,6 +33,10 @@ class Plan:
         ## Phases
         Orb supports plan phases, also known as contract ramps. For plans with phases, the serialized prices refer to all prices across all phases.
         """
+        request = operations.GetPlansPlanIDRequest(
+            plan_id=plan_id,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetPlansPlanIDRequest, base_url, '/plans/{plan_id}', request)
@@ -53,13 +57,18 @@ class Plan:
         return res
 
     
-    def get_by_external_id(self, request: operations.GetPlansExternalPlanIDRequest) -> operations.GetPlansExternalPlanIDResponse:
+    def get_by_external_id(self, external_plan_id: str, plan: Optional[shared.Plan] = None) -> operations.GetPlansExternalPlanIDResponse:
         r"""Retrieve a plan by external plan ID
         This endpoint is used to fetch [plan](../reference/Orb-API.json/components/schemas/Plan) details given an external_plan_id identifier. It returns information about the prices included in the plan and their configuration, as well as the product that the plan is attached to.
         
         ## Serialized prices
         Orb supports a few different pricing models out of the box. Each of these models is serialized differently in a given [Price](../reference/Orb-API.json/components/schemas/Price) object. The `model_type` field determines the key for the configuration object that is present. A detailed explanation of price types can be found in the [Price schema](../reference/Orb-API.json/components/schemas/Price).
         """
+        request = operations.GetPlansExternalPlanIDRequest(
+            external_plan_id=external_plan_id,
+            plan=plan,
+        )
+        
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetPlansExternalPlanIDRequest, base_url, '/plans/external_plan_id/{external_plan_id}', request)
