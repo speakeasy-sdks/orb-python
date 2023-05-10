@@ -22,6 +22,7 @@ class Subscription:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
+    
     def cancel(self, request: operations.PostSubscriptionsSubscriptionIDCancelRequest) -> operations.PostSubscriptionsSubscriptionIDCancelResponse:
         r"""Cancel subscription
         This endpoint can be used to cancel an existing subscription. It returns the serialized subscription object with an `end_date` parameter that signifies when the subscription will transition to an ended state.
@@ -61,6 +62,7 @@ class Subscription:
 
         return res
 
+    
     def change_schedule(self, request: operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequest) -> operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeResponse:
         r"""Schedule plan change
         This endpoint can be used to change the plan on an existing subscription. It returns the serialized updated subscription object.
@@ -106,6 +108,7 @@ class Subscription:
 
         return res
 
+    
     def create(self, request: operations.PostSubscriptionsRequestBody) -> operations.PostSubscriptionsResponse:
         r"""Create subscription
         A subscription represents the purchase of a plan by a customer. The customer is identified by either the `customer_id` or the `external_customer_id`, and exactly one of these fields must be provided.
@@ -475,6 +478,7 @@ class Subscription:
 
         return res
 
+    
     def get(self, request: operations.GetSubscriptionsSubscriptionIDRequest) -> operations.GetSubscriptionsSubscriptionIDResponse:
         r"""Retrieve a subscription
         This endpoint is used to fetch a [Subscription](../reference/Orb-API.json/components/schemas/Subscription) given an identifier.
@@ -498,6 +502,7 @@ class Subscription:
 
         return res
 
+    
     def get_cost(self, request: operations.GetSubscriptionsSubscriptionIDCostRequest) -> operations.GetSubscriptionsSubscriptionIDCostResponse:
         r"""View subscription costs
         This endpoint is used to fetch a day-by-day snapshot of a subscription's costs in Orb, calculated by applying pricing information to the underlying usage (see the [subscription usage endpoint](../reference/Orb-API.json/paths/~1subscriptions~1{subscription_id}~1usage/get) to fetch usage per metric, in usage units rather than a currency). 
@@ -525,6 +530,7 @@ class Subscription:
 
         return res
 
+    
     def get_schedule(self, request: operations.GetSubscriptionsSubscriptionIDScheduleRequest) -> operations.GetSubscriptionsSubscriptionIDScheduleResponse:
         r"""View subscription schedule
         This endpoint returns a [paginated](../docs/Pagination.md) list of all plans associated with a subscription along with their start and end dates. This list contains the subscription's initial plan along with past and future plan changes.
@@ -548,6 +554,7 @@ class Subscription:
 
         return res
 
+    
     def get_usage(self, request: operations.GetSubscriptionsSubscriptionIDUsageRequest) -> operations.GetSubscriptionsSubscriptionIDUsageResponse:
         r"""View subscription usage
         This endpoint is used to fetch a subscription's usage in Orb. Especially when combined with optional query parameters, this endpoint is a powerful way to build visualizations on top of Orb's event data and metrics.
@@ -690,6 +697,7 @@ class Subscription:
 
         return res
 
+    
     def list(self, request: operations.ListSubscriptionsRequest) -> operations.ListSubscriptionsResponse:
         r"""List subscriptions
         This endpoint returns a list of all subscriptions for an account as a [paginated](../docs/Pagination.md) list, ordered starting from the most recently created subscription. For a full discussion of the subscription resource, see [Subscription](../reference/Orb-API.json/components/schemas/Subscription).
@@ -716,6 +724,7 @@ class Subscription:
 
         return res
 
+    
     def unschedule(self, request: operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesRequest) -> operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesResponse:
         r"""Unschedule pending plan changes
         This endpoint can be used to unschedule any pending plan changes on an existing subscription.

@@ -10,9 +10,9 @@ from typing import Optional
 @dataclasses.dataclass
 class PostCustomersResponse:
     
-    content_type: str = dataclasses.field()  
-    status_code: int = dataclasses.field()  
+    content_type: str = dataclasses.field()
+    status_code: int = dataclasses.field()
     customer: Optional[shared_customer.Customer] = dataclasses.field(default=None)
-    r"""Created"""  
-    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)  
+    r"""Created"""
+    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

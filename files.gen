@@ -62,4 +62,12 @@ src/orb/models/shared/plan_phase.py
 src/orb/models/shared/subscription.py
 src/orb/models/shared/security.py
 src/orb/models/shared/__init__.py
+docs/orb/README.md
+docs/availability/README.md
+docs/credits/README.md
+docs/customer/README.md
+docs/event/README.md
+docs/invoice/README.md
+docs/plan/README.md
+docs/subscription/README.md
 USAGE.md

@@ -22,7 +22,7 @@ class CustomerBalanceTransactionInvoice:
     r"""The Invoice associated with this transaction"""
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    r"""The Invoice id"""  
+    r"""The Invoice id"""
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -31,19 +31,19 @@ class CustomerBalanceTransaction:
     r"""A single change to the customer balance. All amounts are in the customer's currency."""
     
     action: CustomerBalanceTransactionActionEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('action') }})
-    r"""Describes the reason that this transaction took place."""  
+    r"""Describes the reason that this transaction took place."""
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
-    r"""The value of the amount changed in the transaction."""  
+    r"""The value of the amount changed in the transaction."""
     created_at: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
-    r"""The creation time of this transaction."""  
+    r"""The creation time of this transaction."""
     description: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('description') }})
-    r"""An optional description provided for manual customer balance adjustments."""  
+    r"""An optional description provided for manual customer balance adjustments."""
     ending_balance: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ending_balance') }})
-    r"""The new value of the customer's balance prior to the transaction, in the customer's currency."""  
+    r"""The new value of the customer's balance prior to the transaction, in the customer's currency."""
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    r"""A unique id for this transaction."""  
+    r"""A unique id for this transaction."""
     invoice: CustomerBalanceTransactionInvoice = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('invoice') }})
-    r"""The Invoice associated with this transaction"""  
+    r"""The Invoice associated with this transaction"""
     starting_balance: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('starting_balance') }})
-    r"""The original value of the customer's balance prior to the transaction, in the customer's currency."""  
+    r"""The original value of the customer's balance prior to the transaction, in the customer's currency."""
     

@@ -17,16 +17,16 @@ class PostSubscriptionsSubscriptionIDCancelCancelOptionEnum(str, Enum):
 class PostSubscriptionsSubscriptionIDCancelRequest:
     
     cancel_option: PostSubscriptionsSubscriptionIDCancelCancelOptionEnum = dataclasses.field(metadata={'query_param': { 'field_name': 'cancel_option', 'style': 'form', 'explode': True }})
-    r"""Determines the timing of subscription cancellation"""  
-    subscription_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'subscription_id', 'style': 'simple', 'explode': False }})  
+    r"""Determines the timing of subscription cancellation"""
+    subscription_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'subscription_id', 'style': 'simple', 'explode': False }})
     
 
 @dataclasses.dataclass
 class PostSubscriptionsSubscriptionIDCancelResponse:
     
-    content_type: str = dataclasses.field()  
-    status_code: int = dataclasses.field()  
-    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)  
+    content_type: str = dataclasses.field()
+    status_code: int = dataclasses.field()
+    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     subscription: Optional[shared_subscription.Subscription] = dataclasses.field(default=None)
-    r"""OK"""  
+    r"""OK"""
     

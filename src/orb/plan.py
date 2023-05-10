@@ -22,6 +22,7 @@ class Plan:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
+    
     def get(self, request: operations.GetPlansPlanIDRequest) -> operations.GetPlansPlanIDResponse:
         r"""Retrieve a plan
         This endpoint is used to fetch [plan](../reference/Orb-API.json/components/schemas/Plan) details given a plan identifier. It returns information about the prices included in the plan and their configuration, as well as the product that the plan is attached to.
@@ -51,6 +52,7 @@ class Plan:
 
         return res
 
+    
     def get_by_external_id(self, request: operations.GetPlansExternalPlanIDRequest) -> operations.GetPlansExternalPlanIDResponse:
         r"""Retrieve a plan by external plan ID
         This endpoint is used to fetch [plan](../reference/Orb-API.json/components/schemas/Plan) details given an external_plan_id identifier. It returns information about the prices included in the plan and their configuration, as well as the product that the plan is attached to.
@@ -77,6 +79,7 @@ class Plan:
 
         return res
 
+    
     def list(self, request: operations.ListPlansRequestBody) -> operations.ListPlansResponse:
         r"""List plans
         This endpoint returns a list of all [plans](../reference/Orb-API.json/components/schemas/Plan) for an account in a list format. 

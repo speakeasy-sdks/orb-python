@@ -20,7 +20,8 @@ pip install orb-billing
 <!-- Start SDK Example Usage -->
 ```python
 import orb
-from orb.models import operations, shared
+import dateutil.parser
+from orb.models import shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -28,36 +29,35 @@ s = orb.Orb(
     ),
 )
 
-
 req = shared.Customer(
-    balance="33.00",
+    balance='33.00',
     billing_address=shared.BillingAddress(
-        city="Laruecester",
-        country="US",
-        line1="quibusdam",
-        line2="unde",
-        postal_code="58466-3428",
-        state="ipsa",
+        city='Laruecester',
+        country='US',
+        line1='quibusdam',
+        line2='unde',
+        postal_code='58466-3428',
+        state='ipsa',
     ),
-    created_at="2022-03-08T10:35:32.561Z",
-    currency="suscipit",
-    email="Paxton.Schulist@yahoo.com",
-    external_customer_id="excepturi",
-    id="6ed151a0-5dfc-42dd-b7cc-78ca1ba928fc",
-    name="Jack Johns",
-    payment_provider="quickbooks",
-    payment_provider_id="impedit",
+    created_at=dateutil.parser.isoparse('2022-03-08T10:35:32.561Z'),
+    currency='suscipit',
+    email='Paxton.Schulist@yahoo.com',
+    external_customer_id='excepturi',
+    id='6ed151a0-5dfc-42dd-b7cc-78ca1ba928fc',
+    name='Jack Johns',
+    payment_provider=shared.CustomerPaymentProviderEnum.QUICKBOOKS,
+    payment_provider_id='impedit',
     shipping_address=shared.ShippingAddress(
-        city="Klockoberg",
-        country="US",
-        line1="excepturi",
-        line2="aspernatur",
-        postal_code="36162",
-        state="natus",
+        city='Klockoberg',
+        country='US',
+        line1='excepturi',
+        line2='aspernatur',
+        postal_code='36162',
+        state='natus',
     ),
-    timezone="America/Los_Angeles",
+    timezone='America/Los_Angeles',
 )
-    
+
 res = s.customer.create(req)
 
 if res.customer is not None:
@@ -69,60 +69,60 @@ if res.customer is not None:
 ## Available Resources and Operations
 
 
-### availability
+### [availability](docs/availability/README.md)
 
-* `ping` - Check availability
+* [ping](docs/availability/README.md#ping) - Check availability
 
-### credits
+### [credits](docs/credits/README.md)
 
-* `create` - Add credit ledger entry
-* `get_credits` - Retrieve credit balance
-* `get_credits_ledger` - View credits ledger
+* [get](docs/credits/README.md#get) - Add credit ledger entry
+* [get_credits](docs/credits/README.md#get_credits) - Retrieve credit balance
+* [get_credits_ledger](docs/credits/README.md#get_credits_ledger) - View credits ledger
 
-### customer
+### [customer](docs/customer/README.md)
 
-* `create` - Create customer
-* `get` - Retrieve a customer
-* `get_balance` - Get customer balance transactions
-* `get_by_external_id` - Retrieve a customer by external ID
-* `get_costs` - View customer costs
-* `get_costs_by_external_id` - View customer costs by external customer ID
-* `list` - List customers
-* `update` - Update customer
-* `update_by_external_id` - Update a customer by external ID
-* `update_usage` - Amend customer usage
-* `update_usage_by_external_id` - Amend customer usage by external ID
+* [create](docs/customer/README.md#create) - Create customer
+* [get](docs/customer/README.md#get) - Retrieve a customer
+* [get_balance](docs/customer/README.md#get_balance) - Get customer balance transactions
+* [get_by_external_id](docs/customer/README.md#get_by_external_id) - Retrieve a customer by external ID
+* [get_costs](docs/customer/README.md#get_costs) - View customer costs
+* [get_costs_by_external_id](docs/customer/README.md#get_costs_by_external_id) - View customer costs by external customer ID
+* [list](docs/customer/README.md#list) - List customers
+* [update](docs/customer/README.md#update) - Update customer
+* [update_by_external_id](docs/customer/README.md#update_by_external_id) - Update a customer by external ID
+* [update_usage](docs/customer/README.md#update_usage) - Amend customer usage
+* [update_usage_by_external_id](docs/customer/README.md#update_usage_by_external_id) - Amend customer usage by external ID
 
-### event
+### [event](docs/event/README.md)
 
-* `deprecate` - Deprecate single event
-* `ingest` - Ingest events
-* `search` - Search events
-* `update` - Amend single event
+* [deprecate](docs/event/README.md#deprecate) - Deprecate single event
+* [ingest](docs/event/README.md#ingest) - Ingest events
+* [search](docs/event/README.md#search) - Search events
+* [update](docs/event/README.md#update) - Amend single event
 
-### invoice
+### [invoice](docs/invoice/README.md)
 
-* `get` - Retrieve an Invoice
-* `get_upcoming` - Retrieve upcoming invoice
-* `list` - List invoices
+* [get](docs/invoice/README.md#get) - Retrieve an Invoice
+* [get_upcoming](docs/invoice/README.md#get_upcoming) - Retrieve upcoming invoice
+* [list](docs/invoice/README.md#list) - List invoices
 
-### plan
+### [plan](docs/plan/README.md)
 
-* `get` - Retrieve a plan
-* `get_by_external_id` - Retrieve a plan by external plan ID
-* `list` - List plans
+* [get](docs/plan/README.md#get) - Retrieve a plan
+* [get_by_external_id](docs/plan/README.md#get_by_external_id) - Retrieve a plan by external plan ID
+* [list](docs/plan/README.md#list) - List plans
 
-### subscription
+### [subscription](docs/subscription/README.md)
 
-* `cancel` - Cancel subscription
-* `change_schedule` - Schedule plan change
-* `create` - Create subscription
-* `get` - Retrieve a subscription
-* `get_cost` - View subscription costs
-* `get_schedule` - View subscription schedule
-* `get_usage` - View subscription usage
-* `list` - List subscriptions
-* `unschedule` - Unschedule pending plan changes
+* [cancel](docs/subscription/README.md#cancel) - Cancel subscription
+* [change_schedule](docs/subscription/README.md#change_schedule) - Schedule plan change
+* [create](docs/subscription/README.md#create) - Create subscription
+* [get](docs/subscription/README.md#get) - Retrieve a subscription
+* [get_cost](docs/subscription/README.md#get_cost) - View subscription costs
+* [get_schedule](docs/subscription/README.md#get_schedule) - View subscription schedule
+* [get_usage](docs/subscription/README.md#get_usage) - View subscription usage
+* [list](docs/subscription/README.md#list) - List subscriptions
+* [unschedule](docs/subscription/README.md#unschedule) - Unschedule pending plan changes
 <!-- End SDK Available Operations -->
 
 ### Maturity

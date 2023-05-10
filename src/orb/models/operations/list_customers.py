@@ -13,8 +13,8 @@ from typing import Optional
 @dataclasses.dataclass
 class ListCustomers200ApplicationJSONPaginationMetadata:
     
-    has_more: bool = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('has_more') }})  
-    next_cursor: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('next_cursor') }})  
+    has_more: bool = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('has_more') }})
+    next_cursor: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('next_cursor') }})
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -22,16 +22,16 @@ class ListCustomers200ApplicationJSONPaginationMetadata:
 class ListCustomers200ApplicationJSON:
     r"""OK"""
     
-    data: list[shared_customer.Customer] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data') }})  
-    pagination_metadata: ListCustomers200ApplicationJSONPaginationMetadata = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata') }})  
+    data: list[shared_customer.Customer] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data') }})
+    pagination_metadata: ListCustomers200ApplicationJSONPaginationMetadata = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata') }})
     
 
 @dataclasses.dataclass
 class ListCustomersResponse:
     
-    content_type: str = dataclasses.field()  
-    status_code: int = dataclasses.field()  
+    content_type: str = dataclasses.field()
+    status_code: int = dataclasses.field()
     list_customers_200_application_json_object: Optional[ListCustomers200ApplicationJSON] = dataclasses.field(default=None)
-    r"""OK"""  
-    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)  
+    r"""OK"""
+    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

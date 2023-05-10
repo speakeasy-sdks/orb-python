@@ -10,14 +10,14 @@ from typing import Optional
 @dataclasses.dataclass
 class GetPlansExternalPlanIDRequest:
     
-    external_plan_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'external_plan_id', 'style': 'simple', 'explode': False }})  
-    plan: Optional[shared_plan.Plan] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})  
+    external_plan_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'external_plan_id', 'style': 'simple', 'explode': False }})
+    plan: Optional[shared_plan.Plan] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
     
 
 @dataclasses.dataclass
 class GetPlansExternalPlanIDResponse:
     
-    content_type: str = dataclasses.field()  
-    status_code: int = dataclasses.field()  
-    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)  
+    content_type: str = dataclasses.field()
+    status_code: int = dataclasses.field()
+    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

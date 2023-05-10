@@ -22,7 +22,8 @@ class Credits:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
-    def create(self, request: operations.PostCustomersCustomerIDCreditsLedgerEntryRequest) -> operations.PostCustomersCustomerIDCreditsLedgerEntryResponse:
+    
+    def get(self, request: operations.PostCustomersCustomerIDCreditsLedgerEntryRequest) -> operations.PostCustomersCustomerIDCreditsLedgerEntryResponse:
         r"""Add credit ledger entry
         This endpoint allows you to create a new ledger entry for a specified customer's balance. This can be used to increment balance, deduct credits, and change the expiry date of existing credits.
         
@@ -102,6 +103,7 @@ class Credits:
 
         return res
 
+    
     def get_credits(self, request: operations.GetCustomersCustomerIDCreditsRequest) -> operations.GetCustomersCustomerIDCreditsResponse:
         r"""Retrieve credit balance
         This [paginated endpoint](docs/Pagination.md) can be used to fetch the current state of credit balance for the specified `customer_id`.
@@ -129,6 +131,7 @@ class Credits:
 
         return res
 
+    
     def get_credits_ledger(self, request: operations.GetCustomersCustomerIDCreditsLedgerRequest) -> operations.GetCustomersCustomerIDCreditsLedgerResponse:
         r"""View credits ledger
         The credits ledger provides _auditing_ functionality over Orb's credits system with a list of actions that have taken place to modify a customer's credit balance. This [paginated endpoint](../docs/Pagination.md) lists these entries, starting from the most recent ledger entry.

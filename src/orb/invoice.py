@@ -22,6 +22,7 @@ class Invoice:
         self._sdk_version = sdk_version
         self._gen_version = gen_version
         
+    
     def get(self, request: operations.GetInvoiceInvoiceIDRequest) -> operations.GetInvoiceInvoiceIDResponse:
         r"""Retrieve an Invoice
         This endpoint is used to fetch an [`Invoice`](../reference/Orb-API.json/components/schemas/Invoice) given an identifier.
@@ -45,6 +46,7 @@ class Invoice:
 
         return res
 
+    
     def get_upcoming(self, request: operations.GetInvoicesUpcomingRequest) -> operations.GetInvoicesUpcomingResponse:
         r"""Retrieve upcoming invoice
         This endpoint can be used to fetch the [`UpcomingInvoice`](../reference/Orb-API.json/components/schemas/Upcoming%20Invoice) for the current billing period given a subscription.
@@ -69,6 +71,7 @@ class Invoice:
 
         return res
 
+    
     def list(self, request: operations.ListInvoicesRequest) -> operations.ListInvoicesResponse:
         r"""List invoices
         This endpoint returns a list of all [`Invoice`](../reference/Orb-API.json/components/schemas/Invoice)s for an account in a list format. 

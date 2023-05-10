@@ -12,7 +12,7 @@ from typing import Optional
 class PutDeprecateEventsEventIDRequest:
     
     event_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'event_id', 'style': 'simple', 'explode': False }})
-    r"""Identical to the `idempotency_key` provided on event ingestion. Uniquely identifies an event in the system."""  
+    r"""Identical to the `idempotency_key` provided on event ingestion. Uniquely identifies an event in the system."""
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -21,12 +21,12 @@ class PutDeprecateEventsEventID400ApplicationJSON:
     r"""Bad Request"""
     
     status: Optional[int] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status'), 'exclude': lambda f: f is None }})
-    r"""HTTP Code"""  
+    r"""HTTP Code"""
     title: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('title'), 'exclude': lambda f: f is None }})
-    r"""Error message"""  
-    type: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})  
+    r"""Error message"""
+    type: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type'), 'exclude': lambda f: f is None }})
     validation_errors: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('validation_errors'), 'exclude': lambda f: f is None }})
-    r"""An array of strings corresponding to the validation failures"""  
+    r"""An array of strings corresponding to the validation failures"""
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -35,17 +35,17 @@ class PutDeprecateEventsEventID200ApplicationJSON:
     r"""OK"""
     
     deprecated: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('deprecated'), 'exclude': lambda f: f is None }})
-    r"""event_id of the deprecated event, if successfully updated"""  
+    r"""event_id of the deprecated event, if successfully updated"""
     
 
 @dataclasses.dataclass
 class PutDeprecateEventsEventIDResponse:
     
-    content_type: str = dataclasses.field()  
-    status_code: int = dataclasses.field()  
+    content_type: str = dataclasses.field()
+    status_code: int = dataclasses.field()
     put_deprecate_events_event_id_200_application_json_object: Optional[PutDeprecateEventsEventID200ApplicationJSON] = dataclasses.field(default=None)
-    r"""OK"""  
+    r"""OK"""
     put_deprecate_events_event_id_400_application_json_object: Optional[PutDeprecateEventsEventID400ApplicationJSON] = dataclasses.field(default=None)
-    r"""Bad Request"""  
-    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)  
+    r"""Bad Request"""
+    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

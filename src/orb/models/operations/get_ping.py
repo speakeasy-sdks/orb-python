@@ -13,15 +13,15 @@ from typing import Optional
 class GetPing200ApplicationJSON:
     r"""OK"""
     
-    response: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('response') }})  
+    response: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('response') }})
     
 
 @dataclasses.dataclass
 class GetPingResponse:
     
-    content_type: str = dataclasses.field()  
-    status_code: int = dataclasses.field()  
+    content_type: str = dataclasses.field()
+    status_code: int = dataclasses.field()
     get_ping_200_application_json_object: Optional[GetPing200ApplicationJSON] = dataclasses.field(default=None)
-    r"""OK"""  
-    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)  
+    r"""OK"""
+    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

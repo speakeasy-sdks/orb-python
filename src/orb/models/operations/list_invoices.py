@@ -13,11 +13,11 @@ from typing import Any, Optional
 class ListInvoicesRequest:
     
     customer_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'customer_id', 'style': 'form', 'explode': True }})
-    r"""Filter by a specific customer (cannot be used with `external_customer_id`)"""  
+    r"""Filter by a specific customer (cannot be used with `external_customer_id`)"""
     external_customer_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'external_customer_id', 'style': 'form', 'explode': True }})
-    r"""Filter by a specific customer (cannot be used with `customer_id`)"""  
+    r"""Filter by a specific customer (cannot be used with `customer_id`)"""
     subscription_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'subscription_id', 'style': 'form', 'explode': True }})
-    r"""Filter by a specific subscription"""  
+    r"""Filter by a specific subscription"""
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -25,16 +25,16 @@ class ListInvoicesRequest:
 class ListInvoices200ApplicationJSON:
     r"""OK"""
     
-    data: Optional[list[shared_invoice.Invoice]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data'), 'exclude': lambda f: f is None }})  
-    pagination_metadata: Optional[dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata'), 'exclude': lambda f: f is None }})  
+    data: Optional[list[shared_invoice.Invoice]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data'), 'exclude': lambda f: f is None }})
+    pagination_metadata: Optional[dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata'), 'exclude': lambda f: f is None }})
     
 
 @dataclasses.dataclass
 class ListInvoicesResponse:
     
-    content_type: str = dataclasses.field()  
-    status_code: int = dataclasses.field()  
+    content_type: str = dataclasses.field()
+    status_code: int = dataclasses.field()
     list_invoices_200_application_json_object: Optional[ListInvoices200ApplicationJSON] = dataclasses.field(default=None)
-    r"""OK"""  
-    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)  
+    r"""OK"""
+    raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
