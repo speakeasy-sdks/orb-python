@@ -211,3 +211,11 @@ Based on:
 - Speakeasy CLI 1.33.2 (2.29.0) https://github.com/speakeasy-api/speakeasy
 ### Releases
 - [PyPI v0.12.0] https://pypi.org/project/orb-billing/0.12.0 - .
+
+## 2023-05-18 01:22:40
+### Changes
+Based on:
+- OpenAPI Doc 1.0 ./openapi/openapi.yaml
+- Speakeasy CLI 1.34.0 (2.30.0) https://github.com/speakeasy-api/speakeasy
+### Releases
+- [PyPI v0.13.0] https://pypi.org/project/orb-billing/0.13.0 - .

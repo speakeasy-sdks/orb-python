@@ -34,11 +34,12 @@ class Invoice:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetInvoiceInvoiceIDRequest, base_url, '/invoices/{invoice_id}', request)
-        
+        headers = {}
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetInvoiceInvoiceIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -62,12 +63,13 @@ class Invoice:
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/invoices/upcoming'
-        
+        headers = {}
         query_params = utils.get_query_params(operations.GetInvoicesUpcomingRequest, request)
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url, params=query_params)
+        http_res = client.request('GET', url, params=query_params, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetInvoicesUpcomingResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -95,12 +97,13 @@ class Invoice:
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/invoices'
-        
+        headers = {}
         query_params = utils.get_query_params(operations.ListInvoicesRequest, request)
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url, params=query_params)
+        http_res = client.request('GET', url, params=query_params, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.ListInvoicesResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)

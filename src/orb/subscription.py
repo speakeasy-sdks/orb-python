@@ -50,12 +50,13 @@ class Subscription:
         base_url = self._server_url
         
         url = utils.generate_url(operations.PostSubscriptionsSubscriptionIDCancelRequest, base_url, '/subscriptions/{subscription_id}/cancel', request)
-        
+        headers = {}
         query_params = utils.get_query_params(operations.PostSubscriptionsSubscriptionIDCancelRequest, request)
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('POST', url, params=query_params)
+        http_res = client.request('POST', url, params=query_params, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.PostSubscriptionsSubscriptionIDCancelResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -98,11 +99,11 @@ class Subscription:
         base_url = self._server_url
         
         url = utils.generate_url(operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequest, base_url, '/subscriptions/{subscription_id}/schedule_plan_change', request)
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
@@ -468,11 +469,11 @@ class Subscription:
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/subscriptions'
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
@@ -500,11 +501,12 @@ class Subscription:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetSubscriptionsSubscriptionIDRequest, base_url, '/subscriptions/{subscription_id}', request)
-        
+        headers = {}
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetSubscriptionsSubscriptionIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -527,12 +529,13 @@ class Subscription:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetSubscriptionsSubscriptionIDCostRequest, base_url, '/subscriptions/{subscription_id}/costs', request)
-        
+        headers = {}
         query_params = utils.get_query_params(operations.GetSubscriptionsSubscriptionIDCostRequest, request)
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url, params=query_params)
+        http_res = client.request('GET', url, params=query_params, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetSubscriptionsSubscriptionIDCostResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -556,11 +559,12 @@ class Subscription:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetSubscriptionsSubscriptionIDScheduleRequest, base_url, '/subscriptions/{subscription_id}/schedule', request)
-        
+        headers = {}
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetSubscriptionsSubscriptionIDScheduleResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -702,12 +706,13 @@ class Subscription:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetSubscriptionsSubscriptionIDUsageRequest, base_url, '/subscriptions/{subscription_id}/usage', request)
-        
+        headers = {}
         query_params = utils.get_query_params(operations.GetSubscriptionsSubscriptionIDUsageRequest, request)
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url, params=query_params)
+        http_res = client.request('GET', url, params=query_params, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetSubscriptionsSubscriptionIDUsageResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -730,12 +735,13 @@ class Subscription:
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/subscriptions'
-        
+        headers = {}
         query_params = utils.get_query_params(operations.ListSubscriptionsRequest, request)
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url, params=query_params)
+        http_res = client.request('GET', url, params=query_params, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.ListSubscriptionsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -759,11 +765,12 @@ class Subscription:
         base_url = self._server_url
         
         url = utils.generate_url(operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesRequest, base_url, '/subscriptions/{subscription_id}/unschedule_pending_plan_changes', request)
-        
+        headers = {}
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('POST', url)
+        http_res = client.request('POST', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)

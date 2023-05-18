@@ -36,11 +36,11 @@ class Customer:
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/customers'
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
@@ -70,11 +70,12 @@ class Customer:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetCustomersCustomerIDRequest, base_url, '/customers/{customer_id}', request)
-        
+        headers = {}
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetCustomersCustomerIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -110,11 +111,12 @@ class Customer:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetCustomersCustomerIDBalanceTransactionsRequest, base_url, '/customers/{customer_id}/balance_transactions', request)
-        
+        headers = {}
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetCustomersCustomerIDBalanceTransactionsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -140,11 +142,12 @@ class Customer:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetCustomersExternalCustomerIDExternalCustomerIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}', request)
-        
+        headers = {}
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetCustomersExternalCustomerIDExternalCustomerIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -229,12 +232,13 @@ class Customer:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetCustomerCostsRequest, base_url, '/customers/{customer_id}/costs', request)
-        
+        headers = {}
         query_params = utils.get_query_params(operations.GetCustomerCostsRequest, request)
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url, params=query_params)
+        http_res = client.request('GET', url, params=query_params, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetCustomerCostsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -254,12 +258,13 @@ class Customer:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetExternalCustomerCostsRequest, base_url, '/customers/external_customer_id/{external_customer_id}/costs', request)
-        
+        headers = {}
         query_params = utils.get_query_params(operations.GetExternalCustomerCostsRequest, request)
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url, params=query_params)
+        http_res = client.request('GET', url, params=query_params, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetExternalCustomerCostsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -281,11 +286,12 @@ class Customer:
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/customers'
-        
+        headers = {}
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.ListCustomersResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -312,11 +318,11 @@ class Customer:
         base_url = self._server_url
         
         url = utils.generate_url(operations.PutCustomersCustomerIDRequest, base_url, '/customers/{customer_id}', request)
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
@@ -347,11 +353,11 @@ class Customer:
         base_url = self._server_url
         
         url = utils.generate_url(operations.PutCustomersExternalCustomerIDExternalCustomerIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}', request)
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
@@ -435,12 +441,12 @@ class Customer:
         base_url = self._server_url
         
         url = utils.generate_url(operations.PatchCustomersCustomerIDUsageRequest, base_url, '/customers/{customer_id}/usage', request)
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         query_params = utils.get_query_params(operations.PatchCustomersCustomerIDUsageRequest, request)
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
@@ -475,12 +481,12 @@ class Customer:
         base_url = self._server_url
         
         url = utils.generate_url(operations.PatchExternalCustomersCustomerIDUsageRequest, base_url, '/customers/external_customer_id/{external_customer_id}/usage', request)
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         query_params = utils.get_query_params(operations.PatchExternalCustomersCustomerIDUsageRequest, request)
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
