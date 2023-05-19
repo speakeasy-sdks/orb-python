@@ -47,7 +47,7 @@ class UpcomingInvoiceLineItemsSubLineItemsTierConfig:
     last_unit: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('last_unit') }})
     unit_amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount') }})
     
-class UpcomingInvoiceLineItemsSubLineItemsTypeEnum(str, Enum):
+class UpcomingInvoiceLineItemsSubLineItemsType(str, Enum):
     r"""An identifier for a sub line item that is specific to a pricing model."""
     MATRIX = 'matrix'
     TIER = 'tier'
@@ -61,7 +61,7 @@ class UpcomingInvoiceLineItemsSubLineItems:
     r"""The total amount for this sub line item."""
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     quantity: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('quantity') }})
-    type: UpcomingInvoiceLineItemsSubLineItemsTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
+    type: UpcomingInvoiceLineItemsSubLineItemsType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
     r"""An identifier for a sub line item that is specific to a pricing model."""
     matrix_config: Optional[UpcomingInvoiceLineItemsSubLineItemsMatrixConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('matrix_config'), 'exclude': lambda f: f is None }})
     r"""Only available if `type` is `matrix`. Contains the values of the matrix that this `sub_line_item` represents."""

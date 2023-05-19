@@ -92,6 +92,7 @@ class Credits:
         req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -125,6 +126,7 @@ class Credits:
         
         url = utils.generate_url(operations.GetCustomersCustomerIDCreditsRequest, base_url, '/customers/{customer_id}/credits', request)
         headers = {}
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -142,7 +144,7 @@ class Credits:
         return res
 
     
-    def get_credits_ledger(self, customer_id: str, entry_status: Optional[operations.GetCustomersCustomerIDCreditsLedgerEntryStatusEnum] = None, entry_type: Optional[operations.GetCustomersCustomerIDCreditsLedgerEntryTypeEnum] = None, minimum_amount: Optional[float] = None) -> operations.GetCustomersCustomerIDCreditsLedgerResponse:
+    def get_credits_ledger(self, customer_id: str, entry_status: Optional[operations.GetCustomersCustomerIDCreditsLedgerEntryStatus] = None, entry_type: Optional[operations.GetCustomersCustomerIDCreditsLedgerEntryType] = None, minimum_amount: Optional[float] = None) -> operations.GetCustomersCustomerIDCreditsLedgerResponse:
         r"""View credits ledger
         The credits ledger provides _auditing_ functionality over Orb's credits system with a list of actions that have taken place to modify a customer's credit balance. This [paginated endpoint](../docs/Pagination.md) lists these entries, starting from the most recent ledger entry.
         
@@ -186,6 +188,7 @@ class Credits:
         url = utils.generate_url(operations.GetCustomersCustomerIDCreditsLedgerRequest, base_url, '/customers/{customer_id}/credits/ledger', request)
         headers = {}
         query_params = utils.get_query_params(operations.GetCustomersCustomerIDCreditsLedgerRequest, request)
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client

@@ -48,7 +48,7 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.cancel(operations.PostSubscriptionsSubscriptionIDCancelCancelOptionEnum.END_OF_SUBSCRIPTION_TERM, 'quas')
+res = s.subscription.cancel(operations.PostSubscriptionsSubscriptionIDCancelCancelOption.END_OF_SUBSCRIPTION_TERM, 'quas')
 
 if res.subscription is not None:
     # handle response
@@ -93,7 +93,7 @@ s = orb.Orb(
 res = s.subscription.change_schedule('et', operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBody(
     align_billing_with_plan_change_date=False,
     change_date=dateutil.parser.parse('2022-01-01').date(),
-    change_option=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyChangeOptionEnum.IMMEDIATE,
+    change_option=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyChangeOption.IMMEDIATE,
     external_plan_id='ZMwNQefe7J3ecf7W',
     minimum_amount='1.23',
     plan_id='ZMwNQefe7J3ecf7W',
@@ -117,7 +117,7 @@ res = s.subscription.change_schedule('et', operations.PostSubscriptionsSubscript
             ),
             id='100efada-200e-4f04-a2eb-2164cf9ab836',
             minimum_amount='1.23',
-            model_type=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3ModelTypeEnum.BULK,
+            model_type=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3ModelType.BULK,
         ),
     ],
 ))
@@ -489,7 +489,7 @@ req = operations.PostSubscriptionsRequestBody(
     align_billing_with_subscription_start_date=False,
     customer_id='97DPcZE9hxsbb9Y9',
     external_customer_id='ea',
-    external_marketplace=operations.PostSubscriptionsRequestBodyExternalMarketplaceEnum.GOOGLE,
+    external_marketplace=operations.PostSubscriptionsRequestBodyExternalMarketplace.GOOGLE,
     external_marketplace_reporting_id='project_number:983410661111',
     external_plan_id='impedit',
     minimum_amount='1.23',
@@ -521,7 +521,7 @@ req = operations.PostSubscriptionsRequestBody(
             fixed_price_quantity=62035,
             id='e115c80b-ff91-4854-8ec4-2defcce8f197',
             minimum_amount='1.23',
-            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides2ModelTypeEnum.UNIT,
+            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides2ModelType.UNIT,
             unit_config=operations.PostSubscriptionsRequestBodyPriceOverrides2UnitConfig(
                 unit_amount='esse',
             ),
@@ -533,7 +533,7 @@ req = operations.PostSubscriptionsRequestBody(
             },
             id='562a7b40-8f05-4e3d-88fd-af313a1f5fd9',
             minimum_amount='1.23',
-            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides4ModelTypeEnum.PACKAGE,
+            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides4ModelType.PACKAGE,
             package_config=operations.PostSubscriptionsRequestBodyPriceOverrides4PackageConfig(
                 package_amount='incidunt',
                 package_size=1280.21,
@@ -561,7 +561,7 @@ req = operations.PostSubscriptionsRequestBody(
             },
             id='a944f3b7-56c1-41f6-837a-5126243835bb',
             minimum_amount='1.23',
-            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides3ModelTypeEnum.BULK,
+            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides3ModelType.BULK,
         ),
     ],
     start_date=dateutil.parser.parse('2022-01-01').date(),
@@ -794,7 +794,7 @@ s = orb.Orb(
 
 req = operations.GetSubscriptionsSubscriptionIDUsageRequest(
     billable_metric_id='amet',
-    granularity=operations.GetSubscriptionsSubscriptionIDUsageGranularityEnum.DAY,
+    granularity=operations.GetSubscriptionsSubscriptionIDUsageGranularity.DAY,
     group_by='deserunt',
     subscription_id='modi',
     timeframe_end=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),

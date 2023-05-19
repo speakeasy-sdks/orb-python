@@ -56,7 +56,7 @@ req = shared.Customer(
     external_customer_id='dolorem',
     id='a2fa9467-7392-451a-a52c-3f5ad019da1f',
     name='Caleb Koss',
-    payment_provider=shared.CustomerPaymentProviderEnum.STRIPE,
+    payment_provider=shared.CustomerPaymentProvider.STRIPE,
     payment_provider_id='omnis',
     shipping_address=shared.ShippingAddress(
         city='Myrtistown',
@@ -248,7 +248,7 @@ req = operations.GetCustomerCostsRequest(
     group_by='repudiandae',
     timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
-    view_mode=operations.GetCustomerCostsViewModeEnum.PERIODIC,
+    view_mode=operations.GetCustomerCostsViewMode.PERIODIC,
 )
 
 res = s.customer.get_costs(req)
@@ -279,7 +279,7 @@ req = operations.GetExternalCustomerCostsRequest(
     group_by='quidem',
     timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
-    view_mode=operations.GetExternalCustomerCostsViewModeEnum.CUMULATIVE,
+    view_mode=operations.GetExternalCustomerCostsViewMode.CUMULATIVE,
 )
 
 res = s.customer.get_costs_by_external_id(req)
@@ -345,7 +345,7 @@ res = s.customer.update('excepturi', operations.PutCustomersCustomerIDRequestBod
     ),
     email='Luther.Rau26@gmail.com',
     name='Beth McGlynn Sr.',
-    payment_provider=operations.PutCustomersCustomerIDRequestBodyPaymentProviderEnum.LESS_THAN_NIL_GREATER_THAN_,
+    payment_provider=operations.PutCustomersCustomerIDRequestBodyPaymentProvider.LESS_THAN_NIL_GREATER_THAN_,
     payment_provider_id='ipsam',
     shipping_address=operations.PutCustomersCustomerIDRequestBodyShippingAddress(
         city='East Marianostead',
@@ -391,7 +391,7 @@ res = s.customer.update_by_external_id('officia', operations.PutCustomersExterna
     ),
     email='Hans_Hyatt24@hotmail.com',
     name='Jon Tillman',
-    payment_provider=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyPaymentProviderEnum.STRIPE_INVOICE,
+    payment_provider=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyPaymentProvider.STRIPE_INVOICE,
     payment_provider_id='nam',
     shipping_address=operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBodyShippingAddress(
         city='Kuvalisstad',

@@ -35,6 +35,7 @@ class Invoice:
         
         url = utils.generate_url(operations.GetInvoiceInvoiceIDRequest, base_url, '/invoices/{invoice_id}', request)
         headers = {}
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -65,6 +66,7 @@ class Invoice:
         url = base_url.removesuffix('/') + '/invoices/upcoming'
         headers = {}
         query_params = utils.get_query_params(operations.GetInvoicesUpcomingRequest, request)
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -99,6 +101,7 @@ class Invoice:
         url = base_url.removesuffix('/') + '/invoices'
         headers = {}
         query_params = utils.get_query_params(operations.ListInvoicesRequest, request)
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client

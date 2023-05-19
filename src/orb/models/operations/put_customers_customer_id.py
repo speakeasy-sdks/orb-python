@@ -24,7 +24,7 @@ class PutCustomersCustomerIDRequestBodyBillingAddress:
     r"""ZIP or postal code"""
     state: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('state'), 'exclude': lambda f: f is None }})
     
-class PutCustomersCustomerIDRequestBodyPaymentProviderEnum(str, Enum):
+class PutCustomersCustomerIDRequestBodyPaymentProvider(str, Enum):
     r"""This is used for creating charges or invoices in an external system via Orb. When not in test mode:
     - the connection must first be configured in the Orb webapp. 
     - if the provider is an invoicing provider (`stripe_invoice`, `quickbooks`, `bill.com`), any product mappings must first be configured with the Orb team.
@@ -61,7 +61,7 @@ class PutCustomersCustomerIDRequestBody:
     email: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('email'), 'exclude': lambda f: f is None }})
     r"""A valid customer email, to be used for invoicing and notifications."""
     name: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name'), 'exclude': lambda f: f is None }})
-    payment_provider: Optional[PutCustomersCustomerIDRequestBodyPaymentProviderEnum] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider'), 'exclude': lambda f: f is None }})
+    payment_provider: Optional[PutCustomersCustomerIDRequestBodyPaymentProvider] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider'), 'exclude': lambda f: f is None }})
     r"""This is used for creating charges or invoices in an external system via Orb. When not in test mode:
     - the connection must first be configured in the Orb webapp. 
     - if the provider is an invoicing provider (`stripe_invoice`, `quickbooks`, `bill.com`), any product mappings must first be configured with the Orb team.

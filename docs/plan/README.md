@@ -87,7 +87,7 @@ res = s.plan.get_by_external_id('quis', shared.Plan(
                 "atque": 'sit',
             },
             duration=854614,
-            duration_unit=shared.PlanPhaseDurationUnitEnum.MONTHLY,
+            duration_unit=shared.PlanPhaseDurationUnit.MONTHLY,
             minimum={
                 "dolorum": 'iusto',
                 "voluptate": 'dolorum',
@@ -105,7 +105,7 @@ res = s.plan.get_by_external_id('quis', shared.Plan(
                 "ad": 'saepe',
             },
             duration=383464,
-            duration_unit=shared.PlanPhaseDurationUnitEnum.QUARTERLY,
+            duration_unit=shared.PlanPhaseDurationUnit.QUARTERLY,
             minimum={
                 "minima": 'repellendus',
                 "totam": 'similique',
@@ -163,7 +163,7 @@ res = s.plan.get_by_external_id('quis', shared.Plan(
                     ),
                 ],
             ),
-            cadence=shared.PriceCadenceEnum.QUARTERLY,
+            cadence=shared.PriceCadence.QUARTERLY,
             created_at=dateutil.parser.isoparse('2022-03-27T15:45:02.604Z'),
             currency='USD',
             discount={
@@ -198,7 +198,7 @@ res = s.plan.get_by_external_id('quis', shared.Plan(
                 "similique": 'facilis',
                 "vero": 'ducimus',
             },
-            model_type=shared.PriceModelTypeEnum.BULK,
+            model_type=shared.PriceModelType.BULK,
             name='Gilberto Dickinson',
             package_config=shared.PricePackageConfig(
                 package_amount='aut',
@@ -279,7 +279,7 @@ res = s.plan.get_by_external_id('quis', shared.Plan(
                     ),
                 ],
             ),
-            cadence=shared.PriceCadenceEnum.QUARTERLY,
+            cadence=shared.PriceCadence.QUARTERLY,
             created_at=dateutil.parser.isoparse('2021-11-11T22:59:32.230Z'),
             currency='USD',
             discount={
@@ -310,7 +310,7 @@ res = s.plan.get_by_external_id('quis', shared.Plan(
                 "inventore": 'nihil',
                 "totam": 'accusamus',
             },
-            model_type=shared.PriceModelTypeEnum.BULK,
+            model_type=shared.PriceModelType.BULK,
             name='Violet Johns',
             package_config=shared.PricePackageConfig(
                 package_amount='deserunt',
@@ -405,7 +405,7 @@ res = s.plan.get_by_external_id('quis', shared.Plan(
                     ),
                 ],
             ),
-            cadence=shared.PriceCadenceEnum.MONTHLY,
+            cadence=shared.PriceCadence.MONTHLY,
             created_at=dateutil.parser.isoparse('2022-01-19T12:09:14.633Z'),
             currency='USD',
             discount={
@@ -435,7 +435,7 @@ res = s.plan.get_by_external_id('quis', shared.Plan(
                 "voluptatem": 'dolor',
                 "occaecati": 'numquam',
             },
-            model_type=shared.PriceModelTypeEnum.BULK_BPS,
+            model_type=shared.PriceModelType.BULK_BPS,
             name='Loretta Anderson DVM',
             package_config=shared.PricePackageConfig(
                 package_amount='natus',
@@ -484,7 +484,7 @@ res = s.plan.get_by_external_id('quis', shared.Plan(
     ),
     trial_config=shared.PlanTrialConfig(
         trial_period=9689.72,
-        trial_period_unit=shared.PlanTrialConfigTrialPeriodUnitEnum.DAYS,
+        trial_period_unit=shared.PlanTrialConfigTrialPeriodUnit.DAYS,
     ),
 ))
 
@@ -538,7 +538,7 @@ req = operations.ListPlansRequestBody(
                         "reiciendis": 'explicabo',
                     },
                     duration=994401,
-                    duration_unit=shared.PlanPhaseDurationUnitEnum.ANNUAL,
+                    duration_unit=shared.PlanPhaseDurationUnit.ANNUAL,
                     minimum={
                         "expedita": 'ab',
                         "iste": 'dolore',
@@ -592,7 +592,7 @@ req = operations.ListPlansRequestBody(
                             ),
                         ],
                     ),
-                    cadence=shared.PriceCadenceEnum.MONTHLY,
+                    cadence=shared.PriceCadence.MONTHLY,
                     created_at=dateutil.parser.isoparse('2022-06-28T14:53:26.431Z'),
                     currency='USD',
                     discount={
@@ -625,7 +625,7 @@ req = operations.ListPlansRequestBody(
                         "nam": 'tenetur',
                         "laboriosam": 'alias',
                     },
-                    model_type=shared.PriceModelTypeEnum.TIERED,
+                    model_type=shared.PriceModelType.TIERED,
                     name='Karl Miller',
                     package_config=shared.PricePackageConfig(
                         package_amount='repellendus',
@@ -690,7 +690,7 @@ req = operations.ListPlansRequestBody(
                             ),
                         ],
                     ),
-                    cadence=shared.PriceCadenceEnum.MONTHLY,
+                    cadence=shared.PriceCadence.MONTHLY,
                     created_at=dateutil.parser.isoparse('2022-01-18T11:13:47.798Z'),
                     currency='USD',
                     discount={
@@ -731,7 +731,7 @@ req = operations.ListPlansRequestBody(
                         "recusandae": 'omnis',
                         "quaerat": 'molestiae',
                     },
-                    model_type=shared.PriceModelTypeEnum.PACKAGE,
+                    model_type=shared.PriceModelType.PACKAGE,
                     name='Molly Ferry',
                     package_config=shared.PricePackageConfig(
                         package_amount='eum',
@@ -785,7 +785,7 @@ req = operations.ListPlansRequestBody(
             ),
             trial_config=shared.PlanTrialConfig(
                 trial_period=7453.98,
-                trial_period_unit=shared.PlanTrialConfigTrialPeriodUnitEnum.DAYS,
+                trial_period_unit=shared.PlanTrialConfigTrialPeriodUnit.DAYS,
             ),
         ),
         shared.Plan(
@@ -816,7 +816,7 @@ req = operations.ListPlansRequestBody(
                         "voluptas": 'iste',
                     },
                     duration=661607,
-                    duration_unit=shared.PlanPhaseDurationUnitEnum.MONTHLY,
+                    duration_unit=shared.PlanPhaseDurationUnit.MONTHLY,
                     minimum={
                         "possimus": 'voluptates',
                         "mollitia": 'laborum',
@@ -832,7 +832,7 @@ req = operations.ListPlansRequestBody(
                         "voluptatem": 'molestias',
                     },
                     duration=737254,
-                    duration_unit=shared.PlanPhaseDurationUnitEnum.QUARTERLY,
+                    duration_unit=shared.PlanPhaseDurationUnit.QUARTERLY,
                     minimum={
                         "voluptatum": 'omnis',
                     },
@@ -847,7 +847,7 @@ req = operations.ListPlansRequestBody(
                         "deleniti": 'earum',
                     },
                     duration=404244,
-                    duration_unit=shared.PlanPhaseDurationUnitEnum.ANNUAL,
+                    duration_unit=shared.PlanPhaseDurationUnit.ANNUAL,
                     minimum={
                         "minus": 'nemo',
                         "asperiores": 'ratione',
@@ -900,7 +900,7 @@ req = operations.ListPlansRequestBody(
                             ),
                         ],
                     ),
-                    cadence=shared.PriceCadenceEnum.QUARTERLY,
+                    cadence=shared.PriceCadence.QUARTERLY,
                     created_at=dateutil.parser.isoparse('2022-08-13T07:34:51.264Z'),
                     currency='USD',
                     discount={
@@ -959,7 +959,7 @@ req = operations.ListPlansRequestBody(
                         "reprehenderit": 'est',
                         "quis": 'sint',
                     },
-                    model_type=shared.PriceModelTypeEnum.MATRIX,
+                    model_type=shared.PriceModelType.MATRIX,
                     name='Irvin Tromp',
                     package_config=shared.PricePackageConfig(
                         package_amount='voluptas',
@@ -1036,7 +1036,7 @@ req = operations.ListPlansRequestBody(
                             ),
                         ],
                     ),
-                    cadence=shared.PriceCadenceEnum.ANNUAL,
+                    cadence=shared.PriceCadence.ANNUAL,
                     created_at=dateutil.parser.isoparse('2022-12-29T06:34:38.165Z'),
                     currency='USD',
                     discount={
@@ -1069,7 +1069,7 @@ req = operations.ListPlansRequestBody(
                     minimum={
                         "ipsum": 'unde',
                     },
-                    model_type=shared.PriceModelTypeEnum.BULK_BPS,
+                    model_type=shared.PriceModelType.BULK_BPS,
                     name='Wilbert Crona',
                     package_config=shared.PricePackageConfig(
                         package_amount='omnis',
@@ -1141,7 +1141,7 @@ req = operations.ListPlansRequestBody(
                             ),
                         ],
                     ),
-                    cadence=shared.PriceCadenceEnum.ANNUAL,
+                    cadence=shared.PriceCadence.ANNUAL,
                     created_at=dateutil.parser.isoparse('2022-04-28T01:39:49.849Z'),
                     currency='USD',
                     discount={
@@ -1173,7 +1173,7 @@ req = operations.ListPlansRequestBody(
                         "repellat": 'pariatur',
                         "nemo": 'reprehenderit',
                     },
-                    model_type=shared.PriceModelTypeEnum.UNIT,
+                    model_type=shared.PriceModelType.UNIT,
                     name='Cathy Kirlin',
                     package_config=shared.PricePackageConfig(
                         package_amount='dolores',
@@ -1232,7 +1232,7 @@ req = operations.ListPlansRequestBody(
             ),
             trial_config=shared.PlanTrialConfig(
                 trial_period=7316.34,
-                trial_period_unit=shared.PlanTrialConfigTrialPeriodUnitEnum.DAYS,
+                trial_period_unit=shared.PlanTrialConfigTrialPeriodUnit.DAYS,
             ),
         ),
         shared.Plan(
@@ -1264,7 +1264,7 @@ req = operations.ListPlansRequestBody(
                         "officiis": 'ducimus',
                     },
                     duration=220104,
-                    duration_unit=shared.PlanPhaseDurationUnitEnum.MONTHLY,
+                    duration_unit=shared.PlanPhaseDurationUnit.MONTHLY,
                     minimum={
                         "porro": 'vitae',
                         "dignissimos": 'esse',
@@ -1314,7 +1314,7 @@ req = operations.ListPlansRequestBody(
                             ),
                         ],
                     ),
-                    cadence=shared.PriceCadenceEnum.ANNUAL,
+                    cadence=shared.PriceCadence.ANNUAL,
                     created_at=dateutil.parser.isoparse('2021-06-24T23:38:28.956Z'),
                     currency='USD',
                     discount={
@@ -1354,7 +1354,7 @@ req = operations.ListPlansRequestBody(
                     minimum={
                         "soluta": 'natus',
                     },
-                    model_type=shared.PriceModelTypeEnum.BULK_BPS,
+                    model_type=shared.PriceModelType.BULK_BPS,
                     name='Marvin White',
                     package_config=shared.PricePackageConfig(
                         package_amount='itaque',
@@ -1403,7 +1403,7 @@ req = operations.ListPlansRequestBody(
             ),
             trial_config=shared.PlanTrialConfig(
                 trial_period=6770.45,
-                trial_period_unit=shared.PlanTrialConfigTrialPeriodUnitEnum.DAYS,
+                trial_period_unit=shared.PlanTrialConfigTrialPeriodUnit.DAYS,
             ),
         ),
     ],

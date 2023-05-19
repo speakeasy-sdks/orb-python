@@ -7,7 +7,7 @@ from ..shared import subscription as shared_subscription
 from enum import Enum
 from typing import Optional
 
-class PostSubscriptionsSubscriptionIDCancelCancelOptionEnum(str, Enum):
+class PostSubscriptionsSubscriptionIDCancelCancelOption(str, Enum):
     r"""Determines the timing of subscription cancellation"""
     END_OF_SUBSCRIPTION_TERM = 'end_of_subscription_term'
     IMMEDIATE = 'immediate'
@@ -16,7 +16,7 @@ class PostSubscriptionsSubscriptionIDCancelCancelOptionEnum(str, Enum):
 @dataclasses.dataclass
 class PostSubscriptionsSubscriptionIDCancelRequest:
     
-    cancel_option: PostSubscriptionsSubscriptionIDCancelCancelOptionEnum = dataclasses.field(metadata={'query_param': { 'field_name': 'cancel_option', 'style': 'form', 'explode': True }})
+    cancel_option: PostSubscriptionsSubscriptionIDCancelCancelOption = dataclasses.field(metadata={'query_param': { 'field_name': 'cancel_option', 'style': 'form', 'explode': True }})
     r"""Determines the timing of subscription cancellation"""
     subscription_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'subscription_id', 'style': 'simple', 'explode': False }})
     

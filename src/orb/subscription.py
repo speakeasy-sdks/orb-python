@@ -23,7 +23,7 @@ class Subscription:
         self._gen_version = gen_version
         
     
-    def cancel(self, cancel_option: operations.PostSubscriptionsSubscriptionIDCancelCancelOptionEnum, subscription_id: str) -> operations.PostSubscriptionsSubscriptionIDCancelResponse:
+    def cancel(self, cancel_option: operations.PostSubscriptionsSubscriptionIDCancelCancelOption, subscription_id: str) -> operations.PostSubscriptionsSubscriptionIDCancelResponse:
         r"""Cancel subscription
         This endpoint can be used to cancel an existing subscription. It returns the serialized subscription object with an `end_date` parameter that signifies when the subscription will transition to an ended state.
         
@@ -52,6 +52,7 @@ class Subscription:
         url = utils.generate_url(operations.PostSubscriptionsSubscriptionIDCancelRequest, base_url, '/subscriptions/{subscription_id}/cancel', request)
         headers = {}
         query_params = utils.get_query_params(operations.PostSubscriptionsSubscriptionIDCancelRequest, request)
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -103,6 +104,7 @@ class Subscription:
         req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -473,6 +475,7 @@ class Subscription:
         req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -502,6 +505,7 @@ class Subscription:
         
         url = utils.generate_url(operations.GetSubscriptionsSubscriptionIDRequest, base_url, '/subscriptions/{subscription_id}', request)
         headers = {}
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -531,6 +535,7 @@ class Subscription:
         url = utils.generate_url(operations.GetSubscriptionsSubscriptionIDCostRequest, base_url, '/subscriptions/{subscription_id}/costs', request)
         headers = {}
         query_params = utils.get_query_params(operations.GetSubscriptionsSubscriptionIDCostRequest, request)
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -560,6 +565,7 @@ class Subscription:
         
         url = utils.generate_url(operations.GetSubscriptionsSubscriptionIDScheduleRequest, base_url, '/subscriptions/{subscription_id}/schedule', request)
         headers = {}
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -708,6 +714,7 @@ class Subscription:
         url = utils.generate_url(operations.GetSubscriptionsSubscriptionIDUsageRequest, base_url, '/subscriptions/{subscription_id}/usage', request)
         headers = {}
         query_params = utils.get_query_params(operations.GetSubscriptionsSubscriptionIDUsageRequest, request)
+        headers['Accept'] = '*/*'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -737,6 +744,7 @@ class Subscription:
         url = base_url.removesuffix('/') + '/subscriptions'
         headers = {}
         query_params = utils.get_query_params(operations.ListSubscriptionsRequest, request)
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -766,6 +774,7 @@ class Subscription:
         
         url = utils.generate_url(operations.PostSubscriptionsSubscriptionIDUnschedulePendingPlanChangesRequest, base_url, '/subscriptions/{subscription_id}/unschedule_pending_plan_changes', request)
         headers = {}
+        headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client

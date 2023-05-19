@@ -12,7 +12,7 @@ from marshmallow import fields
 from orb import utils
 from typing import Optional
 
-class SubscriptionStatusEnum(str, Enum):
+class SubscriptionStatus(str, Enum):
     ACTIVE = 'active'
     ENDED = 'ended'
     UPCOMING = 'upcoming'
@@ -46,7 +46,7 @@ class Subscription:
     plan: shared_plan.Plan = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('plan') }})
     start_date: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('start_date'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
     r"""The date Orb starts billing for this subscription."""
-    status: SubscriptionStatusEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status') }})
+    status: SubscriptionStatus = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status') }})
     active_plan_phase_order: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('active_plan_phase_order'), 'exclude': lambda f: f is None }})
     r"""The current plan phase that is active, only if the subscription's plan has phases."""
     current_billing_period_end_date: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('current_billing_period_end_date'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})

@@ -12,7 +12,7 @@ from marshmallow import fields
 from orb import utils
 from typing import Optional
 
-class CustomerPaymentProviderEnum(str, Enum):
+class CustomerPaymentProvider(str, Enum):
     r"""The external payments or invoicing solution connected to this customer."""
     STRIPE = 'stripe'
     QUICKBOOKS = 'quickbooks'
@@ -44,7 +44,7 @@ class Customer:
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     r"""The full name of the customer"""
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
-    payment_provider: CustomerPaymentProviderEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider') }})
+    payment_provider: CustomerPaymentProvider = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider') }})
     r"""The external payments or invoicing solution connected to this customer."""
     payment_provider_id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider_id') }})
     r"""The ID of this customer in an external payments solution, such as Stripe. This is used for creating charges or invoices in the external system via Orb."""

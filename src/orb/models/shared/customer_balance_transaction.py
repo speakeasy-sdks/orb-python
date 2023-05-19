@@ -9,7 +9,7 @@ from enum import Enum
 from marshmallow import fields
 from orb import utils
 
-class CustomerBalanceTransactionActionEnum(str, Enum):
+class CustomerBalanceTransactionAction(str, Enum):
     r"""Describes the reason that this transaction took place."""
     APPLIED_TO_INVOICE = 'applied_to_invoice'
     PRORATED_REFUND = 'prorated_refund'
@@ -30,7 +30,7 @@ class CustomerBalanceTransactionInvoice:
 class CustomerBalanceTransaction:
     r"""A single change to the customer balance. All amounts are in the customer's currency."""
     
-    action: CustomerBalanceTransactionActionEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('action') }})
+    action: CustomerBalanceTransactionAction = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('action') }})
     r"""Describes the reason that this transaction took place."""
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
     r"""The value of the amount changed in the transaction."""

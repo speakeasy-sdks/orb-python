@@ -48,7 +48,7 @@ class InvoiceLineItemsSubLineItemsTierConfig:
     last_unit: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('last_unit') }})
     unit_amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount') }})
     
-class InvoiceLineItemsSubLineItemsTypeEnum(str, Enum):
+class InvoiceLineItemsSubLineItemsType(str, Enum):
     r"""An identifier for a sub line item that is specific to a pricing model."""
     MATRIX = 'matrix'
     TIER = 'tier'
@@ -62,7 +62,7 @@ class InvoiceLineItemsSubLineItems:
     r"""The total amount for this sub line item."""
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     quantity: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('quantity') }})
-    type: InvoiceLineItemsSubLineItemsTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
+    type: InvoiceLineItemsSubLineItemsType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
     r"""An identifier for a sub line item that is specific to a pricing model."""
     matrix_config: Optional[InvoiceLineItemsSubLineItemsMatrixConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('matrix_config'), 'exclude': lambda f: f is None }})
     r"""Only available if `type` is `matrix`. Contains the values of the matrix that this `sub_line_item` represents."""
@@ -106,7 +106,7 @@ class InvoiceLineItems:
     tax_amounts: list[InvoiceLineItemsTaxAmounts] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tax_amounts') }})
     r"""An array of tax rates and their incurred tax amounts. Empty if no tax integration is configured."""
     
-class InvoiceStatusEnum(str, Enum):
+class InvoiceStatus(str, Enum):
     r"""The status of this invoice as known to Orb. Invoices that have been issued for past billing periods are marked `\\"issued\\"`. Invoices will be marked `\\"paid\\"` upon confirmation of successful automatic payment collection by Orb. Invoices synced to an external billing provider (such as Bill.com, QuickBooks, or Stripe Invoicing) will be marked as `\\"synced\\"`."""
     ISSUED = 'issued'
     PAID = 'paid'
@@ -153,6 +153,6 @@ class Invoice:
     r"""The total before any discounts and minimums are applied."""
     total: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('total') }})
     r"""The total after any minimums, discounts, and taxes have been applied."""
-    status: Optional[InvoiceStatusEnum] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status'), 'exclude': lambda f: f is None }})
+    status: Optional[InvoiceStatus] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status'), 'exclude': lambda f: f is None }})
     r"""The status of this invoice as known to Orb. Invoices that have been issued for past billing periods are marked `\\"issued\\"`. Invoices will be marked `\\"paid\\"` upon confirmation of successful automatic payment collection by Orb. Invoices synced to an external billing provider (such as Bill.com, QuickBooks, or Stripe Invoicing) will be marked as `\\"synced\\"`."""
     

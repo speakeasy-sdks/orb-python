@@ -30,12 +30,12 @@ class CreditLedgerEntryCustomer:
     external_customer_id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id') }})
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     
-class CreditLedgerEntryEntryStatusEnum(str, Enum):
+class CreditLedgerEntryEntryStatus(str, Enum):
     r"""Committed entries are older than the ingestion grace period, and cannot change. Pending entries are newer than the grace period and are subject to updates"""
     COMMITTED = 'committed'
     PENDING = 'pending'
 
-class CreditLedgerEntryEntryTypeEnum(str, Enum):
+class CreditLedgerEntryEntryType(str, Enum):
     INCREMENT = 'increment'
     DECREMENT = 'decrement'
     EXPIRATION_CHANGE = 'expiration_change'
@@ -59,9 +59,9 @@ class CreditLedgerEntry:
     description: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('description') }})
     r"""Optional metadata that can be specified when adding ledger results via the API"""
     ending_balance: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ending_balance') }})
-    entry_status: CreditLedgerEntryEntryStatusEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_status') }})
+    entry_status: CreditLedgerEntryEntryStatus = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_status') }})
     r"""Committed entries are older than the ingestion grace period, and cannot change. Pending entries are newer than the grace period and are subject to updates"""
-    entry_type: CreditLedgerEntryEntryTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_type') }})
+    entry_type: CreditLedgerEntryEntryType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_type') }})
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     ledger_sequence_number: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('ledger_sequence_number') }})
     r"""The position in which this entry appears in the ledger, starting at 0"""

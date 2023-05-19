@@ -11,7 +11,7 @@ from marshmallow import fields
 from orb import utils
 from typing import Optional
 
-class PostCustomersCustomerIDCreditsLedgerEntryRequestBodyEntryTypeEnum(str, Enum):
+class PostCustomersCustomerIDCreditsLedgerEntryRequestBodyEntryType(str, Enum):
     INCREMENT = 'increment'
     DECREMENT = 'decrement'
     EXPIRATION_CHANGE = 'expiration_change'
@@ -22,7 +22,7 @@ class PostCustomersCustomerIDCreditsLedgerEntryRequestBodyEntryTypeEnum(str, Enu
 class PostCustomersCustomerIDCreditsLedgerEntryRequestBody:
     
     amount: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
-    entry_type: PostCustomersCustomerIDCreditsLedgerEntryRequestBodyEntryTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_type') }})
+    entry_type: PostCustomersCustomerIDCreditsLedgerEntryRequestBodyEntryType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_type') }})
     block_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('block_id'), 'exclude': lambda f: f is None }})
     r"""The ID of the block affected by an `expiration_change`"""
     description: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('description'), 'exclude': lambda f: f is None }})

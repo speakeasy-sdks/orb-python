@@ -218,7 +218,7 @@ res = s.event.ingest(operations.PostIngestRequestBody(
             timestamp='2020-12-09T16:09:53Z',
         ),
     ],
-), operations.PostIngestDebugEnum.TRUE)
+), operations.PostIngestDebug.TRUE)
 
 if res.post_ingest_200_application_json_object is not None:
     # handle response

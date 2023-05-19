@@ -33,7 +33,7 @@ class PostIngestRequestBody:
     
     events: list[PostIngestRequestBodyEvents] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('events') }})
     
-class PostIngestDebugEnum(str, Enum):
+class PostIngestDebug(str, Enum):
     r"""Flag to enable additional debug information in the endpoint response"""
     TRUE = 'true'
     FALSE = 'false'
@@ -42,7 +42,7 @@ class PostIngestDebugEnum(str, Enum):
 @dataclasses.dataclass
 class PostIngestRequest:
     
-    debug: Optional[PostIngestDebugEnum] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'debug', 'style': 'form', 'explode': True }})
+    debug: Optional[PostIngestDebug] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'debug', 'style': 'form', 'explode': True }})
     r"""Flag to enable additional debug information in the endpoint response"""
     request_body: Optional[PostIngestRequestBody] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
     

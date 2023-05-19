@@ -11,13 +11,13 @@ from marshmallow import fields
 from orb import utils
 from typing import Any, Optional
 
-class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyChangeOptionEnum(str, Enum):
+class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyChangeOption(str, Enum):
     r"""Determines the timing of the plan change"""
     REQUESTED_DATE = 'requested_date'
     END_OF_SUBSCRIPTION_TERM = 'end_of_subscription_term'
     IMMEDIATE = 'immediate'
 
-class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides7ModelTypeEnum(str, Enum):
+class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides7ModelType(str, Enum):
     TIERED_BPS = 'tiered_bps'
 
 
@@ -44,7 +44,7 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
     r"""Tiered BPS price override"""
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides7ModelTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides7ModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     tiered_bps_config: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides7TieredBpsConfig = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiered_bps_config') }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""
@@ -65,7 +65,7 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
     
     tiers: Optional[list[PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides6BulkBpsConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})
     
-class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides6ModelTypeEnum(str, Enum):
+class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides6ModelType(str, Enum):
     BULK_BPS = 'bulk_bps'
 
 
@@ -75,7 +75,7 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
     r"""Bulk BPS price override"""
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides6ModelTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides6ModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     bulk_bps_config: Optional[PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides6BulkBpsConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bulk_bps_config'), 'exclude': lambda f: f is None }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""
@@ -88,7 +88,7 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
     bps: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bps') }})
     per_unit_maximum: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_unit_maximum') }})
     
-class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides5ModelTypeEnum(str, Enum):
+class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides5ModelType(str, Enum):
     BPS = 'bps'
 
 
@@ -99,11 +99,11 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
     
     bps_config: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides5BpsConfig = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bps_config') }})
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides5ModelTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides5ModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""
     
-class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides4ModelTypeEnum(str, Enum):
+class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides4ModelType(str, Enum):
     PACKAGE = 'package'
 
 
@@ -121,7 +121,7 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
     r"""Package price override"""
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides4ModelTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides4ModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     package_config: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides4PackageConfig = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('package_config') }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""
@@ -141,7 +141,7 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
     
     tiers: list[PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3BulkConfigTiers] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers') }})
     
-class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3ModelTypeEnum(str, Enum):
+class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3ModelType(str, Enum):
     BULK = 'bulk'
 
 
@@ -152,11 +152,11 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
     
     bulk_config: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3BulkConfig = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bulk_config') }})
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3ModelTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3ModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""
     
-class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides2ModelTypeEnum(str, Enum):
+class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides2ModelType(str, Enum):
     UNIT = 'unit'
 
 
@@ -173,12 +173,12 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
     r"""Unit price override"""
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides2ModelTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides2ModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     unit_config: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides2UnitConfig = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_config') }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""
     
-class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides1ModelTypeEnum(str, Enum):
+class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides1ModelType(str, Enum):
     TIERED = 'tiered'
 
 
@@ -205,7 +205,7 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     r"""price_id"""
-    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides1ModelTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides1ModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     tiered_config: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides1TieredConfig = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiered_config') }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""
@@ -215,7 +215,7 @@ class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides
 @dataclasses.dataclass
 class PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBody:
     
-    change_option: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyChangeOptionEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('change_option') }})
+    change_option: PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyChangeOption = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('change_option') }})
     r"""Determines the timing of the plan change"""
     align_billing_with_plan_change_date: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('align_billing_with_plan_change_date'), 'exclude': lambda f: f is None }})
     r"""Reset billing periods to be aligned with the plan change’s effective date."""

@@ -12,7 +12,7 @@ from marshmallow import fields
 from orb import utils
 from typing import Any, Optional
 
-class GetCustomerCostsViewModeEnum(str, Enum):
+class GetCustomerCostsViewMode(str, Enum):
     r"""Controls whether Orb returns cumulative costs since the start of the billing period, or incremental day-by-day costs. If your customer has minimums or discounts, it's strongly recommended that you use the default cumulative behavior."""
     PERIODIC = 'periodic'
     CUMULATIVE = 'cumulative'
@@ -29,7 +29,7 @@ class GetCustomerCostsRequest:
     r"""Costs returned are exclusive of `timeframe_end`."""
     timeframe_start: Optional[datetime] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'timeframe_start', 'style': 'form', 'explode': True }})
     r"""Costs returned are inclusive of `timeframe_start`."""
-    view_mode: Optional[GetCustomerCostsViewModeEnum] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'view_mode', 'style': 'form', 'explode': True }})
+    view_mode: Optional[GetCustomerCostsViewMode] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'view_mode', 'style': 'form', 'explode': True }})
     r"""Controls whether Orb returns cumulative costs since the start of the billing period, or incremental day-by-day costs. If your customer has minimums or discounts, it's strongly recommended that you use the default cumulative behavior."""
     
 

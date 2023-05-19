@@ -85,7 +85,7 @@ res = s.credits.get('laboriosam', operations.PostCustomersCustomerIDCreditsLedge
     amount=9437.49,
     block_id='saepe',
     description='fuga',
-    entry_type=operations.PostCustomersCustomerIDCreditsLedgerEntryRequestBodyEntryTypeEnum.DECREMENT,
+    entry_type=operations.PostCustomersCustomerIDCreditsLedgerEntryRequestBodyEntryType.DECREMENT,
     expiry_date=dateutil.parser.parse('2023-01-01').date(),
     per_unit_cost_basis='corporis',
     target_expiry_date=dateutil.parser.parse('2023-02-01').date(),
@@ -167,7 +167,7 @@ s = orb.Orb(
 )
 
 
-res = s.credits.get_credits_ledger('iure', operations.GetCustomersCustomerIDCreditsLedgerEntryStatusEnum.PENDING, operations.GetCustomersCustomerIDCreditsLedgerEntryTypeEnum.EXPIRATION_CHANGE, 992.8)
+res = s.credits.get_credits_ledger('iure', operations.GetCustomersCustomerIDCreditsLedgerEntryStatus.PENDING, operations.GetCustomersCustomerIDCreditsLedgerEntryType.EXPIRATION_CHANGE, 992.8)
 
 if res.get_customers_customer_id_credits_ledger_200_application_json_object is not None:
     # handle response

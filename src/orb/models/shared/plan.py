@@ -21,7 +21,7 @@ class PlanProduct:
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     
-class PlanTrialConfigTrialPeriodUnitEnum(str, Enum):
+class PlanTrialConfigTrialPeriodUnit(str, Enum):
     DAYS = 'days'
 
 
@@ -29,7 +29,7 @@ class PlanTrialConfigTrialPeriodUnitEnum(str, Enum):
 @dataclasses.dataclass
 class PlanTrialConfig:
     
-    trial_period_unit: PlanTrialConfigTrialPeriodUnitEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('trial_period_unit') }})
+    trial_period_unit: PlanTrialConfigTrialPeriodUnit = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('trial_period_unit') }})
     trial_period: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('trial_period'), 'exclude': lambda f: f is None }})
     
 

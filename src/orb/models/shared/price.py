@@ -59,7 +59,7 @@ class PriceBulkConfig:
     
     tiers: Optional[list[PriceBulkConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})
     
-class PriceCadenceEnum(str, Enum):
+class PriceCadence(str, Enum):
     ANNUAL = 'annual'
     MONTHLY = 'monthly'
     QUARTERLY = 'quarterly'
@@ -82,7 +82,7 @@ class PriceMatrixConfig:
     dimensions: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dimensions'), 'exclude': lambda f: f is None }})
     matrix_values: Optional[list[PriceMatrixConfigMatrixValues]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('matrix_values'), 'exclude': lambda f: f is None }})
     
-class PriceModelTypeEnum(str, Enum):
+class PriceModelType(str, Enum):
     UNIT = 'unit'
     TIERED = 'tiered'
     BULK = 'bulk'
@@ -339,14 +339,14 @@ class Price:
     r"""Provided when model_type is `bulk_bps`"""
     bulk_config: Optional[PriceBulkConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bulk_config'), 'exclude': lambda f: f is None }})
     r"""Provided when model_type is `bulk`"""
-    cadence: Optional[PriceCadenceEnum] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cadence'), 'exclude': lambda f: f is None }})
+    cadence: Optional[PriceCadence] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cadence'), 'exclude': lambda f: f is None }})
     created_at: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     fixed_price_quantity: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('fixed_price_quantity'), 'exclude': lambda f: f is None }})
     r"""If the Price represents a fixed cost, this represents the quantity of units applied. Mutually exclusive with billable_metric."""
     id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
     matrix_config: Optional[PriceMatrixConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('matrix_config'), 'exclude': lambda f: f is None }})
     r"""Provided when model_type is `matrix`"""
-    model_type: Optional[PriceModelTypeEnum] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type'), 'exclude': lambda f: f is None }})
+    model_type: Optional[PriceModelType] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type'), 'exclude': lambda f: f is None }})
     name: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name'), 'exclude': lambda f: f is None }})
     package_config: Optional[PricePackageConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('package_config'), 'exclude': lambda f: f is None }})
     r"""Provided when model_type is `package`"""

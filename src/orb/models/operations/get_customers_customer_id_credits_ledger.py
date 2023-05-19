@@ -9,12 +9,12 @@ from enum import Enum
 from orb import utils
 from typing import Optional
 
-class GetCustomersCustomerIDCreditsLedgerEntryStatusEnum(str, Enum):
+class GetCustomersCustomerIDCreditsLedgerEntryStatus(str, Enum):
     r"""Filters to a single status of ledger entry"""
     COMMITTED = 'committed'
     PENDING = 'pending'
 
-class GetCustomersCustomerIDCreditsLedgerEntryTypeEnum(str, Enum):
+class GetCustomersCustomerIDCreditsLedgerEntryType(str, Enum):
     r"""Filter to a single type of ledger entry"""
     INCREMENT = 'increment'
     DECREMENT = 'decrement'
@@ -26,9 +26,9 @@ class GetCustomersCustomerIDCreditsLedgerEntryTypeEnum(str, Enum):
 class GetCustomersCustomerIDCreditsLedgerRequest:
     
     customer_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'customer_id', 'style': 'simple', 'explode': False }})
-    entry_status: Optional[GetCustomersCustomerIDCreditsLedgerEntryStatusEnum] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'entry_status', 'style': 'form', 'explode': True }})
+    entry_status: Optional[GetCustomersCustomerIDCreditsLedgerEntryStatus] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'entry_status', 'style': 'form', 'explode': True }})
     r"""Filters to a single status of ledger entry"""
-    entry_type: Optional[GetCustomersCustomerIDCreditsLedgerEntryTypeEnum] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'entry_type', 'style': 'form', 'explode': True }})
+    entry_type: Optional[GetCustomersCustomerIDCreditsLedgerEntryType] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'entry_type', 'style': 'form', 'explode': True }})
     r"""Filter to a single type of ledger entry"""
     minimum_amount: Optional[float] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'minimum_amount', 'style': 'form', 'explode': True }})
     r"""Filter to ledger entries that affect at least this amount"""
