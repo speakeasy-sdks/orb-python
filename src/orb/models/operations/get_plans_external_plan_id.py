@@ -19,5 +19,7 @@ class GetPlansExternalPlanIDResponse:
     
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
+    plan: Optional[shared_plan.Plan] = dataclasses.field(default=None)
+    r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

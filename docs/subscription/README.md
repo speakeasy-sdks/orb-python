@@ -2,19 +2,21 @@
 
 ## Overview
 
-Actions related to subscription mangement.
+The Subscription resource represents a customer's subscription to a plan. Subscriptions are created when a customer subscribes to a plan, and are updated when a customer's plan is changed.
 
 ### Available Operations
 
 * [cancel](#cancel) - Cancel subscription
-* [change_schedule](#change_schedule) - Schedule plan change
 * [create](#create) - Create subscription
-* [get](#get) - Retrieve a subscription
-* [get_cost](#get_cost) - View subscription costs
-* [get_schedule](#get_schedule) - View subscription schedule
-* [get_usage](#get_usage) - View subscription usage
+* [fetch](#fetch) - Retrieve a subscription
+* [fetch_costs](#fetch_costs) - View subscription costs
+* [fetch_schedule](#fetch_schedule) - View subscription schedule
+* [fetch_usage](#fetch_usage) - View subscription usage
 * [list](#list) - List subscriptions
-* [unschedule](#unschedule) - Unschedule pending plan changes
+* [schedule_plan_change](#schedule_plan_change) - Schedule plan change
+* [unschedule_cancellation](#unschedule_cancellation) - Unschedule pending cancellation
+* [unschedule_plan_change](#unschedule_plan_change) - Unschedule pending plan changes
+* [update_fixed_fee_quantity](#update_fixed_fee_quantity) - Update fixed fee quantity
 
 ## cancel
 
@@ -30,51 +32,15 @@ The body parameter `cancel_option` determines the cancellation behavior. Orb sup
 
 - `immediate`: ends the subscription immediately, setting the `end_date` to the current time:
   - Subscriptions that have been cancelled with this option will be invoiced immediately. This invoice will include any usage fees incurred in the billing period up to the cancellation, along with any prorated recurring fees for the billing period, if applicable. 
-  - **Note**: If the subscription has a recurring fee that was paid in-advance, the prorated amount for the remaining time period will be added to the [customer's balance](../reference/Orb-API.json/paths/~1customers~1{customer_id}~1balance_transactions/get) upon immediate cancellation. However, if the customer is ineligible to use the customer balance, the subscription cannot be cancelled immediately.
+  - **Note**: If the subscription has a recurring fee that was paid in-advance, the prorated amount for the remaining time period will be added to the [customer's balance](list-balance-transactions) upon immediate cancellation. However, if the customer is ineligible to use the customer balance, the subscription cannot be cancelled immediately.
+  
+- `requested_date`: ends the subscription on a specified date, which requires a `cancellation_date` to be passed in. If no timezone is provided, the customer's timezone is used.  For example, a subscription starting on January 1st with a monthly price can be set to be cancelled on the first of any month after January 1st (e.g. March 1st, April 1st, May 1st). A subscription with multiple prices with different cadences defines the "term" to be the highest cadence of the prices.
 
 
 Upcoming subscriptions are only eligible for immediate cancellation, which will set the `end_date` equal to the `start_date` upon cancellation.
 
-### Example Usage
-
-```python
-import orb
-from orb.models import operations
-
-s = orb.Orb(
-    security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
-    ),
-)
-
-
-res = s.subscription.cancel(operations.PostSubscriptionsSubscriptionIDCancelCancelOptionEnum.END_OF_SUBSCRIPTION_TERM, 'quas')
-
-if res.subscription is not None:
-    # handle response
-```
-
-## change_schedule
-
-This endpoint can be used to change the plan on an existing subscription. It returns the serialized updated subscription object.
-
-The body parameter `change_option` determines the timing of the plan change. Orb supports three options: 
-
-- `end_of_subscription_term`: changes the plan at the end of the existing plan's term.
-    - Issuing this plan change request for a monthly subscription will keep the existing plan active until the start of the subsequent month, and potentially issue an invoice for any usage charges incurred in the intervening period.
-    - Issuing this plan change request for a yearly subscription will keep the existing plan active for the full year.
-
-- `immediate`: changes the plan immediately. Subscriptions that have their plan changed with this option will be invoiced immediately. This invoice will include any usage fees incurred in the billing period up to the change, along with any prorated recurring fees for the billing period, if applicable.
-
-- `requested_date`: changes the plan on the requested date (`change_date`) at midnight in the customer's timezone. The `change_date` body parameter is required if this option is chosen.
-
-Note that one of `plan_id` or `external_plan_id` is required in the request body for this operation.
-
-## Price overrides and minimums
-Price overrides are used to update some or all prices in the target plan. Minimums, much like price overrides, can be useful when a new customer has negotiated a new or different minimum than the default for the plan. The request format for price overrides and minimums are the same as those in [subscription creation](Orb-API.json/paths/~1subscriptions/post).
-
-## Prorations for in-advance fees
-By default, Orb calculates the prorated difference in any fixed fees when making a plan change, adjusting the customer balance as needed. For details on this behavior, [Subscription management](../docs/Subscription-management.md#prorations-for-in-advance-fees).
+## Backdated cancellations
+Orb allows you to cancel a subscription in the past as long as there are no paid invoices between the `requested_date` and the current time. If the cancellation is after the latest issued invoice, Orb will generate a balance refund for the current period. If the cancellation is before the most recently issued invoice, Orb will void the intervening invoice and generate a new one based on the new dates for the subscription. See the section on [cancellation behaviors](../guides/product-catalog/subscription-management).
 
 ### Example Usage
 
@@ -85,41 +51,14 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-res = s.subscription.change_schedule('et', operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBody(
-    align_billing_with_plan_change_date=False,
-    change_date=dateutil.parser.parse('2022-01-01').date(),
-    change_option=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyChangeOptionEnum.IMMEDIATE,
-    external_plan_id='ZMwNQefe7J3ecf7W',
-    minimum_amount='1.23',
-    plan_id='ZMwNQefe7J3ecf7W',
-    price_overrides=[
-        operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3(
-            bulk_config=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3BulkConfig(
-                tiers=[
-                    operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3BulkConfigTiers(
-                        maximum_units='alias',
-                        unit_amount='rem',
-                    ),
-                    operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3BulkConfigTiers(
-                        maximum_units='aut',
-                        unit_amount='quos',
-                    ),
-                    operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3BulkConfigTiers(
-                        maximum_units='laudantium',
-                        unit_amount='repellendus',
-                    ),
-                ],
-            ),
-            id='100efada-200e-4f04-a2eb-2164cf9ab836',
-            minimum_amount='1.23',
-            model_type=operations.PostSubscriptionsSubscriptionIDSchedulePlanChangeRequestBodyPriceOverrides3ModelTypeEnum.BULK,
-        ),
-    ],
+res = s.subscription.cancel('dolor', operations.CancelSubscriptionRequestBody(
+    cancel_option=operations.CancelSubscriptionRequestBodyCancelOption.IMMEDIATE,
+    cancellation_date=dateutil.parser.isoparse('2017-07-21T17:32:28Z'),
 ))
 
 if res.subscription is not None:
@@ -410,7 +349,7 @@ Using the plan's minimum example
 ## Discounts
 Discounts, like price overrides, can be useful when a new customer has negotiated a new or custom discount than the default for the plan. Discounts can be added to either a price or a plan, and a single plan or price can have at most one discount. If a discount exists for a price or a plan and a null discount is provided on creation, then there will be no discount on the new subscription.
 
-To add a discount for a specific price, add `discount_override` to the price in the `price_overrides` object. To add a discount to a plan, add `discount_override` to the base object. 
+To add a discount for a specific price, add `discount` to the price in the `price_overrides` object. To add a discount to a plan, add `discount` to the base object. 
 Discount should be a dictionary of the format:
 ```json
 {
@@ -422,7 +361,7 @@ Discount should be a dictionary of the format:
 ```
 where either `amount_discount`, `percentage_discount`, or `usage_discount` is provided.
 
-We only support `usage` type discounts on prices.
+The `usage` type discount can only be created on individual prices and not on the plan.
 
 Price discount example
 ```json
@@ -477,91 +416,119 @@ Using the plan's discount example
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
-req = operations.PostSubscriptionsRequestBody(
+req = operations.CreateSubscriptionRequestBody(
     align_billing_with_subscription_start_date=False,
+    auto_collection=False,
+    coupon_redemption_code='occaecati',
     customer_id='97DPcZE9hxsbb9Y9',
-    external_customer_id='ea',
-    external_marketplace=operations.PostSubscriptionsRequestBodyExternalMarketplaceEnum.GOOGLE,
+    default_invoice_memo='numquam',
+    external_customer_id='impedit',
+    external_marketplace=operations.CreateSubscriptionRequestBodyExternalMarketplace.GOOGLE,
     external_marketplace_reporting_id='project_number:983410661111',
-    external_plan_id='impedit',
+    external_plan_id='explicabo',
+    metadata={
+        "aut": 'dignissimos',
+        "dicta": 'maiores',
+    },
     minimum_amount='1.23',
+    net_terms=618480,
     phase_overrides=[
-        operations.PostSubscriptionsRequestBodyPhaseOverrides(
-            discount={
-                "velit": 'reiciendis',
-            },
-            minimum_amount='repellat',
-            order=8611.23,
-        ),
-        operations.PostSubscriptionsRequestBodyPhaseOverrides(
-            discount={
-                "natus": 'accusamus',
-                "doloremque": 'nisi',
-                "rerum": 'recusandae',
-            },
-            minimum_amount='voluptates',
-            order=2516.27,
+        operations.CreateSubscriptionRequestBodyPhaseOverrides(
+            discount=shared.Discount(
+                amount_discount='voluptatibus',
+                applies_to_price_ids=[
+                    'asperiores',
+                    'aperiam',
+                ],
+                discount_type=shared.DiscountDiscountType.PERCENTAGE,
+                percentage_discount=0.15,
+                trial_amount_discount='ea',
+                usage_discount=3100.67,
+            ),
+            minimum_amount='consequuntur',
+            order=8315.2,
         ),
     ],
     plan_id='ZMwNQefe7J3ecf7W',
     price_overrides=[
-        operations.PostSubscriptionsRequestBodyPriceOverrides2(
-            discount={
-                "quisquam": 'dicta',
-                "voluptatibus": 'eligendi',
-            },
-            fixed_price_quantity=62035,
-            id='e115c80b-ff91-4854-8ec4-2defcce8f197',
-            minimum_amount='1.23',
-            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides2ModelTypeEnum.UNIT,
-            unit_config=operations.PostSubscriptionsRequestBodyPriceOverrides2UnitConfig(
-                unit_amount='esse',
-            ),
-        ),
-        operations.PostSubscriptionsRequestBodyPriceOverrides4(
-            discount={
-                "nesciunt": 'debitis',
-                "vel": 'neque',
-            },
-            id='562a7b40-8f05-4e3d-88fd-af313a1f5fd9',
-            minimum_amount='1.23',
-            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides4ModelTypeEnum.PACKAGE,
-            package_config=operations.PostSubscriptionsRequestBodyPriceOverrides4PackageConfig(
-                package_amount='incidunt',
-                package_size=1280.21,
-            ),
-        ),
-        operations.PostSubscriptionsRequestBodyPriceOverrides3(
-            bulk_config=operations.PostSubscriptionsRequestBodyPriceOverrides3BulkConfig(
+        operations.CreateSubscriptionRequestBodyPriceOverrides6(
+            bulk_bps_config=operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfig(
                 tiers=[
-                    operations.PostSubscriptionsRequestBodyPriceOverrides3BulkConfigTiers(
-                        maximum_units='optio',
-                        unit_amount='alias',
+                    operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfigTiers(
+                        bps=6400.24,
+                        maximum_amount='asperiores',
+                        per_unit_maximum='nemo',
                     ),
-                    operations.PostSubscriptionsRequestBodyPriceOverrides3BulkConfigTiers(
-                        maximum_units='quidem',
-                        unit_amount='nesciunt',
-                    ),
-                    operations.PostSubscriptionsRequestBodyPriceOverrides3BulkConfigTiers(
-                        maximum_units='commodi',
-                        unit_amount='sapiente',
+                    operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfigTiers(
+                        bps=653.04,
+                        maximum_amount='quaerat',
+                        per_unit_maximum='porro',
                     ),
                 ],
             ),
-            discount={
-                "veniam": 'debitis',
-            },
-            id='a944f3b7-56c1-41f6-837a-5126243835bb',
+            discount=shared.CreateDiscount(
+                amount_discount='quod',
+                discount_type=shared.CreateDiscountDiscountType.PERCENTAGE,
+                percentage_discount='ab',
+                usage_discount='adipisci',
+            ),
+            id='aa63aae8-d678-464d-bb67-5fd5e60b375e',
             minimum_amount='1.23',
-            model_type=operations.PostSubscriptionsRequestBodyPriceOverrides3ModelTypeEnum.BULK,
+            model_type=operations.CreateSubscriptionRequestBodyPriceOverrides6ModelType.BULK_BPS,
+        ),
+        operations.CreateSubscriptionRequestBodyPriceOverrides6(
+            bulk_bps_config=operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfig(
+                tiers=[
+                    operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfigTiers(
+                        bps=9854.92,
+                        maximum_amount='suscipit',
+                        per_unit_maximum='reiciendis',
+                    ),
+                    operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfigTiers(
+                        bps=6971.42,
+                        maximum_amount='saepe',
+                        per_unit_maximum='necessitatibus',
+                    ),
+                ],
+            ),
+            discount=shared.CreateDiscount(
+                amount_discount='dolore',
+                discount_type=shared.CreateDiscountDiscountType.PERCENTAGE,
+                percentage_discount='asperiores',
+                usage_discount='adipisci',
+            ),
+            id='3317fe35-b60e-4b1e-a426-555ba3c28744',
+            minimum_amount='1.23',
+            model_type=operations.CreateSubscriptionRequestBodyPriceOverrides6ModelType.BULK_BPS,
+        ),
+        operations.CreateSubscriptionRequestBodyPriceOverrides7(
+            discount=shared.CreateDiscount(
+                amount_discount='temporibus',
+                discount_type=shared.CreateDiscountDiscountType.USAGE,
+                percentage_discount='adipisci',
+                usage_discount='cum',
+            ),
+            id='88f3a8d8-f5c0-4b2f-afb7-b194a276b269',
+            minimum_amount='1.23',
+            model_type=operations.CreateSubscriptionRequestBodyPriceOverrides7ModelType.TIERED_BPS,
+            tiered_bps_config=operations.CreateSubscriptionRequestBodyPriceOverrides7TieredBpsConfig(
+                tiers=[
+                    operations.CreateSubscriptionRequestBodyPriceOverrides7TieredBpsConfigTiers(
+                        bps=3828.08,
+                        maximum_amount='sapiente',
+                        minimum_amount='debitis',
+                        per_unit_maximum='illo',
+                    ),
+                ],
+            ),
         ),
     ],
     start_date=dateutil.parser.parse('2022-01-01').date(),
@@ -573,7 +540,7 @@ if res.subscription is not None:
     # handle response
 ```
 
-## get
+## fetch
 
 This endpoint is used to fetch a [Subscription](../reference/Orb-API.json/components/schemas/Subscription) given an identifier.
 
@@ -585,23 +552,23 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-res = s.subscription.get('impedit')
+res = s.subscription.fetch('reiciendis')
 
 if res.subscription is not None:
     # handle response
 ```
 
-## get_cost
+## fetch_costs
 
-This endpoint is used to fetch a day-by-day snapshot of a subscription's costs in Orb, calculated by applying pricing information to the underlying usage (see the [subscription usage endpoint](../reference/Orb-API.json/paths/~1subscriptions~1{subscription_id}~1usage/get) to fetch usage per metric, in usage units rather than a currency). 
+This endpoint is used to fetch a day-by-day snapshot of a subscription's costs in Orb, calculated by applying pricing information to the underlying usage (see the [subscription usage endpoint](fetch-subscription-usage) to fetch usage per metric, in usage units rather than a currency). 
 
 
-The semantics of this endpoint exactly mirror those of [fetching a customer's costs](../reference/Orb-API.json/paths/~1customers~1{customer_id}~1costs/get). Use this endpoint to limit your analysis of costs to a specific subscription for the customer (e.g. to de-aggregate costs when a customer's subscription has started and stopped on the same day).
+The semantics of this endpoint exactly mirror those of [fetching a customer's costs](fetch-customer-costs). Use this endpoint to limit your analysis of costs to a specific subscription for the customer (e.g. to de-aggregate costs when a customer's subscription has started and stopped on the same day).
 
 ### Example Usage
 
@@ -612,27 +579,27 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
-req = operations.GetSubscriptionsSubscriptionIDCostRequest(
-    group_by='sit',
-    subscription_id='nemo',
+req = operations.FetchSubscriptionCostsRequest(
+    group_by='perferendis',
+    subscription_id='corrupti',
     timeframe_end=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
     timeframe_start=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
-    view_mode='culpa',
+    view_mode='maiores',
 )
 
-res = s.subscription.get_cost(req)
+res = s.subscription.fetch_costs(req)
 
-if res.get_subscriptions_subscription_id_cost_200_application_json_object is not None:
+if res.fetch_subscription_costs_200_application_json_object is not None:
     # handle response
 ```
 
-## get_schedule
+## fetch_schedule
 
-This endpoint returns a [paginated](../docs/Pagination.md) list of all plans associated with a subscription along with their start and end dates. This list contains the subscription's initial plan along with past and future plan changes.
+This endpoint returns a [paginated](../api/pagination) list of all plans associated with a subscription along with their start and end dates. This list contains the subscription's initial plan along with past and future plan changes.
 
 ### Example Usage
 
@@ -642,18 +609,18 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-res = s.subscription.get_schedule('consequuntur')
+res = s.subscription.fetch_schedule('incidunt')
 
-if res.get_subscriptions_subscription_id_schedule_200_application_json_object is not None:
+if res.fetch_subscription_schedule_200_application_json_object is not None:
     # handle response
 ```
 
-## get_usage
+## fetch_usage
 
 This endpoint is used to fetch a subscription's usage in Orb. Especially when combined with optional query parameters, this endpoint is a powerful way to build visualizations on top of Orb's event data and metrics.
 
@@ -764,10 +731,9 @@ Billable metrics fall into one of two categories: decomposable and non-decomposa
 
 As an example, if we have a billable metric that's defined to count unique users, displaying a graph of unique users for each day is not representative of the billable metric value over the month (days could have an overlapping set of 'unique' users). Instead, what's useful for any given day is the number of unique users in the billing period so far, which are the _cumulative_ unique users.
 
-Accordingly, this endpoint returns treats these two types of metrics differently and specifies the type in the `view_mode` return field:
-- Decomposable metrics will return _periodic_ totals, which means that the `quantity` value between `timeframe_start` and `timeframe_end` is the usage incurred only within that timeframe.
-- Non-decomposable metrics will return _cumulative_ totals. The `quantity` value between `timeframe_start` and `timeframe_end` represents the new _cumulative_ total since the beginning of the billing period.
-
+Accordingly, this endpoint returns treats these two types of metrics differently when `group_by` is specified:
+- Decomposable metrics can be grouped by any event property.
+- Non-decomposable metrics can only be grouped by the corresponding price's invoice grouping key. If no invoice grouping key is present, the metric does not support `group_by`.
 
 ## Matrix prices
 When a billable metric is attached to a price that uses matrix pricing, it's important to view usage grouped by those matrix dimensions. In this case, use the query parameters `first_dimension_key`, `first_dimension_value` and `second_dimension_key`, `second_dimension_value` while filtering to a specific `billable_metric_id`. 
@@ -788,28 +754,29 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
-req = operations.GetSubscriptionsSubscriptionIDUsageRequest(
-    billable_metric_id='amet',
-    granularity=operations.GetSubscriptionsSubscriptionIDUsageGranularityEnum.DAY,
-    group_by='deserunt',
-    subscription_id='modi',
+req = operations.FetchSubscriptionUsageRequest(
+    billable_metric_id='sed',
+    granularity=operations.FetchSubscriptionUsageGranularity.DAY,
+    group_by='provident',
+    subscription_id='eius',
     timeframe_end=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
     timeframe_start=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
+    view_mode=operations.FetchSubscriptionUsageViewMode.CUMULATIVE,
 )
 
-res = s.subscription.get_usage(req)
+res = s.subscription.fetch_usage(req)
 
-if res.status_code == 200:
+if res.fetch_subscription_usage_200_application_json_object is not None:
     # handle response
 ```
 
 ## list
 
-This endpoint returns a list of all subscriptions for an account as a [paginated](../docs/Pagination.md) list, ordered starting from the most recently created subscription. For a full discussion of the subscription resource, see [Subscription](../reference/Orb-API.json/components/schemas/Subscription).
+This endpoint returns a list of all subscriptions for an account as a [paginated](../api/pagination) list, ordered starting from the most recently created subscription. For a full discussion of the subscription resource, see [Subscription](../reference/Orb-API.json/components/schemas/Subscription).
 
 Subscriptions can be filtered to a single customer by passing in the `customer_id` query parameter or the `external_customer_id` query parameter. 
 
@@ -821,18 +788,122 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-res = s.subscription.list('veniam', 'quod')
+res = s.subscription.list('ipsum', 'ea')
 
 if res.list_subscriptions_200_application_json_object is not None:
     # handle response
 ```
 
-## unschedule
+## schedule_plan_change
+
+This endpoint can be used to change the plan on an existing subscription. It returns the serialized updated subscription object.
+
+The body parameter `change_option` determines the timing of the plan change. Orb supports three options: 
+
+- `end_of_subscription_term`: changes the plan at the end of the existing plan's term.
+    - Issuing this plan change request for a monthly subscription will keep the existing plan active until the start of the subsequent month, and potentially issue an invoice for any usage charges incurred in the intervening period.
+    - Issuing this plan change request for a yearly subscription will keep the existing plan active for the full year.
+
+- `immediate`: changes the plan immediately. Subscriptions that have their plan changed with this option will be invoiced immediately. This invoice will include any usage fees incurred in the billing period up to the change, along with any prorated recurring fees for the billing period, if applicable.
+
+- `requested_date`: changes the plan on the requested date (`change_date`). If no timezone is provided, the customer's timezone is used. The `change_date` body parameter is required if this option is chosen.
+
+Note that one of `plan_id` or `external_plan_id` is required in the request body for this operation.
+
+## Price overrides and minimums
+Price overrides are used to update some or all prices in the target plan. Minimums, much like price overrides, can be useful when a new customer has negotiated a new or different minimum than the default for the plan. The request format for price overrides and minimums are the same as those in [subscription creation](create-subscription).
+
+## Prorations for in-advance fees
+By default, Orb calculates the prorated difference in any fixed fees when making a plan change, adjusting the customer balance as needed. For details on this behavior, [Subscription management](../guides/product-catalog/subscription-management).
+
+### Example Usage
+
+```python
+import orb
+import dateutil.parser
+from orb.models import operations
+
+s = orb.Orb(
+    security=shared.Security(
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+    ),
+)
+
+
+res = s.subscription.schedule_plan_change('occaecati', operations.SchedulePlanChangeRequestBody(
+    align_billing_with_plan_change_date=False,
+    change_date=dateutil.parser.isoparse('2017-07-21T17:32:28Z'),
+    change_option=operations.SchedulePlanChangeRequestBodyChangeOption.END_OF_SUBSCRIPTION_TERM,
+    coupon_redemption_code='voluptatibus',
+    external_plan_id='ZMwNQefe7J3ecf7W',
+    minimum_amount='1.23',
+    plan_id='ZMwNQefe7J3ecf7W',
+    price_overrides=[
+        operations.SchedulePlanChangeRequestBodyPriceOverrides2(
+            id='7f603e8b-445e-480c-a55e-fd20e457e185',
+            minimum_amount='1.23',
+            model_type=operations.SchedulePlanChangeRequestBodyPriceOverrides2ModelType.UNIT,
+            unit_config=operations.SchedulePlanChangeRequestBodyPriceOverrides2UnitConfig(
+                unit_amount='praesentium',
+            ),
+        ),
+        operations.SchedulePlanChangeRequestBodyPriceOverrides6(
+            bulk_bps_config=operations.SchedulePlanChangeRequestBodyPriceOverrides6BulkBpsConfig(
+                tiers=[
+                    operations.SchedulePlanChangeRequestBodyPriceOverrides6BulkBpsConfigTiers(
+                        bps=6805.15,
+                        maximum_amount='voluptatum',
+                        per_unit_maximum='error',
+                    ),
+                    operations.SchedulePlanChangeRequestBodyPriceOverrides6BulkBpsConfigTiers(
+                        bps=9447.08,
+                        maximum_amount='expedita',
+                        per_unit_maximum='debitis',
+                    ),
+                ],
+            ),
+            id='3a5aa8e4-824d-40ab-8075-088e51862065',
+            minimum_amount='1.23',
+            model_type=operations.SchedulePlanChangeRequestBodyPriceOverrides6ModelType.BULK_BPS,
+        ),
+    ],
+))
+
+if res.subscription is not None:
+    # handle response
+```
+
+## unschedule_cancellation
+
+This endpoint can be used to unschedule any pending cancellations for a subscription. 
+
+To be eligible, the subscription must currently be active and have a future cancellation ("Auto-renew turned off"). This operation will turn on auto-renew, ensuring that the subscription does not end at the currently scheduled cancellation time.
+
+### Example Usage
+
+```python
+import orb
+from orb.models import operations
+
+s = orb.Orb(
+    security=shared.Security(
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+    ),
+)
+
+
+res = s.subscription.unschedule_cancellation('saepe')
+
+if res.subscription is not None:
+    # handle response
+```
+
+## unschedule_plan_change
 
 This endpoint can be used to unschedule any pending plan changes on an existing subscription.
 
@@ -844,12 +915,47 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-res = s.subscription.unschedule('itaque')
+res = s.subscription.unschedule_plan_change('error')
+
+if res.subscription is not None:
+    # handle response
+```
+
+## update_fixed_fee_quantity
+
+This endpoint can be used to update the quantity for a fixed fee.
+
+To be eligible, the subscription must currently be active and the price specified must be a fixed fee (not usage-based). This operation will immediately update the quantity for the fee, or if a `effective_date` is passed in, will update the quantity on the requested date at midnight in the customer's timezone. 
+
+In order to change the fixed fee quantity as of the next draft invoice for this subscription, pass `change_option=upcoming_invoice` without an `effective_date` specified.
+
+If the fee is an in-advance fixed fee, it will also issue an immediate invoice for the difference for the remainder of the billing period.
+
+### Example Usage
+
+```python
+import orb
+import dateutil.parser
+from orb.models import operations
+
+s = orb.Orb(
+    security=shared.Security(
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+    ),
+)
+
+
+res = s.subscription.update_fixed_fee_quantity('consequatur', operations.UpdateFixedFeeQuantityRequestBody(
+    change_option=operations.UpdateFixedFeeQuantityRequestBodyChangeOption.EFFECTIVE_DATE,
+    effective_date=dateutil.parser.parse('"2022-12-21"').date(),
+    price_id='incidunt',
+    quantity=9688.65,
+))
 
 if res.subscription is not None:
     # handle response

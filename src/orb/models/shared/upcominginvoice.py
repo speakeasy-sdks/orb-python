@@ -3,6 +3,8 @@
 from __future__ import annotations
 import dataclasses
 import dateutil.parser
+from ..shared import discount as shared_discount
+from ..shared import minimum_amount as shared_minimum_amount
 from dataclasses_json import Undefined, dataclass_json
 from datetime import date, datetime
 from enum import Enum
@@ -47,7 +49,7 @@ class UpcomingInvoiceLineItemsSubLineItemsTierConfig:
     last_unit: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('last_unit') }})
     unit_amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount') }})
     
-class UpcomingInvoiceLineItemsSubLineItemsTypeEnum(str, Enum):
+class UpcomingInvoiceLineItemsSubLineItemsType(str, Enum):
     r"""An identifier for a sub line item that is specific to a pricing model."""
     MATRIX = 'matrix'
     TIER = 'tier'
@@ -61,7 +63,7 @@ class UpcomingInvoiceLineItemsSubLineItems:
     r"""The total amount for this sub line item."""
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     quantity: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('quantity') }})
-    type: UpcomingInvoiceLineItemsSubLineItemsTypeEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
+    type: UpcomingInvoiceLineItemsSubLineItemsType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
     r"""An identifier for a sub line item that is specific to a pricing model."""
     matrix_config: Optional[UpcomingInvoiceLineItemsSubLineItemsMatrixConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('matrix_config'), 'exclude': lambda f: f is None }})
     r"""Only available if `type` is `matrix`. Contains the values of the matrix that this `sub_line_item` represents."""
@@ -75,10 +77,12 @@ class UpcomingInvoiceLineItems:
     
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
     r"""The final amount after any discounts or minimums."""
+    discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
     end_date: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('end_date'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
     r"""The end date of the range of time applied for this line item's price."""
     grouping: UpcomingInvoiceLineItemsGrouping = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('grouping') }})
     r"""For configured prices that are split by a grouping key, this will be populated with the key and a value. The `amount` and `subtotal` will be the values for this particular grouping."""
+    minimum: shared_minimum_amount.MinimumAmount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum') }})
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     r"""The name of the price associated with this line item."""
     quantity: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('quantity') }})
@@ -114,8 +118,12 @@ class UpcomingInvoice:
     r"""An ISO 4217 currency string or `credits`"""
     customer: UpcomingInvoiceCustomer = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('customer') }})
     r"""The customer receiving this invoice."""
+    discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
+    hosted_invoice_url: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('hosted_invoice_url') }})
+    r"""A URL for the invoice portal."""
     line_items: list[UpcomingInvoiceLineItems] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('line_items') }})
     r"""The breakdown of prices in this invoice."""
+    minimum: shared_minimum_amount.MinimumAmount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum') }})
     subscription: UpcomingInvoiceSubscription = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('subscription') }})
     r"""The associated subscription for this invoice."""
     subtotal: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('subtotal') }})

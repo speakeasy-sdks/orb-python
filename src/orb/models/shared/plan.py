@@ -3,6 +3,8 @@
 from __future__ import annotations
 import dataclasses
 import dateutil.parser
+from ..shared import discount as shared_discount
+from ..shared import minimum_amount as shared_minimum_amount
 from ..shared import plan_phase as shared_plan_phase
 from ..shared import price as shared_price
 from dataclasses_json import Undefined, dataclass_json
@@ -10,8 +12,18 @@ from datetime import datetime
 from enum import Enum
 from marshmallow import fields
 from orb import utils
-from typing import Any, Optional
+from typing import Optional
 
+
+@dataclass_json(undefined=Undefined.EXCLUDE)
+@dataclasses.dataclass
+class PlanBasePlan:
+    r"""The parent plan if the given plan was created by overriding one or more of the parent's prices"""
+    
+    external_plan_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_plan_id'), 'exclude': lambda f: f is None }})
+    id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
+    name: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name'), 'exclude': lambda f: f is None }})
+    
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
@@ -21,7 +33,7 @@ class PlanProduct:
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     
-class PlanTrialConfigTrialPeriodUnitEnum(str, Enum):
+class PlanTrialConfigTrialPeriodUnit(str, Enum):
     DAYS = 'days'
 
 
@@ -29,7 +41,7 @@ class PlanTrialConfigTrialPeriodUnitEnum(str, Enum):
 @dataclasses.dataclass
 class PlanTrialConfig:
     
-    trial_period_unit: PlanTrialConfigTrialPeriodUnitEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('trial_period_unit') }})
+    trial_period_unit: PlanTrialConfigTrialPeriodUnit = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('trial_period_unit') }})
     trial_period: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('trial_period'), 'exclude': lambda f: f is None }})
     
 
@@ -42,19 +54,25 @@ class Plan:
     currency: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('currency') }})
     r"""An ISO 4217 currency string or custom pricing unit (`credits`) for this plan's prices."""
     description: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('description') }})
-    discount: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
+    discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     invoicing_currency: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('invoicing_currency') }})
     r"""An ISO 4217 currency string for which this plan is billed in. Matches `currency` unless `currency` is a custom pricing unit."""
-    minimum: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum') }})
+    minimum: shared_minimum_amount.MinimumAmount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum') }})
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     prices: list[shared_price.Price] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('prices') }})
     r"""Prices for this plan. If the plan has phases, this includes prices across all phases of the plan."""
     product: PlanProduct = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('product') }})
+    base_plan: Optional[PlanBasePlan] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('base_plan'), 'exclude': lambda f: f is None }})
+    r"""The parent plan if the given plan was created by overriding one or more of the parent's prices"""
     base_plan_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('base_plan_id'), 'exclude': lambda f: f is None }})
     r"""The parent plan id if the given plan was created by overriding one or more of the parent's prices"""
+    default_invoice_memo: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('default_invoice_memo'), 'exclude': lambda f: f is None }})
+    r"""The default memo text on the invoices corresponding to subscriptions on this plan. Note that each subscription may configure its own memo."""
     external_plan_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_plan_id'), 'exclude': lambda f: f is None }})
     r"""An optional user-defined ID for this plan resource, used throughout the system as an alias for this Plan. Use this field to identify a plan by an existing identifier in your system."""
+    net_terms: Optional[int] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('net_terms'), 'exclude': lambda f: f is None }})
+    r"""Determines the difference between the invoice issue date and the due date. A value of \\"0\\" here signifies that invoices are due on issue, whereas a value of \\"30\\" means that the customer has a month to pay the invoice before its overdue. Note that individual subscriptions or invoices may set a different net terms configuration."""
     plan_phases: Optional[list[shared_plan_phase.PlanPhase]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('plan_phases'), 'exclude': lambda f: f is None }})
     trial_config: Optional[PlanTrialConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('trial_config'), 'exclude': lambda f: f is None }})
     
