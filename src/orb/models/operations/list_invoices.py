@@ -4,6 +4,7 @@ from __future__ import annotations
 import dataclasses
 import requests as requests_http
 from ..shared import invoice as shared_invoice
+from ..shared import pagination_metadata as shared_pagination_metadata
 from dataclasses_json import Undefined, dataclass_json
 from orb import utils
 from typing import Any, Optional
@@ -16,6 +17,8 @@ class ListInvoicesRequest:
     r"""Filter by a specific customer (cannot be used with `external_customer_id`)"""
     external_customer_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'external_customer_id', 'style': 'form', 'explode': True }})
     r"""Filter by a specific customer (cannot be used with `customer_id`)"""
+    status: Optional[Any] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'status', 'style': 'form', 'explode': True }})
+    r"""Filter to invoices of a particular status (`draft`, `issued`, `paid`, `void`, `synced`); this param can be used to filter to a single status (`?status=\\"draft\\"`) or a set of statuses (`?status[]=paid&status[]=void`)"""
     subscription_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'subscription_id', 'style': 'form', 'explode': True }})
     r"""Filter by a specific subscription"""
     
@@ -26,7 +29,7 @@ class ListInvoices200ApplicationJSON:
     r"""OK"""
     
     data: Optional[list[shared_invoice.Invoice]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data'), 'exclude': lambda f: f is None }})
-    pagination_metadata: Optional[dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata'), 'exclude': lambda f: f is None }})
+    pagination_metadata: Optional[shared_pagination_metadata.PaginationMetadata] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata'), 'exclude': lambda f: f is None }})
     
 
 @dataclasses.dataclass

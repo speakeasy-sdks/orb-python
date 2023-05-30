@@ -2,16 +2,134 @@
 
 ## Overview
 
-Actions related to event management.
+The Event resource represents an event that has been created for a customer. Events are created when a customer's invoice is paid, and are updated when a customer's transaction is refunded.
 
 ### Available Operations
 
-* [deprecate](#deprecate) - Deprecate single event
+* [amend](#amend) - Amend single event
+* [close_backfill](#close_backfill) - Close a backfill
+* [create](#create) - Create a backfill
+* [deprecate_event](#deprecate_event) - Deprecate single event
 * [ingest](#ingest) - Ingest events
+* [list_backfills](#list_backfills) - List backfills
+* [revert_backfill](#revert_backfill) - Revert a backfill
 * [search](#search) - Search events
-* [update](#update) - Amend single event
 
-## deprecate
+## amend
+
+This endpoint is used to amend a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. The event will maintain its existing `event_id` after the amendment.
+
+This endpoint will mark the existing event as ignored, and Orb will only use the new event passed in the body of this request as the source of truth for that `event_id`. Note that a single event can be amended any number of times, so the same event can be overwritten in subsequent calls to this endpoint, or overwritten using the [Amend customer usage](amend-usage) endpoint. Only a single event with a given `event_id` will be considered the source of truth at any given time.
+
+This is a powerful and audit-safe mechanism to retroactively update a single event in cases where you need to:
+* update an event with new metadata as you iterate on your pricing model
+* update an event based on the result of an external API call (ex. call to a payment gateway succeeded or failed)
+
+This amendment API is always audit-safe. The process will still retain the original event, though it will be ignored for billing calculations. For auditing and data fidelity purposes, Orb never overwrites or permanently deletes ingested usage data.
+
+## Request validation
+* The `timestamp` of the new event must match the `timestamp` of the existing event already ingested. As with ingestion, all timestamps must be sent in ISO8601 format with UTC timezone offset.
+* The `customer_id` or `external_customer_id` of the new event must match the `customer_id` or `external_customer_id` of the existing event already ingested. Exactly one of `customer_id` and `external_customer_id` should be specified, and similar to ingestion, the ID must identify a Customer resource within Orb. Unlike ingestion, for event amendment, we strictly enforce that the Customer must be in the Orb system, even during the initial integration period. We do not allow updating the `Customer` an event is associated with.
+* Orb does not accept an `idempotency_key` with the event in this endpoint, since this request is by design idempotent. On retryable errors, you should retry the request and assume the amendment operation has not succeeded until receipt of a 2xx. 
+* The event's `timestamp` must fall within the customer's current subscription's billing period, or within the grace period of the customer's current subscription's previous billing period.
+
+### Example Usage
+
+```python
+import orb
+import dateutil.parser
+from orb.models import operations
+
+s = orb.Orb(
+    security=shared.Security(
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+    ),
+)
+
+
+res = s.event.amend('fQp2wSmK7CF9oPcu', operations.AmendEventRequestBody(
+    customer_id='iure',
+    event_name='doloribus',
+    external_customer_id='debitis',
+    properties={
+        "maxime": 'deleniti',
+        "facilis": 'in',
+    },
+    timestamp=dateutil.parser.isoparse('2020-12-09T16:09:53Z'),
+))
+
+if res.amend_event_200_application_json_object is not None:
+    # handle response
+```
+
+## close_backfill
+
+Closing a backfill makes the updated usage visible in Orb. Upon closing a backfill, Orb will asynchronously reflect the updated usage in invoice amounts and usage graphs. Once all of the updates are complete, the backfill's status will transition to `reflected`.
+
+
+
+### Example Usage
+
+```python
+import orb
+from orb.models import operations
+
+s = orb.Orb(
+    security=shared.Security(
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+    ),
+)
+
+
+res = s.event.close_backfill('architecto')
+
+if res.backfill is not None:
+    # handle response
+```
+
+## create
+
+Creating the backfill enables adding or replacing past events, even those that are older than the ingestion grace period. Performing a backfill in Orb involves 3 steps:
+
+1. Create the backfill, specifying its parameters.
+2. [Ingest](ingest) usage events, referencing the backfill (query parameter `backfill_id`).
+3. [Close](close-backfill) the backfill, propagating the update in past usage throughout Orb.
+
+Changes from a backfill are not reflected until the backfill is closed, so you won’t need to worry about your customers seeing partially updated usage data. Backfills are also reversible, so you’ll be able to revert a backfill if you’ve made a mistake.
+
+This endpoint will return a backfill object, which contains an `id`. That `id` can then be used as the `backfill_id` query parameter to the event ingestion endpoint to associate ingested events with this backfill. The effects (e.g. updated usage graphs) of this backfill will not take place until the backfill is closed.
+
+If the `replace_existing_events` is `true`, existing events in the backfill's timeframe will be replaced with the newly ingested events associated with the backfill. If `false`, newly ingested events will be added to the existing events.
+
+### Example Usage
+
+```python
+import orb
+import dateutil.parser
+from orb.models import operations
+
+s = orb.Orb(
+    security=shared.Security(
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+    ),
+)
+
+req = operations.CreateBackfillRequestBody(
+    close_time=dateutil.parser.isoparse('2022-01-30T09:19:56.236Z'),
+    customer_id='ullam',
+    external_customer_id='expedita',
+    replace_existing_events=False,
+    timeframe_end=dateutil.parser.isoparse('2022-01-01T10:06:00.916Z'),
+    timeframe_start=dateutil.parser.isoparse('2022-07-21T08:29:53.942Z'),
+)
+
+res = s.event.create(req)
+
+if res.backfill is not None:
+    # handle response
+```
+
+## deprecate_event
 
 This endpoint is used to deprecate a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. 
 
@@ -21,7 +139,7 @@ This is a powerful and audit-safe mechanism to retroactively deprecate a single 
 * no longer bill for an event that was improperly reported
 * no longer bill for an event based on the result of an external API call (ex. call to a payment gateway failed and the user should not be billed)
 
-If you want to only change specific properties of an event, but keep the event as part of the billing calculation, use the [Amend single event](../reference/Orb-API.json/paths/~1events~1{event_id}/put) endpoint instead.
+If you want to only change specific properties of an event, but keep the event as part of the billing calculation, use the [Amend single event](amend-event) endpoint instead.
 
 This API is always audit-safe. The process will still retain the deprecated event, though it will be ignored for billing calculations. For auditing and data fidelity purposes, Orb never overwrites or permanently deletes ingested usage data.
 
@@ -38,14 +156,14 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-res = s.event.deprecate('fQp2wSmK7CF9oPcu')
+res = s.event.deprecate_event('fQp2wSmK7CF9oPcu')
 
-if res.put_deprecate_events_event_id_200_application_json_object is not None:
+if res.deprecate_event_200_application_json_object is not None:
     # handle response
 ```
 
@@ -197,42 +315,126 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-res = s.event.ingest(operations.PostIngestRequestBody(
+res = s.event.ingest(operations.IngestRequestBody(
     events=[
-        operations.PostIngestRequestBodyEvents(
-            customer_id='praesentium',
-            event_name='natus',
-            external_customer_id='magni',
-            idempotency_key='sunt',
+        operations.IngestRequestBodyEvents(
+            customer_id='pariatur',
+            event_name='accusantium',
+            external_customer_id='consequuntur',
+            idempotency_key='praesentium',
             properties={
-                "illum": 'pariatur',
-                "maxime": 'ea',
-                "excepturi": 'odit',
-                "ea": 'accusantium',
+                "magni": 'sunt',
+                "quo": 'illum',
+                "pariatur": 'maxime',
+            },
+            timestamp='2020-12-09T16:09:53Z',
+        ),
+        operations.IngestRequestBodyEvents(
+            customer_id='ea',
+            event_name='excepturi',
+            external_customer_id='odit',
+            idempotency_key='ea',
+            properties={
+                "ab": 'maiores',
+            },
+            timestamp='2020-12-09T16:09:53Z',
+        ),
+        operations.IngestRequestBodyEvents(
+            customer_id='quidem',
+            event_name='ipsam',
+            external_customer_id='voluptate',
+            idempotency_key='autem',
+            properties={
+                "eaque": 'pariatur',
+                "nemo": 'voluptatibus',
+                "perferendis": 'fugiat',
+            },
+            timestamp='2020-12-09T16:09:53Z',
+        ),
+        operations.IngestRequestBodyEvents(
+            customer_id='amet',
+            event_name='aut',
+            external_customer_id='cumque',
+            idempotency_key='corporis',
+            properties={
+                "libero": 'nobis',
+                "dolores": 'quis',
+                "totam": 'dignissimos',
+                "eaque": 'quis',
             },
             timestamp='2020-12-09T16:09:53Z',
         ),
     ],
-), operations.PostIngestDebugEnum.TRUE)
+), 'nesciunt', operations.IngestDebug.TRUE)
 
-if res.post_ingest_200_application_json_object is not None:
+if res.ingest_200_application_json_object is not None:
+    # handle response
+```
+
+## list_backfills
+
+This endpoint returns a list of all [backfills](../reference/Orb-API.json/components/schemas/Backfill) in a list format. 
+
+The list of backfills is ordered starting from the most recently created backfill. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist. More information about pagination can be found in the [Pagination-metadata schema](../reference/Orb-API.json/components/schemas/Pagination-metadata).
+
+### Example Usage
+
+```python
+import orb
+
+
+s = orb.Orb(
+    security=shared.Security(
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+    ),
+)
+
+
+res = s.event.list_backfills()
+
+if res.list_backfills_200_application_json_object is not None:
+    # handle response
+```
+
+## revert_backfill
+
+Reverting a backfill undoes all the effects of closing the backfill. If the backfill is reflected, the status will transition to `pending_revert` while the effects of the backfill are undone. Once all effects are undone, the backfill will transition to `reverted`.
+
+If a backfill is reverted before its closed, no usage will be updated as a result of the backfill and it will immediately transition to `reverted`.
+
+### Example Usage
+
+```python
+import orb
+from orb.models import operations
+
+s = orb.Orb(
+    security=shared.Security(
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+    ),
+)
+
+
+res = s.event.revert_backfill('perferendis')
+
+if res.backfill is not None:
     # handle response
 ```
 
 ## search
 
-This endpoint returns a filtered set of events for an account in a paginated list format. 
+This endpoint returns a filtered set of events for an account in a [paginated list format](../api/pagination). 
 
 Note that this is a `POST` endpoint rather than a `GET` endpoint because it employs a JSON body for search criteria rather than query parameters, allowing for a more flexible search syntax.
 
 Note that a search criteria _must_ be specified. Currently, Orb supports the following criteria:
 - `event_ids`: This is an explicit array of IDs to filter by. Note that an event's ID is the `idempotency_key` that was originally used for ingestion.
-- `invoice_id`: This is an issued Orb invoice ID (see also [List Invoices](../reference/Orb-API.json/paths/~1invoices/get)). Orb will fetch all events that were used to calculate the invoice. In the common case, this will be a list of events whose `timestamp` property falls within the billing period specified by the invoice.
+- `invoice_id`: This is an issued Orb invoice ID (see also [List Invoices](list-invoices)). Orb will fetch all events that were used to calculate the invoice. In the common case, this will be a list of events whose `timestamp` property falls within the billing period specified by the invoice.
 
 By default, Orb does not return _deprecated_ events in this endpoint.
 
@@ -246,71 +448,19 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
-req = operations.PostEventsSearchRequestBody(
+req = operations.SearchEventsRequestBody(
     event_ids=[
-        'quidem',
-        'ipsam',
-        'voluptate',
-        'autem',
+        'minus',
     ],
-    invoice_id='nam',
+    invoice_id='quam',
 )
 
 res = s.event.search(req)
 
-if res.post_events_search_200_application_json_object is not None:
-    # handle response
-```
-
-## update
-
-This endpoint is used to amend a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. The event will maintain its existing `event_id` after the amendment.
-
-This endpoint will mark the existing event as ignored, and Orb will only use the new event passed in the body of this request as the source of truth for that `event_id`. Note that a single event can be amended any number of times, so the same event can be overwritten in subsequent calls to this endpoint, or overwritten using the [Amend customer usage](../reference/Orb-API.json/paths/~1customers~1{customer_id}~1usage/patch) endpoint. Only a single event with a given `event_id` will be considered the source of truth at any given time.
-
-This is a powerful and audit-safe mechanism to retroactively update a single event in cases where you need to:
-* update an event with new metadata as you iterate on your pricing model
-* update an event based on the result of an external API call (ex. call to a payment gateway succeeded or failed)
-
-This amendment API is always audit-safe. The process will still retain the original event, though it will be ignored for billing calculations. For auditing and data fidelity purposes, Orb never overwrites or permanently deletes ingested usage data.
-
-## Request validation
-* The `timestamp` of the new event must match the `timestamp` of the existing event already ingested. As with ingestion, all timestamps must be sent in ISO8601 format with UTC timezone offset.
-* The `customer_id` or `external_customer_id` of the new event must match the `customer_id` or `external_customer_id` of the existing event already ingested. Exactly one of `customer_id` and `external_customer_id` should be specified, and similar to ingestion, the ID must identify a Customer resource within Orb. Unlike ingestion, for event amendment, we strictly enforce that the Customer must be in the Orb system, even during the initial integration period. We do not allow updating the `Customer` an event is associated with.
-* Orb does not accept an `idempotency_key` with the event in this endpoint, since this request is by design idempotent. On retryable errors, you should retry the request and assume the amendment operation has not succeeded until receipt of a 2xx. 
-* The event's `timestamp` must fall within the customer's current subscription's billing period, or within the grace period of the customer's current subscription's previous billing period.
-
-### Example Usage
-
-```python
-import orb
-import dateutil.parser
-from orb.models import operations
-
-s = orb.Orb(
-    security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
-    ),
-)
-
-
-res = s.event.update('fQp2wSmK7CF9oPcu', operations.PutEventsEventIDRequestBody(
-    customer_id='eaque',
-    event_name='pariatur',
-    external_customer_id='nemo',
-    properties={
-        "perferendis": 'fugiat',
-        "amet": 'aut',
-        "cumque": 'corporis',
-        "hic": 'libero',
-    },
-    timestamp=dateutil.parser.isoparse('2020-12-09T16:09:53Z'),
-))
-
-if res.put_events_event_id_200_application_json_object is not None:
+if res.search_events_200_application_json_object is not None:
     # handle response
 ```

@@ -6,7 +6,7 @@ from orb.models import operations, shared
 from typing import Optional
 
 class Plan:
-    r"""Actions related to plan management."""
+    r"""The Plan resource represents a plan that can be subscribed to by a customer. Plans define the amount of credits that a customer will receive, the price of the plan, and the billing interval."""
     _client: requests_http.Session
     _security_client: requests_http.Session
     _server_url: str
@@ -23,7 +23,7 @@ class Plan:
         self._gen_version = gen_version
         
     
-    def get(self, plan_id: str) -> operations.GetPlansPlanIDResponse:
+    def fetch(self, plan_id: str) -> operations.GetPlansPlanIDResponse:
         r"""Retrieve a plan
         This endpoint is used to fetch [plan](../reference/Orb-API.json/components/schemas/Plan) details given a plan identifier. It returns information about the prices included in the plan and their configuration, as well as the product that the plan is attached to.
         
@@ -40,11 +40,13 @@ class Plan:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetPlansPlanIDRequest, base_url, '/plans/{plan_id}', request)
-        
+        headers = {}
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.GetPlansPlanIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -72,11 +74,12 @@ class Plan:
         base_url = self._server_url
         
         url = utils.generate_url(operations.GetPlansExternalPlanIDRequest, base_url, '/plans/external_plan_id/{external_plan_id}', request)
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "plan", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
@@ -85,32 +88,38 @@ class Plan:
 
         res = operations.GetPlansExternalPlanIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Plan])
+                res.plan = out
 
         return res
 
     
-    def list(self, request: operations.ListPlansRequestBody) -> operations.ListPlansResponse:
+    def list(self) -> operations.ListPlansResponse:
         r"""List plans
         This endpoint returns a list of all [plans](../reference/Orb-API.json/components/schemas/Plan) for an account in a list format. 
         
-        The list of plans is ordered starting from the most recently created plan. The response also includes [`pagination_metadata`](../reference/Orb-API.json/components/schemas/Pagination-metadata), which lets the caller retrieve the next page of results if they exist. More information about pagination can be found in the [Pagination-metadata schema](../reference/Orb-API.json/components/schemas/Pagination-metadata).
+        The list of plans is ordered starting from the most recently created plan. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist.
         """
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/plans'
-        
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
-        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
-            headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url, data=data, files=form, headers=headers)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.ListPlansResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[operations.ListPlans200ApplicationJSON])
+                res.list_plans_200_application_json_object = out
 
         return res
 

@@ -3,18 +3,20 @@
 from __future__ import annotations
 import dataclasses
 import requests as requests_http
+from ..shared import pagination_metadata as shared_pagination_metadata
 from ..shared import plan as shared_plan
 from dataclasses_json import Undefined, dataclass_json
 from orb import utils
-from typing import Any, Optional
+from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class ListPlansRequestBody:
+class ListPlans200ApplicationJSON:
+    r"""OK"""
     
     data: Optional[list[shared_plan.Plan]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data'), 'exclude': lambda f: f is None }})
-    pagination_metadata: Optional[dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata'), 'exclude': lambda f: f is None }})
+    pagination_metadata: Optional[shared_pagination_metadata.PaginationMetadata] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata'), 'exclude': lambda f: f is None }})
     
 
 @dataclasses.dataclass
@@ -22,5 +24,7 @@ class ListPlansResponse:
     
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
+    list_plans_200_application_json_object: Optional[ListPlans200ApplicationJSON] = dataclasses.field(default=None)
+    r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

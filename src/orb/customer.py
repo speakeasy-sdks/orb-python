@@ -7,7 +7,7 @@ from orb.models import operations, shared
 from typing import Optional
 
 class Customer:
-    r"""Actions related to customer management."""
+    r"""The Customer resource represents a customer of your service. Customers are created when a customer is created in your service, and are updated when a customer's information is updated in your service."""
     _client: requests_http.Session
     _security_client: requests_http.Session
     _server_url: str
@@ -24,30 +24,166 @@ class Customer:
         self._gen_version = gen_version
         
     
-    def create(self, request: shared.Customer) -> operations.PostCustomersResponse:
+    def amend(self, customer_id: str, timeframe_end: datetime, timeframe_start: datetime, request_body: Optional[operations.AmendUsageRequestBody] = None) -> operations.AmendUsageResponse:
+        r"""Amend customer usage
+        This endpoint is used to amend usage within a timeframe for a customer that has an active subscription.
+        
+        This endpoint will mark _all_ existing events within `[timeframe_start, timeframe_end)` as _ignored_  for billing  purposes, and Orb will only use the _new_ events passed in the body of this request as the source of truth for that timeframe moving forwards. Note that a given time period can be amended any number of times, so events can be overwritten in subsequent calls to this endpoint.
+        
+        This is a powerful and audit-safe mechanism to retroactively change usage data in cases where you need to:
+        - decrease historical usage consumption because of degraded service availability in your systems
+        - account for gaps from your usage reporting mechanism
+        - make point-in-time fixes for specific event records, while retaining the original time of usage and associated metadata
+        
+        This amendment API is designed with two explicit goals:
+        1. Amendments are **always audit-safe**. The amendment process will still retain original events in the timeframe, though they will be ignored for billing calculations. For auditing and data fidelity purposes, Orb never overwrites or permanently deletes ingested usage data.
+        2. Amendments always preserve data **consistency**. In other words, either an amendment is fully processed by the system (and the new events for the timeframe are honored rather than the existing ones) or the amendment request fails. To maintain this important property, Orb prevents _partial event ingestion_ on this endpoint.
+        
+        
+        ## Response semantics
+         - Either all events are ingested successfully, or all fail to ingest (returning a `4xx` or `5xx` response code).
+        - Any event that fails schema validation will lead to a `4xx` response. In this case, to maintain data consistency, Orb will not ingest any events and will also not deprecate existing events in the time period.
+        - You can assume that the amendment is successful on receipt of a `2xx` response.While a successful response from this endpoint indicates that the new events have been ingested, updating usage totals happens asynchronously and may be delayed by a few minutes. 
+        
+        As emphasized above, Orb will never show an inconsistent state (e.g. in invoice previews or dashboards); either it will show the existing state (before the amendment) or the new state (with new events in the requested timeframe).
+        
+        
+        ## Sample request body
+        
+        ```json
+        {
+        	\"events\": [{
+        		\"event_name\": \"payment_processed\",
+        		\"timestamp\": \"2022-03-24T07:15:00Z\",
+        		\"properties\": {
+        			\"amount\": 100
+        		}
+        	}, {
+        		\"event_name\": \"payment_failed\",
+        		\"timestamp\": \"2022-03-24T07:15:00Z\",
+        		\"properties\": {
+        			\"amount\": 100
+        		}
+        	}]
+        }
+        ```
+        
+        ## Request Validation
+        - The `timestamp` of each event reported must fall within the bounds of `timeframe_start` and `timeframe_end`. As with ingestion, all timestamps must be sent in ISO8601 format with UTC timezone offset.
+        
+        - Orb **does not accept an `idempotency_key`** with each event in this endpoint, since the entirety of the event list must be ingested to ensure consistency. On retryable errors, you should retry the request in its entirety, and assume that the amendment operation has not succeeded until receipt of a `2xx`.
+        
+        - Both `timeframe_start` and `timeframe_end` must be timestamps in the past. Furthermore, Orb will generally validate that the `timeframe_start` and `timeframe_end` fall within the customer's _current_ subscription billing period. However, Orb does allow amendments while in the grace period of the previous billing period; in this instance, the timeframe can start before the current period.
+        
+        
+        ## API Limits
+        Note that Orb does not currently enforce a hard rate-limit for API usage or a maximum request payload size. Similar to the event ingestion API, this API is architected for high-throughput ingestion. It is also safe to _programmatically_ call this endpoint if your system can automatically detect a need for historical amendment.
+        
+        In order to overwrite timeframes with a very large number of events, we suggest using multiple calls with small adjacent (e.g. every hour) timeframes.
+        """
+        request = operations.AmendUsageRequest(
+            customer_id=customer_id,
+            timeframe_end=timeframe_end,
+            timeframe_start=timeframe_start,
+            request_body=request_body,
+        )
+        
+        base_url = self._server_url
+        
+        url = utils.generate_url(operations.AmendUsageRequest, base_url, '/customers/{customer_id}/usage', request)
+        headers = {}
+        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
+            headers['content-type'] = req_content_type
+        query_params = utils.get_query_params(operations.AmendUsageRequest, request)
+        headers['Accept'] = 'application/json;q=1, application/json;q=0'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('PATCH', url, params=query_params, data=data, files=form, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.AmendUsageResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[operations.AmendUsage200ApplicationJSON])
+                res.amend_usage_200_application_json_object = out
+        elif http_res.status_code == 400:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[operations.AmendUsage400ApplicationJSON])
+                res.amend_usage_400_application_json_object = out
+
+        return res
+
+    
+    def amend_by_external_id(self, external_customer_id: str, timeframe_end: datetime, timeframe_start: datetime, request_body: Optional[operations.AmendUsageExternalCustomerIDRequestBody] = None) -> operations.AmendUsageExternalCustomerIDResponse:
+        r"""Amend customer usage by external ID
+        This endpoint's resource and semantics exactly mirror [Amend customer usage](amend-usage) but operates on an [external customer ID](../guides/events-and-metrics/customer-aliases) rather than an Orb issued identifier.
+        """
+        request = operations.AmendUsageExternalCustomerIDRequest(
+            external_customer_id=external_customer_id,
+            timeframe_end=timeframe_end,
+            timeframe_start=timeframe_start,
+            request_body=request_body,
+        )
+        
+        base_url = self._server_url
+        
+        url = utils.generate_url(operations.AmendUsageExternalCustomerIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}/usage', request)
+        headers = {}
+        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
+            headers['content-type'] = req_content_type
+        query_params = utils.get_query_params(operations.AmendUsageExternalCustomerIDRequest, request)
+        headers['Accept'] = 'application/json;q=1, application/json;q=0'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('PATCH', url, params=query_params, data=data, files=form, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.AmendUsageExternalCustomerIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[operations.AmendUsageExternalCustomerID200ApplicationJSON])
+                res.amend_usage_external_customer_id_200_application_json_object = out
+        elif http_res.status_code == 400:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[operations.AmendUsageExternalCustomerID400ApplicationJSON])
+                res.amend_usage_external_customer_id_400_application_json_object = out
+
+        return res
+
+    
+    def create(self, request: operations.CreateCustomerRequestBody) -> operations.CreateCustomerResponse:
         r"""Create customer
         This operation is used to create an Orb customer, who is party to the core billing relationship. See [Customer](../reference/Orb-API.json/components/schemas/Customer) for an overview of the customer resource.
         
         This endpoint is critical in the following Orb functionality:
         * Automated charges can be configured by setting `payment_provider` and `payment_provider_id` to automatically issue invoices
-        * [Customer ID Aliases](../docs/Customer-ID-Aliases.md) can be configured by setting `external_customer_id`
-        * [Timezone localization](../docs/Timezone-localization.md) can be configured on a per-customer basis by setting the `timezone` parameter
+        * [Customer ID Aliases](../guides/events-and-metrics/customer-aliases) can be configured by setting `external_customer_id`
+        * [Timezone localization](../guides/product-catalog/timezones) can be configured on a per-customer basis by setting the `timezone` parameter
         """
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/customers'
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
         http_res = client.request('POST', url, data=data, files=form, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.PostCustomersResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.CreateCustomerResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 201:
             if utils.match_content_type(content_type, 'application/json'):
@@ -57,97 +193,123 @@ class Customer:
         return res
 
     
-    def get(self, customer_id: str) -> operations.GetCustomersCustomerIDResponse:
-        r"""Retrieve a customer
-        This endpoint is used to fetch customer details given an identifier.
-        
-        See the [Customer resource](Orb-API.json/components/schemas/Customer) for a full discussion of the Customer model.
+    def create_transaction(self, customer_id: str, request_body: Optional[operations.PostCustomersCustomerIDBalanceTransactionsRequestBody] = None) -> operations.PostCustomersCustomerIDBalanceTransactionsResponse:
+        r"""Create a customer balance transaction
+        Creates an immutable balance transaction that updates the customer's balance and returns back the newly created [transaction](../reference/Orb-API.json/components/schemas/Customer-balance-transaction).
         """
-        request = operations.GetCustomersCustomerIDRequest(
+        request = operations.PostCustomersCustomerIDBalanceTransactionsRequest(
             customer_id=customer_id,
+            request_body=request_body,
         )
         
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetCustomersCustomerIDRequest, base_url, '/customers/{customer_id}', request)
-        
-        
-        client = self._security_client
-        
-        http_res = client.request('GET', url)
-        content_type = http_res.headers.get('Content-Type')
-
-        res = operations.GetCustomersCustomerIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
-        
-        if http_res.status_code == 201:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.Customer])
-                res.customer = out
-
-        return res
-
-    
-    def get_balance(self, customer_id: str) -> operations.GetCustomersCustomerIDBalanceTransactionsResponse:
-        r"""Get customer balance transactions
-        # The customer balance
-        
-        The customer balance is an amount in the customer's currency, which Orb automatically applies to subsequent invoices. This balance can be adjusted manually via Orb's webapp on the customer details page. You can use this balance to provide a fixed mid-period credit to the customer. Commonly, this is done due to system downtime/SLA violation, or an adhoc adjustment discussed with the customer.
-        
-        If the balance is a positive value at the time of invoicing, it represents that the customer has credit that should be used to offset the amount due on the next issued invoice. In this case, Orb will automatically reduce the next invoice by the balance amount, and roll over any remaining balance if the invoice is fully discounted.
-        
-        If the balance is a negative value at the time of invoicing, Orb will increase the invoice's amount due with a positive adjustment, and reset the balance to 0.
-        
-        This endpoint retrieves all customer balance transactions in reverse chronological order for a single customer, providing a complete audit trail of all adjustments and invoice applications.
-        
-        ## Eligibility
-        
-        The customer balance can only be applied to invoices or adjusted manually if invoices are not synced to a separate invoicing provider. If a payment gateway such as Stripe is used, the balance will be applied to the invoice before forwarding payment to the gateway.
-        """
-        request = operations.GetCustomersCustomerIDBalanceTransactionsRequest(
-            customer_id=customer_id,
-        )
-        
-        base_url = self._server_url
-        
-        url = utils.generate_url(operations.GetCustomersCustomerIDBalanceTransactionsRequest, base_url, '/customers/{customer_id}/balance_transactions', request)
-        
+        url = utils.generate_url(operations.PostCustomersCustomerIDBalanceTransactionsRequest, base_url, '/customers/{customer_id}/balance_transactions', request)
+        headers = {}
+        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
+            headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('POST', url, data=data, files=form, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetCustomersCustomerIDBalanceTransactionsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.PostCustomersCustomerIDBalanceTransactionsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.GetCustomersCustomerIDBalanceTransactions200ApplicationJSON])
-                res.get_customers_customer_id_balance_transactions_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.CustomerBalanceTransaction])
+                res.customer_balance_transaction = out
 
         return res
 
     
-    def get_by_external_id(self, external_customer_id: str) -> operations.GetCustomersExternalCustomerIDExternalCustomerIDResponse:
-        r"""Retrieve a customer by external ID
-        This endpoint is used to fetch customer details given an `external_customer_id` (see [Customer ID Aliases](../docs/Customer-ID-Aliases.md)).
+    def delete(self, customer_id: str) -> operations.DeleteCustomerResponse:
+        r"""Delete a customer
+        This performs a deletion of this customer, its subscriptions, and its invoices. This operation is irreversible. Note that this is a _soft_ deletion, but the data will be inaccessible through the API and Orb dashboard. For hard-deletion, please reach out to the Orb team directly.
         
-        Note that the resource and semantics of this endpoint exactly mirror [Get Customer](Orb-API.json/paths/~1customers/get).
+        **Note**: This operation happens asynchronously and can be expected to take a few minutes to propagate to related resources. However, querying for the customer on subsequent GET requests while deletion is in process will reflect its deletion with a `deleted: true` property. Once the customer deletion has been fully processed, the customer will not be returned in the API.
         """
-        request = operations.GetCustomersExternalCustomerIDExternalCustomerIDRequest(
+        request = operations.DeleteCustomerRequest(
+            customer_id=customer_id,
+        )
+        
+        base_url = self._server_url
+        
+        url = utils.generate_url(operations.DeleteCustomerRequest, base_url, '/customers/{customer_id}', request)
+        headers = {}
+        headers['Accept'] = '*/*'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('DELETE', url, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.DeleteCustomerResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+
+        return res
+
+    
+    def fetch(self, customer_id: str) -> operations.FetchCustomerResponse:
+        r"""Retrieve a customer
+        This endpoint is used to fetch customer details given an identifier. If the `Customer` is in the process of being deleted, only the properties `id` and `deleted: true` will be returned.
+        
+        See the [Customer resource](Orb-API.json/components/schemas/Customer) for a full discussion of the Customer model.
+        """
+        request = operations.FetchCustomerRequest(
+            customer_id=customer_id,
+        )
+        
+        base_url = self._server_url
+        
+        url = utils.generate_url(operations.FetchCustomerRequest, base_url, '/customers/{customer_id}', request)
+        headers = {}
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('GET', url, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.FetchCustomerResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 201:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Customer])
+                res.customer = out
+
+        return res
+
+    
+    def fetch_by_external_id(self, external_customer_id: str) -> operations.FetchCustomerExternalIDResponse:
+        r"""Retrieve a customer by external ID
+        This endpoint is used to fetch customer details given an `external_customer_id` (see [Customer ID Aliases](../guides/events-and-metrics/customer-aliases)).
+        
+        Note that the resource and semantics of this endpoint exactly mirror [Get Customer](fetch-customer).
+        """
+        request = operations.FetchCustomerExternalIDRequest(
             external_customer_id=external_customer_id,
         )
         
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetCustomersExternalCustomerIDExternalCustomerIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}', request)
-        
+        url = utils.generate_url(operations.FetchCustomerExternalIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}', request)
+        headers = {}
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetCustomersExternalCustomerIDExternalCustomerIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.FetchCustomerExternalIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
@@ -157,14 +319,14 @@ class Customer:
         return res
 
     
-    def get_costs(self, request: operations.GetCustomerCostsRequest) -> operations.GetCustomerCostsResponse:
+    def fetch_costs(self, request: operations.FetchCustomerCostsRequest) -> operations.FetchCustomerCostsResponse:
         r"""View customer costs
-        This endpoint is used to fetch a day-by-day snapshot of a customer's costs in Orb, calculated by applying pricing information to the underlying usage (see the [subscription usage endpoint](../reference/Orb-API.json/paths/~1subscriptions~1{subscription_id}~1usage/get) to fetch usage per metric, in usage units rather than a currency). 
+        This endpoint is used to fetch a day-by-day snapshot of a customer's costs in Orb, calculated by applying pricing information to the underlying usage (see the [subscription usage endpoint](gcription-usage) to fetch usage per metric, in usage units rather than a currency). 
         
         This endpoint can be leveraged for internal tooling and to provide a more transparent billing experience for your end users:
         
         1. Understand the cost breakdown per line item historically and in real-time for the current billing period. 
-        2. Provide customer visibility into how different services are contributing to the overall invoice with a per-day timeseries (as compared to the [upcoming invoice](../reference/Orb-API.json/paths/~1invoices~1upcoming/get) resource, which represents a snapshot for the current period).
+        2. Provide customer visibility into how different services are contributing to the overall invoice with a per-day timeseries (as compared to the [upcoming invoice](fetch-upcoming-invoice) resource, which represents a snapshot for the current period).
         3. Assess how minimums and discounts affect your customers by teasing apart costs directly as a result of usage, as opposed to minimums and discounts at the plan and price level.
         4. Gain insight into key customer health metrics, such as the percent utilization of the minimum committed spend.
         
@@ -228,64 +390,112 @@ class Customer:
         """
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetCustomerCostsRequest, base_url, '/customers/{customer_id}/costs', request)
-        
-        query_params = utils.get_query_params(operations.GetCustomerCostsRequest, request)
+        url = utils.generate_url(operations.FetchCustomerCostsRequest, base_url, '/customers/{customer_id}/costs', request)
+        headers = {}
+        query_params = utils.get_query_params(operations.FetchCustomerCostsRequest, request)
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url, params=query_params)
+        http_res = client.request('GET', url, params=query_params, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetCustomerCostsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.FetchCustomerCostsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.GetCustomerCosts200ApplicationJSON])
-                res.get_customer_costs_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchCustomerCosts200ApplicationJSON])
+                res.fetch_customer_costs_200_application_json_object = out
 
         return res
 
     
-    def get_costs_by_external_id(self, request: operations.GetExternalCustomerCostsRequest) -> operations.GetExternalCustomerCostsResponse:
+    def fetch_costs_by_external_id(self, request: operations.FetchCustomerCostsExternalIDRequest) -> operations.FetchCustomerCostsExternalIDResponse:
         r"""View customer costs by external customer ID
-        This endpoint's resource and semantics exactly mirror [View customer costs](../reference/Orb-API.json/paths/~1customers~1{customer_id}~1costs/get) but operates on an [external customer ID](../docs/Customer-ID-Aliases.md) rather than an Orb issued identifier.
+        This endpoint's resource and semantics exactly mirror [View customer costs](fetch-customer-costs) but operates on an [external customer ID](../guides/events-and-metrics/customer-aliases) rather than an Orb issued identifier.
         """
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetExternalCustomerCostsRequest, base_url, '/customers/external_customer_id/{external_customer_id}/costs', request)
-        
-        query_params = utils.get_query_params(operations.GetExternalCustomerCostsRequest, request)
+        url = utils.generate_url(operations.FetchCustomerCostsExternalIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}/costs', request)
+        headers = {}
+        query_params = utils.get_query_params(operations.FetchCustomerCostsExternalIDRequest, request)
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url, params=query_params)
+        http_res = client.request('GET', url, params=query_params, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetExternalCustomerCostsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.FetchCustomerCostsExternalIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.GetExternalCustomerCosts200ApplicationJSON])
-                res.get_external_customer_costs_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchCustomerCostsExternalID200ApplicationJSON])
+                res.fetch_customer_costs_external_id_200_application_json_object = out
+
+        return res
+
+    
+    def fetch_transactions(self, customer_id: str) -> operations.ListBalanceTransactionsResponse:
+        r"""Get customer balance transactions
+        # The customer balance
+        
+        The customer balance is an amount in the customer's currency, which Orb automatically applies to subsequent invoices. This balance can be adjusted manually via Orb's webapp on the customer details page. You can use this balance to provide a fixed mid-period credit to the customer. Commonly, this is done due to system downtime/SLA violation, or an adhoc adjustment discussed with the customer.
+        
+        If the balance is a positive value at the time of invoicing, it represents that the customer has credit that should be used to offset the amount due on the next issued invoice. In this case, Orb will automatically reduce the next invoice by the balance amount, and roll over any remaining balance if the invoice is fully discounted.
+        
+        If the balance is a negative value at the time of invoicing, Orb will increase the invoice's amount due with a positive adjustment, and reset the balance to 0.
+        
+        This endpoint retrieves all customer balance transactions in reverse chronological order for a single customer, providing a complete audit trail of all adjustments and invoice applications.
+        
+        ## Eligibility
+        
+        The customer balance can only be applied to invoices or adjusted manually if invoices are not synced to a separate invoicing provider. If a payment gateway such as Stripe is used, the balance will be applied to the invoice before forwarding payment to the gateway.
+        """
+        request = operations.ListBalanceTransactionsRequest(
+            customer_id=customer_id,
+        )
+        
+        base_url = self._server_url
+        
+        url = utils.generate_url(operations.ListBalanceTransactionsRequest, base_url, '/customers/{customer_id}/balance_transactions', request)
+        headers = {}
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('GET', url, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.ListBalanceTransactionsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[operations.ListBalanceTransactions200ApplicationJSON])
+                res.list_balance_transactions_200_application_json_object = out
 
         return res
 
     
     def list(self) -> operations.ListCustomersResponse:
         r"""List customers
-        This endpoint returns a list of all customers for an account. The list of customers is ordered starting from the most recently created customer. This endpoint follows Orb's [standardized pagination format](../docs/Pagination.md).
+        This endpoint returns a list of all customers for an account. The list of customers is ordered starting from the most recently created customer. This endpoint follows Orb's [standardized pagination format](../api/pagination).
         
         See [Customer](../reference/Orb-API.json/components/schemas/Customer) for an overview of the customer model.
         """
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/customers'
-        
+        headers = {}
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
         res = operations.ListCustomersResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
@@ -298,205 +508,74 @@ class Customer:
         return res
 
     
-    def update(self, customer_id: str, request_body: Optional[operations.PutCustomersCustomerIDRequestBody] = None) -> operations.PutCustomersCustomerIDResponse:
+    def update_by_external_id(self, external_customer_id: str, request_body: Optional[operations.UpdateCustomerExternalIDRequestBody] = None) -> operations.UpdateCustomerExternalIDResponse:
+        r"""Update a customer by external ID
+        This endpoint is used to update customer details given an `external_customer_id` (see [Customer ID Aliases](../guides/events-and-metrics/customer-aliases)).
+        
+        Note that the resource and semantics of this endpoint exactly mirror [Update Customer](update-customer).
+        """
+        request = operations.UpdateCustomerExternalIDRequest(
+            external_customer_id=external_customer_id,
+            request_body=request_body,
+        )
+        
+        base_url = self._server_url
+        
+        url = utils.generate_url(operations.UpdateCustomerExternalIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}', request)
+        headers = {}
+        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
+            headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('PUT', url, data=data, files=form, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.UpdateCustomerExternalIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Customer])
+                res.customer = out
+
+        return res
+
+    
+    def update_customer(self, customer_id: str, request_body: Optional[operations.UpdateCustomerRequestBody] = None) -> operations.UpdateCustomerResponse:
         r"""Update customer
-        This endpoint can be used to update the `payment_provider`, `payment_provider_id`, `name`, `email`, `shipping_address`, and `billing_address` of an existing customer.
+        This endpoint can be used to update the `payment_provider`, `payment_provider_id`, `name`, `email`, `email_delivery`, `auto_collection`, `shipping_address`, and `billing_address` of an existing customer.
         
         Other fields on a customer are currently immutable.
         """
-        request = operations.PutCustomersCustomerIDRequest(
+        request = operations.UpdateCustomerRequest(
             customer_id=customer_id,
             request_body=request_body,
         )
         
         base_url = self._server_url
         
-        url = utils.generate_url(operations.PutCustomersCustomerIDRequest, base_url, '/customers/{customer_id}', request)
-        
+        url = utils.generate_url(operations.UpdateCustomerRequest, base_url, '/customers/{customer_id}', request)
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
         http_res = client.request('PUT', url, data=data, files=form, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.PutCustomersCustomerIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.UpdateCustomerResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[shared.Customer])
                 res.customer = out
-
-        return res
-
-    
-    def update_by_external_id(self, external_customer_id: str, request_body: Optional[operations.PutCustomersExternalCustomerIDExternalCustomerIDRequestBody] = None) -> operations.PutCustomersExternalCustomerIDExternalCustomerIDResponse:
-        r"""Update a customer by external ID
-        This endpoint is used to update customer details given an `external_customer_id` (see [Customer ID Aliases](../docs/Customer-ID-Aliases.md)).
-        
-        Note that the resource and semantics of this endpoint exactly mirror [Update Customer](Orb-API.json/paths/~1customers~1{customer_id}/put).
-        """
-        request = operations.PutCustomersExternalCustomerIDExternalCustomerIDRequest(
-            external_customer_id=external_customer_id,
-            request_body=request_body,
-        )
-        
-        base_url = self._server_url
-        
-        url = utils.generate_url(operations.PutCustomersExternalCustomerIDExternalCustomerIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}', request)
-        
-        headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
-        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
-            headers['content-type'] = req_content_type
-        
-        client = self._security_client
-        
-        http_res = client.request('PUT', url, data=data, files=form, headers=headers)
-        content_type = http_res.headers.get('Content-Type')
-
-        res = operations.PutCustomersExternalCustomerIDExternalCustomerIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
-        
-        if http_res.status_code == 200:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.Customer])
-                res.customer = out
-
-        return res
-
-    
-    def update_usage(self, customer_id: str, timeframe_end: datetime, timeframe_start: datetime, request_body: Optional[operations.PatchCustomersCustomerIDUsageRequestBody] = None) -> operations.PatchCustomersCustomerIDUsageResponse:
-        r"""Amend customer usage
-        This endpoint is used to amend usage within a timeframe for a customer that has an active subscription.
-        
-        This endpoint will mark _all_ existing events within `[timeframe_start, timeframe_end)` as _ignored_  for billing  purposes, and Orb will only use the _new_ events passed in the body of this request as the source of truth for that timeframe moving forwards. Note that a given time period can be amended any number of times, so events can be overwritten in subsequent calls to this endpoint.
-        
-        This is a powerful and audit-safe mechanism to retroactively change usage data in cases where you need to:
-        - decrease historical usage consumption because of degraded service availability in your systems
-        - account for gaps from your usage reporting mechanism
-        - make point-in-time fixes for specific event records, while retaining the original time of usage and associated metadata
-        
-        This amendment API is designed with two explicit goals:
-        1. Amendments are **always audit-safe**. The amendment process will still retain original events in the timeframe, though they will be ignored for billing calculations. For auditing and data fidelity purposes, Orb never overwrites or permanently deletes ingested usage data.
-        2. Amendments always preserve data **consistency**. In other words, either an amendment is fully processed by the system (and the new events for the timeframe are honored rather than the existing ones) or the amendment request fails. To maintain this important property, Orb prevents _partial event ingestion_ on this endpoint.
-        
-        
-        ## Response semantics
-         - Either all events are ingested successfully, or all fail to ingest (returning a `4xx` or `5xx` response code).
-        - Any event that fails schema validation will lead to a `4xx` response. In this case, to maintain data consistency, Orb will not ingest any events and will also not deprecate existing events in the time period.
-        - You can assume that the amendment is successful on receipt of a `2xx` response.While a successful response from this endpoint indicates that the new events have been ingested, updating usage totals happens asynchronously and may be delayed by a few minutes. 
-        
-        As emphasized above, Orb will never show an inconsistent state (e.g. in invoice previews or dashboards); either it will show the existing state (before the amendment) or the new state (with new events in the requested timeframe).
-        
-        
-        ## Sample request body
-        
-        ```json
-        {
-        	\"events\": [{
-        		\"event_name\": \"payment_processed\",
-        		\"timestamp\": \"2022-03-24T07:15:00Z\",
-        		\"properties\": {
-        			\"amount\": 100
-        		}
-        	}, {
-        		\"event_name\": \"payment_failed\",
-        		\"timestamp\": \"2022-03-24T07:15:00Z\",
-        		\"properties\": {
-        			\"amount\": 100
-        		}
-        	}]
-        }
-        ```
-        
-        ## Request Validation
-        - The `timestamp` of each event reported must fall within the bounds of `timeframe_start` and `timeframe_end`. As with ingestion, all timestamps must be sent in ISO8601 format with UTC timezone offset.
-        
-        - Orb **does not accept an `idempotency_key`** with each event in this endpoint, since the entirety of the event list must be ingested to ensure consistency. On retryable errors, you should retry the request in its entirety, and assume that the amendment operation has not succeeded until receipt of a `2xx`.
-        
-        - Both `timeframe_start` and `timeframe_end` must be timestamps in the past. Furthermore, Orb will generally validate that the `timeframe_start` and `timeframe_end` fall within the customer's _current_ subscription billing period. However, Orb does allow amendments while in the grace period of the previous billing period; in this instance, the timeframe can start before the current period.
-        
-        
-        ## API Limits
-        Note that Orb does not currently enforce a hard rate-limit for API usage or a maximum request payload size. Similar to the event ingestion API, this API is architected for high-throughput ingestion. It is also safe to _programmatically_ call this endpoint if your system can automatically detect a need for historical amendment.
-        
-        In order to overwrite timeframes with a very large number of events, we suggest using multiple calls with small adjacent (e.g. every hour) timeframes.
-        """
-        request = operations.PatchCustomersCustomerIDUsageRequest(
-            customer_id=customer_id,
-            timeframe_end=timeframe_end,
-            timeframe_start=timeframe_start,
-            request_body=request_body,
-        )
-        
-        base_url = self._server_url
-        
-        url = utils.generate_url(operations.PatchCustomersCustomerIDUsageRequest, base_url, '/customers/{customer_id}/usage', request)
-        
-        headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
-        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
-            headers['content-type'] = req_content_type
-        query_params = utils.get_query_params(operations.PatchCustomersCustomerIDUsageRequest, request)
-        
-        client = self._security_client
-        
-        http_res = client.request('PATCH', url, params=query_params, data=data, files=form, headers=headers)
-        content_type = http_res.headers.get('Content-Type')
-
-        res = operations.PatchCustomersCustomerIDUsageResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
-        
-        if http_res.status_code == 200:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PatchCustomersCustomerIDUsage200ApplicationJSON])
-                res.patch_customers_customer_id_usage_200_application_json_object = out
-        elif http_res.status_code == 400:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PatchCustomersCustomerIDUsage400ApplicationJSON])
-                res.patch_customers_customer_id_usage_400_application_json_object = out
-
-        return res
-
-    
-    def update_usage_by_external_id(self, external_customer_id: str, timeframe_end: datetime, timeframe_start: datetime, request_body: Optional[operations.PatchExternalCustomersCustomerIDUsageRequestBody] = None) -> operations.PatchExternalCustomersCustomerIDUsageResponse:
-        r"""Amend customer usage by external ID
-        This endpoint's resource and semantics exactly mirror [Amend customer usage](../reference/Orb-API.json/paths/~1customers~1{customer_id}~1usage/patch) but operates on an [external customer ID](see (../docs/Customer-ID-Aliases.md)) rather than an Orb issued identifier.
-        """
-        request = operations.PatchExternalCustomersCustomerIDUsageRequest(
-            external_customer_id=external_customer_id,
-            timeframe_end=timeframe_end,
-            timeframe_start=timeframe_start,
-            request_body=request_body,
-        )
-        
-        base_url = self._server_url
-        
-        url = utils.generate_url(operations.PatchExternalCustomersCustomerIDUsageRequest, base_url, '/customers/external_customer_id/{external_customer_id}/usage', request)
-        
-        headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
-        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
-            headers['content-type'] = req_content_type
-        query_params = utils.get_query_params(operations.PatchExternalCustomersCustomerIDUsageRequest, request)
-        
-        client = self._security_client
-        
-        http_res = client.request('PATCH', url, params=query_params, data=data, files=form, headers=headers)
-        content_type = http_res.headers.get('Content-Type')
-
-        res = operations.PatchExternalCustomersCustomerIDUsageResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
-        
-        if http_res.status_code == 200:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PatchExternalCustomersCustomerIDUsage200ApplicationJSON])
-                res.patch_external_customers_customer_id_usage_200_application_json_object = out
-        elif http_res.status_code == 400:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PatchExternalCustomersCustomerIDUsage400ApplicationJSON])
-                res.patch_external_customers_customer_id_usage_400_application_json_object = out
 
         return res
 

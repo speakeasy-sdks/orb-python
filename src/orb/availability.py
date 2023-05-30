@@ -6,7 +6,7 @@ from orb.models import operations
 from typing import Optional
 
 class Availability:
-    r"""Actions related to API availability."""
+    r"""The Availability resource represents a customer's availability. Availability is created when a customer's invoice is paid, and is updated when a customer's transaction is refunded."""
     _client: requests_http.Session
     _security_client: requests_http.Session
     _server_url: str
@@ -23,7 +23,7 @@ class Availability:
         self._gen_version = gen_version
         
     
-    def ping(self) -> operations.GetPingResponse:
+    def ping(self) -> operations.PingResponse:
         r"""Check availability
         This endpoint allows you to test your connection to the Orb API and check the validity of your API key, passed in the `Authorization` header. This is particularly useful for checking that your environment is set up properly, and is a great choice for connectors and integrations.
         
@@ -32,19 +32,21 @@ class Availability:
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/ping'
-        
+        headers = {}
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('GET', url)
+        http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetPingResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.PingResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.GetPing200ApplicationJSON])
-                res.get_ping_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.Ping200ApplicationJSON])
+                res.ping_200_application_json_object = out
 
         return res
 

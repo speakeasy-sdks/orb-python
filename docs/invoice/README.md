@@ -2,15 +2,49 @@
 
 ## Overview
 
-Actions related to invoice management.
+The Invoice resource represents an invoice that has been generated for a customer. Invoices are generated when a customer's billing interval has elapsed, and are updated when a customer's invoice is paid.
 
 ### Available Operations
 
-* [get](#get) - Retrieve an Invoice
-* [get_upcoming](#get_upcoming) - Retrieve upcoming invoice
+* [create](#create) - Create invoice line item
+* [fetch](#fetch) - Retrieve an Invoice
+* [fetch_upcoming](#fetch_upcoming) - Retrieve upcoming invoice
 * [list](#list) - List invoices
+* [void](#void) - Void an invoice
 
-## get
+## create
+
+This creates a one-off fixed fee [Invoice line item](../reference/Orb-API.json/components/schemas/Invoice-line-item) on an [Invoice](../reference/Orb-API.json/components/schemas/Invoice). This can only be done for invoices that are in a `draft` status.
+
+### Example Usage
+
+```python
+import orb
+import dateutil.parser
+from orb.models import operations
+
+s = orb.Orb(
+    security=shared.Security(
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+    ),
+)
+
+req = operations.CreateInvoiceLineItemRequestBody(
+    amount='dolor',
+    end_date=dateutil.parser.parse('2021-12-18').date(),
+    invoice_id='hic',
+    name='Alejandro Purdy DDS',
+    quantity=1646.94,
+    start_date=dateutil.parser.parse('2021-10-04').date(),
+)
+
+res = s.invoice.create(req)
+
+if res.invoice_line_item is not None:
+    # handle response
+```
+
+## fetch
 
 This endpoint is used to fetch an [`Invoice`](../reference/Orb-API.json/components/schemas/Invoice) given an identifier.
 
@@ -22,20 +56,20 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-res = s.invoice.get('nobis')
+res = s.invoice.fetch('eaque')
 
 if res.invoice is not None:
     # handle response
 ```
 
-## get_upcoming
+## fetch_upcoming
 
-This endpoint can be used to fetch the [`UpcomingInvoice`](../reference/Orb-API.json/components/schemas/Upcoming%20Invoice) for the current billing period given a subscription.
+This endpoint can be used to fetch the [`Upcoming Invoice`](../reference/Orb-API.json/components/schemas/UpcomingInvoice) for the current billing period given a subscription.
 
 ### Example Usage
 
@@ -45,12 +79,12 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-res = s.invoice.get_upcoming('dolores')
+res = s.invoice.fetch_upcoming('occaecati')
 
 if res.upcoming_invoice is not None:
     # handle response
@@ -60,7 +94,9 @@ if res.upcoming_invoice is not None:
 
 This endpoint returns a list of all [`Invoice`](../reference/Orb-API.json/components/schemas/Invoice)s for an account in a list format. 
 
-The list of invoices is ordered starting from the most recently issued invoice date. The response also includes `pagination_metadata`, which lets the caller retrieve the next page of results if they exist.
+The list of invoices is ordered starting from the most recently issued invoice date. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist.
+
+By default, this only returns invoices that are `issued`, `paid`, or `synced`.
 
 ### Example Usage
 
@@ -70,13 +106,38 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        bearer_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
     ),
 )
 
 
-res = s.invoice.list('quis', 'totam', 'dignissimos')
+res = s.invoice.list('rerum', 'adipisci', 'asperiores', 'earum')
 
 if res.list_invoices_200_application_json_object is not None:
+    # handle response
+```
+
+## void
+
+This endpoint allows an invoice's status to be set the `void` status. This can only be done to invoices that are in the `issued` status.
+
+If the associated invoice has used the customer balance to change the amount due, the customer balance operation will be reverted. For example, if the invoice used $10 of customer balance, that amount will be added back to the customer balance upon voiding.
+
+### Example Usage
+
+```python
+import orb
+from orb.models import operations
+
+s = orb.Orb(
+    security=shared.Security(
+        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+    ),
+)
+
+
+res = s.invoice.void('modi')
+
+if res.invoice is not None:
     # handle response
 ```
