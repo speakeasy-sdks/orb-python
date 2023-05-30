@@ -2214,12 +2214,6 @@
                   }
                 }
               }
-            },
-            "application/xml": {
-              "schema": {
-                "type": "object",
-                "properties": {}
-              }
             }
           },
           "description": ""
