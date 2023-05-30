@@ -2,11 +2,11 @@
 
 import requests as requests_http
 from . import utils
-from orb.models import operations
+from orb.models import operations, shared
 from typing import Optional
 
 class Event:
-    r"""Actions related to event management."""
+    r"""The Event resource represents an event that has been created for a customer. Events are created when a customer's invoice is paid, and are updated when a customer's transaction is refunded."""
     _client: requests_http.Session
     _security_client: requests_http.Session
     _server_url: str
@@ -23,7 +23,128 @@ class Event:
         self._gen_version = gen_version
         
     
-    def deprecate(self, event_id: str) -> operations.PutDeprecateEventsEventIDResponse:
+    def amend(self, event_id: str, request_body: Optional[operations.AmendEventRequestBody] = None) -> operations.AmendEventResponse:
+        r"""Amend single event
+        This endpoint is used to amend a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. The event will maintain its existing `event_id` after the amendment.
+        
+        This endpoint will mark the existing event as ignored, and Orb will only use the new event passed in the body of this request as the source of truth for that `event_id`. Note that a single event can be amended any number of times, so the same event can be overwritten in subsequent calls to this endpoint, or overwritten using the [Amend customer usage](amend-usage) endpoint. Only a single event with a given `event_id` will be considered the source of truth at any given time.
+        
+        This is a powerful and audit-safe mechanism to retroactively update a single event in cases where you need to:
+        * update an event with new metadata as you iterate on your pricing model
+        * update an event based on the result of an external API call (ex. call to a payment gateway succeeded or failed)
+        
+        This amendment API is always audit-safe. The process will still retain the original event, though it will be ignored for billing calculations. For auditing and data fidelity purposes, Orb never overwrites or permanently deletes ingested usage data.
+        
+        ## Request validation
+        * The `timestamp` of the new event must match the `timestamp` of the existing event already ingested. As with ingestion, all timestamps must be sent in ISO8601 format with UTC timezone offset.
+        * The `customer_id` or `external_customer_id` of the new event must match the `customer_id` or `external_customer_id` of the existing event already ingested. Exactly one of `customer_id` and `external_customer_id` should be specified, and similar to ingestion, the ID must identify a Customer resource within Orb. Unlike ingestion, for event amendment, we strictly enforce that the Customer must be in the Orb system, even during the initial integration period. We do not allow updating the `Customer` an event is associated with.
+        * Orb does not accept an `idempotency_key` with the event in this endpoint, since this request is by design idempotent. On retryable errors, you should retry the request and assume the amendment operation has not succeeded until receipt of a 2xx. 
+        * The event's `timestamp` must fall within the customer's current subscription's billing period, or within the grace period of the customer's current subscription's previous billing period.
+        """
+        request = operations.AmendEventRequest(
+            event_id=event_id,
+            request_body=request_body,
+        )
+        
+        base_url = self._server_url
+        
+        url = utils.generate_url(operations.AmendEventRequest, base_url, '/events/{event_id}', request)
+        headers = {}
+        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
+            headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json;q=1, application/json;q=0'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('PUT', url, data=data, files=form, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.AmendEventResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[operations.AmendEvent200ApplicationJSON])
+                res.amend_event_200_application_json_object = out
+        elif http_res.status_code == 400:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[operations.AmendEvent400ApplicationJSON])
+                res.amend_event_400_application_json_object = out
+
+        return res
+
+    
+    def close_backfill(self, backfill_id: str) -> operations.CloseBackfillResponse:
+        r"""Close a backfill
+        Closing a backfill makes the updated usage visible in Orb. Upon closing a backfill, Orb will asynchronously reflect the updated usage in invoice amounts and usage graphs. Once all of the updates are complete, the backfill's status will transition to `reflected`.
+        """
+        request = operations.CloseBackfillRequest(
+            backfill_id=backfill_id,
+        )
+        
+        base_url = self._server_url
+        
+        url = utils.generate_url(operations.CloseBackfillRequest, base_url, '/events/backfills/{backfill_id}/close', request)
+        headers = {}
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('POST', url, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.CloseBackfillResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Backfill])
+                res.backfill = out
+
+        return res
+
+    
+    def create(self, request: operations.CreateBackfillRequestBody) -> operations.CreateBackfillResponse:
+        r"""Create a backfill
+        Creating the backfill enables adding or replacing past events, even those that are older than the ingestion grace period. Performing a backfill in Orb involves 3 steps:
+        
+        1. Create the backfill, specifying its parameters.
+        2. [Ingest](ingest) usage events, referencing the backfill (query parameter `backfill_id`).
+        3. [Close](close-backfill) the backfill, propagating the update in past usage throughout Orb.
+        
+        Changes from a backfill are not reflected until the backfill is closed, so you won’t need to worry about your customers seeing partially updated usage data. Backfills are also reversible, so you’ll be able to revert a backfill if you’ve made a mistake.
+        
+        This endpoint will return a backfill object, which contains an `id`. That `id` can then be used as the `backfill_id` query parameter to the event ingestion endpoint to associate ingested events with this backfill. The effects (e.g. updated usage graphs) of this backfill will not take place until the backfill is closed.
+        
+        If the `replace_existing_events` is `true`, existing events in the backfill's timeframe will be replaced with the newly ingested events associated with the backfill. If `false`, newly ingested events will be added to the existing events.
+        """
+        base_url = self._server_url
+        
+        url = base_url.removesuffix('/') + '/events/backfills'
+        headers = {}
+        req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
+        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
+            headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('POST', url, data=data, files=form, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.CreateBackfillResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Backfill])
+                res.backfill = out
+
+        return res
+
+    
+    def deprecate_event(self, event_id: str) -> operations.DeprecateEventResponse:
         r"""Deprecate single event
         This endpoint is used to deprecate a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. 
         
@@ -33,7 +154,7 @@ class Event:
         * no longer bill for an event that was improperly reported
         * no longer bill for an event based on the result of an external API call (ex. call to a payment gateway failed and the user should not be billed)
         
-        If you want to only change specific properties of an event, but keep the event as part of the billing calculation, use the [Amend single event](../reference/Orb-API.json/paths/~1events~1{event_id}/put) endpoint instead.
+        If you want to only change specific properties of an event, but keep the event as part of the billing calculation, use the [Amend single event](amend-event) endpoint instead.
         
         This API is always audit-safe. The process will still retain the deprecated event, though it will be ignored for billing calculations. For auditing and data fidelity purposes, Orb never overwrites or permanently deletes ingested usage data.
         
@@ -42,35 +163,37 @@ class Event:
         * The event's `timestamp` must fall within the customer's current subscription's billing period, or within the grace period of the customer's current subscription's previous billing period. Orb does not allow deprecating events for billing periods that have already invoiced customers.
         * The `customer_id` or the `external_customer_id` of the original event ingestion request must identify a Customer resource within Orb, even if this event was ingested during the initial integration period. We do not allow deprecating events for customers not in the Orb system.
         """
-        request = operations.PutDeprecateEventsEventIDRequest(
+        request = operations.DeprecateEventRequest(
             event_id=event_id,
         )
         
         base_url = self._server_url
         
-        url = utils.generate_url(operations.PutDeprecateEventsEventIDRequest, base_url, '/events/{event_id}/deprecate', request)
-        
+        url = utils.generate_url(operations.DeprecateEventRequest, base_url, '/events/{event_id}/deprecate', request)
+        headers = {}
+        headers['Accept'] = 'application/json;q=1, application/json;q=0'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
-        http_res = client.request('PUT', url)
+        http_res = client.request('PUT', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.PutDeprecateEventsEventIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.DeprecateEventResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PutDeprecateEventsEventID200ApplicationJSON])
-                res.put_deprecate_events_event_id_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.DeprecateEvent200ApplicationJSON])
+                res.deprecate_event_200_application_json_object = out
         elif http_res.status_code == 400:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PutDeprecateEventsEventID400ApplicationJSON])
-                res.put_deprecate_events_event_id_400_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.DeprecateEvent400ApplicationJSON])
+                res.deprecate_event_400_application_json_object = out
 
         return res
 
     
-    def ingest(self, request_body: Optional[operations.PostIngestRequestBody] = None, debug: Optional[operations.PostIngestDebugEnum] = None) -> operations.PostIngestResponse:
+    def ingest(self, request_body: Optional[operations.IngestRequestBody] = None, backfill_id: Optional[str] = None, debug: Optional[operations.IngestDebug] = None) -> operations.IngestResponse:
         r"""Ingest events
         Orb's event ingestion model and API is designed around two core principles:
         
@@ -210,49 +333,111 @@ class Event:
         }
         ```
         """
-        request = operations.PostIngestRequest(
+        request = operations.IngestRequest(
             request_body=request_body,
+            backfill_id=backfill_id,
             debug=debug,
         )
         
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/ingest'
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
-        query_params = utils.get_query_params(operations.PostIngestRequest, request)
+        query_params = utils.get_query_params(operations.IngestRequest, request)
+        headers['Accept'] = 'application/json;q=1, application/json;q=0'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
         http_res = client.request('POST', url, params=query_params, data=data, files=form, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.PostIngestResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.IngestResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PostIngest200ApplicationJSON])
-                res.post_ingest_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.Ingest200ApplicationJSON])
+                res.ingest_200_application_json_object = out
         elif http_res.status_code == 400:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PostIngest400ApplicationJSON])
-                res.post_ingest_400_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.Ingest400ApplicationJSON])
+                res.ingest_400_application_json_object = out
 
         return res
 
     
-    def search(self, request: operations.PostEventsSearchRequestBody) -> operations.PostEventsSearchResponse:
+    def list_backfills(self) -> operations.ListBackfillsResponse:
+        r"""List backfills
+        This endpoint returns a list of all [backfills](../reference/Orb-API.json/components/schemas/Backfill) in a list format. 
+        
+        The list of backfills is ordered starting from the most recently created backfill. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist. More information about pagination can be found in the [Pagination-metadata schema](../reference/Orb-API.json/components/schemas/Pagination-metadata).
+        """
+        base_url = self._server_url
+        
+        url = base_url.removesuffix('/') + '/events/backfills'
+        headers = {}
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('GET', url, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.ListBackfillsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[operations.ListBackfills200ApplicationJSON])
+                res.list_backfills_200_application_json_object = out
+
+        return res
+
+    
+    def revert_backfill(self, backfill_id: str) -> operations.RevertBackfillResponse:
+        r"""Revert a backfill
+        Reverting a backfill undoes all the effects of closing the backfill. If the backfill is reflected, the status will transition to `pending_revert` while the effects of the backfill are undone. Once all effects are undone, the backfill will transition to `reverted`.
+        
+        If a backfill is reverted before its closed, no usage will be updated as a result of the backfill and it will immediately transition to `reverted`.
+        """
+        request = operations.RevertBackfillRequest(
+            backfill_id=backfill_id,
+        )
+        
+        base_url = self._server_url
+        
+        url = utils.generate_url(operations.RevertBackfillRequest, base_url, '/events/backfills/{backfill_id}/revert', request)
+        headers = {}
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
+        
+        client = self._security_client
+        
+        http_res = client.request('POST', url, headers=headers)
+        content_type = http_res.headers.get('Content-Type')
+
+        res = operations.RevertBackfillResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        
+        if http_res.status_code == 200:
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Backfill])
+                res.backfill = out
+
+        return res
+
+    
+    def search(self, request: operations.SearchEventsRequestBody) -> operations.SearchEventsResponse:
         r"""Search events
-        This endpoint returns a filtered set of events for an account in a paginated list format. 
+        This endpoint returns a filtered set of events for an account in a [paginated list format](../api/pagination). 
         
         Note that this is a `POST` endpoint rather than a `GET` endpoint because it employs a JSON body for search criteria rather than query parameters, allowing for a more flexible search syntax.
         
         Note that a search criteria _must_ be specified. Currently, Orb supports the following criteria:
         - `event_ids`: This is an explicit array of IDs to filter by. Note that an event's ID is the `idempotency_key` that was originally used for ingestion.
-        - `invoice_id`: This is an issued Orb invoice ID (see also [List Invoices](../reference/Orb-API.json/paths/~1invoices/get)). Orb will fetch all events that were used to calculate the invoice. In the common case, this will be a list of events whose `timestamp` property falls within the billing period specified by the invoice.
+        - `invoice_id`: This is an issued Orb invoice ID (see also [List Invoices](list-invoices)). Orb will fetch all events that were used to calculate the invoice. In the common case, this will be a list of events whose `timestamp` property falls within the billing period specified by the invoice.
         
         By default, Orb does not return _deprecated_ events in this endpoint.
         
@@ -261,74 +446,24 @@ class Event:
         base_url = self._server_url
         
         url = base_url.removesuffix('/') + '/events/search'
-        
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "request", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
+        headers['Accept'] = 'application/json'
+        headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
         
         http_res = client.request('POST', url, data=data, files=form, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.PostEventsSearchResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.SearchEventsResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PostEventsSearch200ApplicationJSON])
-                res.post_events_search_200_application_json_object = out
-
-        return res
-
-    
-    def update(self, event_id: str, request_body: Optional[operations.PutEventsEventIDRequestBody] = None) -> operations.PutEventsEventIDResponse:
-        r"""Amend single event
-        This endpoint is used to amend a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. The event will maintain its existing `event_id` after the amendment.
-        
-        This endpoint will mark the existing event as ignored, and Orb will only use the new event passed in the body of this request as the source of truth for that `event_id`. Note that a single event can be amended any number of times, so the same event can be overwritten in subsequent calls to this endpoint, or overwritten using the [Amend customer usage](../reference/Orb-API.json/paths/~1customers~1{customer_id}~1usage/patch) endpoint. Only a single event with a given `event_id` will be considered the source of truth at any given time.
-        
-        This is a powerful and audit-safe mechanism to retroactively update a single event in cases where you need to:
-        * update an event with new metadata as you iterate on your pricing model
-        * update an event based on the result of an external API call (ex. call to a payment gateway succeeded or failed)
-        
-        This amendment API is always audit-safe. The process will still retain the original event, though it will be ignored for billing calculations. For auditing and data fidelity purposes, Orb never overwrites or permanently deletes ingested usage data.
-        
-        ## Request validation
-        * The `timestamp` of the new event must match the `timestamp` of the existing event already ingested. As with ingestion, all timestamps must be sent in ISO8601 format with UTC timezone offset.
-        * The `customer_id` or `external_customer_id` of the new event must match the `customer_id` or `external_customer_id` of the existing event already ingested. Exactly one of `customer_id` and `external_customer_id` should be specified, and similar to ingestion, the ID must identify a Customer resource within Orb. Unlike ingestion, for event amendment, we strictly enforce that the Customer must be in the Orb system, even during the initial integration period. We do not allow updating the `Customer` an event is associated with.
-        * Orb does not accept an `idempotency_key` with the event in this endpoint, since this request is by design idempotent. On retryable errors, you should retry the request and assume the amendment operation has not succeeded until receipt of a 2xx. 
-        * The event's `timestamp` must fall within the customer's current subscription's billing period, or within the grace period of the customer's current subscription's previous billing period.
-        """
-        request = operations.PutEventsEventIDRequest(
-            event_id=event_id,
-            request_body=request_body,
-        )
-        
-        base_url = self._server_url
-        
-        url = utils.generate_url(operations.PutEventsEventIDRequest, base_url, '/events/{event_id}', request)
-        
-        headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
-        if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
-            headers['content-type'] = req_content_type
-        
-        client = self._security_client
-        
-        http_res = client.request('PUT', url, data=data, files=form, headers=headers)
-        content_type = http_res.headers.get('Content-Type')
-
-        res = operations.PutEventsEventIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
-        
-        if http_res.status_code == 200:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PutEventsEventID200ApplicationJSON])
-                res.put_events_event_id_200_application_json_object = out
-        elif http_res.status_code == 400:
-            if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.PutEventsEventID400ApplicationJSON])
-                res.put_events_event_id_400_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.SearchEvents200ApplicationJSON])
+                res.search_events_200_application_json_object = out
 
         return res
 

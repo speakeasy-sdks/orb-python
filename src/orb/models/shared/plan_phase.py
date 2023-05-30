@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 import dataclasses
+from ..shared import discount as shared_discount
+from ..shared import minimum_amount as shared_minimum_amount
 from dataclasses_json import Undefined, dataclass_json
 from enum import Enum
 from orb import utils
-from typing import Any, Optional
+from typing import Optional
 
-class PlanPhaseDurationUnitEnum(str, Enum):
+class PlanPhaseDurationUnit(str, Enum):
     r"""Term for this plan, which is the maximum cadence among all component prices"""
     MONTHLY = 'monthly'
     QUARTERLY = 'quarterly'
@@ -19,10 +21,10 @@ class PlanPhaseDurationUnitEnum(str, Enum):
 class PlanPhase:
     r"""A plan can optionally consist of plan phases, which represents a pricing configuration that's only active for the length of time specified by `duration` and `duration_unit`. All plans must have an evergreen phase, which is the last phase and active indefinitely."""
     
-    discount: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
-    duration_unit: PlanPhaseDurationUnitEnum = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('duration_unit') }})
+    discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
+    duration_unit: PlanPhaseDurationUnit = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('duration_unit') }})
     r"""Term for this plan, which is the maximum cadence among all component prices"""
-    minimum: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum') }})
+    minimum: shared_minimum_amount.MinimumAmount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum') }})
     description: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('description'), 'exclude': lambda f: f is None }})
     duration: Optional[int] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('duration'), 'exclude': lambda f: f is None }})
     r"""How many terms of length `duration_unit` this phase is active for. If null, this phase is evergreen and active indefinitely"""
