@@ -440,7 +440,7 @@ req = shared.NewSubscription(
     minimum_amount='1.23',
     net_terms=771089,
     phase_overrides=[
-        shared.NewSubscriptionPhaseOverrides(
+        shared.PhaseOverride(
             discount=shared.Discount(
                 amount_discount='voluptas',
                 applies_to_price_ids=[
@@ -457,65 +457,62 @@ req = shared.NewSubscription(
     ],
     plan_id='ZMwNQefe7J3ecf7W',
     price_overrides=[
-        shared.NewSubscriptionPriceOverrides3(
-            bulk_config=shared.NewSubscriptionPriceOverrides3BulkConfig(
+        shared.BulkPriceOverride(
+            bulk_config=shared.BulkPriceOverrideBulkConfig(
                 tiers=[
-                    shared.NewSubscriptionPriceOverrides3BulkConfigTiers(
+                    shared.BulkPriceOverrideBulkConfigTiers(
                         maximum_units='aperiam',
                         unit_amount='ea',
                     ),
-                    shared.NewSubscriptionPriceOverrides3BulkConfigTiers(
+                    shared.BulkPriceOverrideBulkConfigTiers(
                         maximum_units='quaerat',
                         unit_amount='consequuntur',
                     ),
-                    shared.NewSubscriptionPriceOverrides3BulkConfigTiers(
+                    shared.BulkPriceOverrideBulkConfigTiers(
                         maximum_units='repellendus',
                         unit_amount='officia',
                     ),
-                    shared.NewSubscriptionPriceOverrides3BulkConfigTiers(
+                    shared.BulkPriceOverrideBulkConfigTiers(
                         maximum_units='maxime',
                         unit_amount='dignissimos',
                     ),
                 ],
             ),
-            discount=shared.NewDiscount(
-                amount_discount='officia',
-                discount_type=shared.NewDiscountDiscountType.AMOUNT,
-                percentage_discount='nemo',
-                usage_discount='quae',
-            ),
-            id='5cc413aa-63aa-4e8d-a786-4dbb675fd5e6',
+            id='af515cc4-13aa-463a-ae8d-67864dbb675f',
             minimum_amount='1.23',
-            model_type=shared.NewSubscriptionPriceOverrides3ModelType.BULK,
+            model_type=shared.BulkPriceOverrideModelType.BULK,
         ),
-        shared.NewSubscriptionPriceOverrides1(
-            discount=shared.NewDiscount(
-                amount_discount='cum',
-                discount_type=shared.NewDiscountDiscountType.PERCENTAGE,
-                percentage_discount='in',
-                usage_discount='exercitationem',
-            ),
-            id='2dbSXs47wDkmtEME',
-            minimum_amount='1.23',
-            model_type=shared.NewSubscriptionPriceOverrides1ModelType.TIERED,
-            tiered_config=shared.NewSubscriptionPriceOverrides1TieredConfig(
+        shared.BulkBPSPriceOverride(
+            bulk_bps_config=shared.BulkBPSPriceOverrideBulkBPSConfig(
                 tiers=[
-                    shared.NewSubscriptionPriceOverrides1TieredConfigTiers(
+                    shared.BulkBPSPriceOverrideBulkBPSConfigTiers(
+                        bps=9249.67,
+                        maximum_amount='aliquid',
+                        per_unit_maximum='aperiam',
+                    ),
+                    shared.BulkBPSPriceOverrideBulkBPSConfigTiers(
+                        bps=7386.83,
+                        maximum_amount='consectetur',
+                        per_unit_maximum='in',
+                    ),
+                ],
+            ),
+            id='5ed4f6fb-ee41-4f33-b17f-e35b60eb1ea4',
+            minimum_amount='1.23',
+            model_type=shared.BulkBPSPriceOverrideModelType.BULK_BPS,
+        ),
+        shared.TieredPriceOverride(
+            id='mqBkze6HoCwL4ytV',
+            minimum_amount='1.23',
+            model_type=shared.TieredPriceOverrideModelType.TIERED,
+            tiered_config=shared.TieredPriceOverrideTieredConfig(
+                tiers=[
+                    shared.TieredPriceOverrideTieredConfigTiers(
                         first_unit='0',
                         last_unit='10',
                         unit_amount='2.5',
                     ),
-                    shared.NewSubscriptionPriceOverrides1TieredConfigTiers(
-                        first_unit='0',
-                        last_unit='10',
-                        unit_amount='2.5',
-                    ),
-                    shared.NewSubscriptionPriceOverrides1TieredConfigTiers(
-                        first_unit='0',
-                        last_unit='10',
-                        unit_amount='2.5',
-                    ),
-                    shared.NewSubscriptionPriceOverrides1TieredConfigTiers(
+                    shared.TieredPriceOverrideTieredConfigTiers(
                         first_unit='0',
                         last_unit='10',
                         unit_amount='2.5',
@@ -523,51 +520,22 @@ req = shared.NewSubscription(
                 ],
             ),
         ),
-        shared.NewSubscriptionPriceOverrides6(
-            bulk_bps_config=shared.NewSubscriptionPriceOverrides6BulkBpsConfig(
+        shared.BulkPriceOverride(
+            bulk_config=shared.BulkPriceOverrideBulkConfig(
                 tiers=[
-                    shared.NewSubscriptionPriceOverrides6BulkBpsConfigTiers(
-                        bps=9854.92,
-                        maximum_amount='suscipit',
-                        per_unit_maximum='reiciendis',
+                    shared.BulkPriceOverrideBulkConfigTiers(
+                        maximum_units='minima',
+                        unit_amount='nobis',
                     ),
-                    shared.NewSubscriptionPriceOverrides6BulkBpsConfigTiers(
-                        bps=6971.42,
-                        maximum_amount='saepe',
-                        per_unit_maximum='necessitatibus',
+                    shared.BulkPriceOverrideBulkConfigTiers(
+                        maximum_units='dolorum',
+                        unit_amount='adipisci',
                     ),
                 ],
             ),
-            discount=shared.NewDiscount(
-                amount_discount='dolore',
-                discount_type=shared.NewDiscountDiscountType.PERCENTAGE,
-                percentage_discount='asperiores',
-                usage_discount='adipisci',
-            ),
-            id='3317fe35-b60e-4b1e-a426-555ba3c28744',
+            id='c28744ed-53b8-48f3-a8d8-f5c0b2f2fb7b',
             minimum_amount='1.23',
-            model_type=shared.NewSubscriptionPriceOverrides6ModelType.BULK_BPS,
-        ),
-        shared.NewSubscriptionPriceOverrides7(
-            discount=shared.NewDiscount(
-                amount_discount='temporibus',
-                discount_type=shared.NewDiscountDiscountType.USAGE,
-                percentage_discount='adipisci',
-                usage_discount='cum',
-            ),
-            id='88f3a8d8-f5c0-4b2f-afb7-b194a276b269',
-            minimum_amount='1.23',
-            model_type=shared.NewSubscriptionPriceOverrides7ModelType.TIERED_BPS,
-            tiered_bps_config=shared.NewSubscriptionPriceOverrides7TieredBpsConfig(
-                tiers=[
-                    shared.NewSubscriptionPriceOverrides7TieredBpsConfigTiers(
-                        bps=3828.08,
-                        maximum_amount='sapiente',
-                        minimum_amount='debitis',
-                        per_unit_maximum='illo',
-                    ),
-                ],
-            ),
+            model_type=shared.BulkPriceOverrideModelType.BULK,
         ),
     ],
     start_date=dateutil.parser.parse('2022-01-01').date(),
@@ -596,7 +564,7 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.fetch('reiciendis')
+res = s.subscription.fetch('ab')
 
 if res.subscription is not None:
     # handle response
@@ -623,8 +591,8 @@ s = orb.Orb(
 )
 
 req = operations.FetchSubscriptionCostsRequest(
-    group_by='perferendis',
-    subscription_id='corrupti',
+    group_by='iste',
+    subscription_id='dolore',
     timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
     view_mode=shared.ViewMode.CUMULATIVE,
@@ -653,7 +621,7 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.fetch_schedule('incidunt')
+res = s.subscription.fetch_schedule('sed')
 
 if res.subscription_schedule is not None:
     # handle response
@@ -798,13 +766,13 @@ s = orb.Orb(
 )
 
 req = operations.FetchSubscriptionUsageRequest(
-    billable_metric_id='sed',
+    billable_metric_id='in',
     granularity=operations.FetchSubscriptionUsageGranularity.DAY,
-    group_by='provident',
-    subscription_id='eius',
+    group_by='commodi',
+    subscription_id='quidem',
     timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
-    view_mode=shared.ViewMode.CUMULATIVE,
+    view_mode=shared.ViewMode.PERIODIC,
 )
 
 res = s.subscription.fetch_usage(req)
@@ -832,7 +800,7 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.list('ipsum', 'ea')
+res = s.subscription.list('voluptas', 'unde')
 
 if res.subscriptions is not None:
     # handle response
@@ -874,41 +842,109 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.schedule_plan_change('occaecati', shared.SubscriptionPlanChange(
+res = s.subscription.schedule_plan_change('architecto', shared.SubscriptionPlanChange(
     align_billing_with_plan_change_date=False,
     change_date=dateutil.parser.isoparse('2017-07-21T17:32:28Z'),
     change_option=shared.SubscriptionPlanChangeChangeOption.END_OF_SUBSCRIPTION_TERM,
-    coupon_redemption_code='voluptatibus',
+    coupon_redemption_code='sapiente',
     external_plan_id='ZMwNQefe7J3ecf7W',
     minimum_amount='1.23',
     plan_id='ZMwNQefe7J3ecf7W',
     price_overrides=[
-        shared.UnitPriceOverride(
-            id='7f603e8b-445e-480c-a55e-fd20e457e185',
+        shared.TieredPriceOverride(
+            id='mqBkze6HoCwL4ytV',
             minimum_amount='1.23',
-            model_type=shared.UnitPriceOverrideModelType.UNIT,
-            unit_config=shared.UnitPriceOverrideUnitConfig(
-                unit_amount='praesentium',
-            ),
-        ),
-        shared.BulkBPSPriceOverride(
-            bulk_bps_config=shared.BulkBPSPriceOverrideBulkBPSConfig(
+            model_type=shared.TieredPriceOverrideModelType.TIERED,
+            tiered_config=shared.TieredPriceOverrideTieredConfig(
                 tiers=[
-                    shared.BulkBPSPriceOverrideBulkBPSConfigTiers(
-                        bps=6805.15,
-                        maximum_amount='voluptatum',
-                        per_unit_maximum='error',
+                    shared.TieredPriceOverrideTieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
                     ),
-                    shared.BulkBPSPriceOverrideBulkBPSConfigTiers(
-                        bps=9447.08,
-                        maximum_amount='expedita',
-                        per_unit_maximum='debitis',
+                    shared.TieredPriceOverrideTieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
+                    ),
+                    shared.TieredPriceOverrideTieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
+                    ),
+                    shared.TieredPriceOverrideTieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
                     ),
                 ],
             ),
-            id='3a5aa8e4-824d-40ab-8075-088e51862065',
+        ),
+        shared.TieredPriceOverride(
+            id='mqBkze6HoCwL4ytV',
             minimum_amount='1.23',
-            model_type=shared.BulkBPSPriceOverrideModelType.BULK_BPS,
+            model_type=shared.TieredPriceOverrideModelType.TIERED,
+            tiered_config=shared.TieredPriceOverrideTieredConfig(
+                tiers=[
+                    shared.TieredPriceOverrideTieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
+                    ),
+                    shared.TieredPriceOverrideTieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
+                    ),
+                    shared.TieredPriceOverrideTieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
+                    ),
+                ],
+            ),
+        ),
+        shared.TieredBPSPriceOverride(
+            id='4294e369-8f44-47f6-83e8-b445e80ca55e',
+            minimum_amount='1.23',
+            model_type=shared.TieredBPSPriceOverrideModelType.TIERED_BPS,
+            tiered_bps_config=shared.TieredBPSPriceOverrideTieredBPSConfig(
+                tiers=[
+                    shared.TieredBPSPriceOverrideTieredBPSConfigTiers(
+                        bps=8623.19,
+                        maximum_amount='magni',
+                        minimum_amount='aperiam',
+                        per_unit_maximum='saepe',
+                    ),
+                    shared.TieredBPSPriceOverrideTieredBPSConfigTiers(
+                        bps=2536.42,
+                        maximum_amount='veniam',
+                        minimum_amount='in',
+                        per_unit_maximum='officiis',
+                    ),
+                    shared.TieredBPSPriceOverrideTieredBPSConfigTiers(
+                        bps=1046.27,
+                        maximum_amount='laudantium',
+                        minimum_amount='exercitationem',
+                        per_unit_maximum='praesentium',
+                    ),
+                    shared.TieredBPSPriceOverrideTieredBPSConfigTiers(
+                        bps=7400.98,
+                        maximum_amount='laboriosam',
+                        minimum_amount='dolorum',
+                        per_unit_maximum='voluptatum',
+                    ),
+                ],
+            ),
+        ),
+        shared.BPSPriceOverride(
+            bps_config=shared.BPSPriceOverrideBPSConfig(
+                bps=9447.08,
+                per_unit_maximum='expedita',
+            ),
+            id='e3a5aa8e-4824-4d0a-b407-5088e5186206',
+            minimum_amount='1.23',
+            model_type=shared.BPSPriceOverrideModelType.BPS,
         ),
     ],
 ))
@@ -936,7 +972,7 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.unschedule_cancellation('saepe')
+res = s.subscription.unschedule_cancellation('nostrum')
 
 if res.subscription is not None:
     # handle response
@@ -959,7 +995,7 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.unschedule_plan_change('error')
+res = s.subscription.unschedule_plan_change('saepe')
 
 if res.subscription is not None:
     # handle response
@@ -989,11 +1025,11 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.update_fixed_fee_quantity('consequatur', shared.FixedFeeQuantityChange(
+res = s.subscription.update_fixed_fee_quantity('error', shared.FixedFeeQuantityChange(
     change_option=shared.FixedFeeQuantityChangeChangeOption.EFFECTIVE_DATE,
     effective_date=dateutil.parser.parse('"2022-12-21"').date(),
-    price_id='incidunt',
-    quantity=9688.65,
+    price_id='consequatur',
+    quantity=2790.68,
 ))
 
 if res.subscription is not None:
