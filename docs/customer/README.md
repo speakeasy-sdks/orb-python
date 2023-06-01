@@ -91,14 +91,50 @@ s = orb.Orb(
 )
 
 
-res = s.customer.amend('architecto', [
+res = s.customer.amend('sequi', [
     shared.Event(
-        customer_id='reiciendis',
-        event_name='est',
-        external_customer_id='mollitia',
-        idempotency_key='laborum',
+        customer_id='ipsam',
+        event_name='id',
+        external_customer_id='possimus',
+        idempotency_key='aut',
         properties={
-            "dolorem": 'corporis',
+            "error": 'temporibus',
+        },
+        timestamp='2020-12-09T16:09:53Z',
+    ),
+    shared.Event(
+        customer_id='laborum',
+        event_name='quasi',
+        external_customer_id='reiciendis',
+        idempotency_key='voluptatibus',
+        properties={
+            "nihil": 'praesentium',
+            "voluptatibus": 'ipsa',
+            "omnis": 'voluptate',
+            "cum": 'perferendis',
+        },
+        timestamp='2020-12-09T16:09:53Z',
+    ),
+    shared.Event(
+        customer_id='doloremque',
+        event_name='reprehenderit',
+        external_customer_id='ut',
+        idempotency_key='maiores',
+        properties={
+            "corporis": 'dolore',
+        },
+        timestamp='2020-12-09T16:09:53Z',
+    ),
+    shared.Event(
+        customer_id='iusto',
+        event_name='dicta',
+        external_customer_id='harum',
+        idempotency_key='enim',
+        properties={
+            "commodi": 'repudiandae',
+            "quae": 'ipsum',
+            "quidem": 'molestias',
+            "excepturi": 'pariatur',
         },
         timestamp='2020-12-09T16:09:53Z',
     ),
@@ -126,53 +162,41 @@ s = orb.Orb(
 )
 
 
-res = s.customer.amend_by_external_id('explicabo', [
+res = s.customer.amend_by_external_id('modi', [
     shared.Event(
-        customer_id='enim',
-        event_name='omnis',
-        external_customer_id='nemo',
-        idempotency_key='minima',
+        customer_id='rem',
+        event_name='voluptates',
+        external_customer_id='quasi',
+        idempotency_key='repudiandae',
         properties={
-            "accusantium": 'iure',
-            "culpa": 'doloribus',
-            "sapiente": 'architecto',
+            "veritatis": 'itaque',
+            "incidunt": 'enim',
+            "consequatur": 'est',
         },
         timestamp='2020-12-09T16:09:53Z',
     ),
     shared.Event(
-        customer_id='mollitia',
-        event_name='dolorem',
-        external_customer_id='culpa',
-        idempotency_key='consequuntur',
+        customer_id='quibusdam',
+        event_name='explicabo',
+        external_customer_id='deserunt',
+        idempotency_key='distinctio',
         properties={
-            "mollitia": 'occaecati',
-            "numquam": 'commodi',
-            "quam": 'molestiae',
-            "velit": 'error',
+            "labore": 'modi',
+            "qui": 'aliquid',
+            "cupiditate": 'quos',
+            "perferendis": 'magni',
         },
         timestamp='2020-12-09T16:09:53Z',
     ),
     shared.Event(
-        customer_id='quia',
-        event_name='quis',
-        external_customer_id='vitae',
-        idempotency_key='laborum',
+        customer_id='assumenda',
+        event_name='ipsam',
+        external_customer_id='alias',
+        idempotency_key='fugit',
         properties={
-            "enim": 'odit',
-            "quo": 'sequi',
-            "tenetur": 'ipsam',
-        },
-        timestamp='2020-12-09T16:09:53Z',
-    ),
-    shared.Event(
-        customer_id='id',
-        event_name='possimus',
-        external_customer_id='aut',
-        idempotency_key='quasi',
-        properties={
-            "temporibus": 'laborum',
-            "quasi": 'reiciendis',
-            "voluptatibus": 'vero',
+            "excepturi": 'tempora',
+            "facilis": 'tempore',
+            "labore": 'delectus',
         },
         timestamp='2020-12-09T16:09:53Z',
     ),
@@ -206,37 +230,36 @@ s = orb.Orb(
 req = shared.NewCustomer(
     auto_collection=False,
     billing_address=shared.BillingAddress(
-        city='Johnworth',
+        city='Deloresfort',
         country='US',
-        line1='ipsa',
-        line2='omnis',
-        postal_code='70042',
-        state='maiores',
+        line1='sint',
+        line2='aliquid',
+        postal_code='85628-9644',
+        state='illum',
     ),
-    currency='dicta',
-    email='Elena68@yahoo.com',
-    external_customer_id='enim',
+    currency='maiores',
+    email='Bettye_Gulgowski41@hotmail.com',
+    external_customer_id='aliquid',
     metadata={
-        "commodi": 'repudiandae',
-        "quae": 'ipsum',
-        "quidem": 'molestias',
-        "excepturi": 'pariatur',
+        "accusamus": 'non',
+        "occaecati": 'enim',
+        "accusamus": 'delectus',
     },
-    name='Irma Ledner DVM',
+    name='Rene Reinger',
     payment_provider=shared.PaymentProvider.STRIPE_CHARGE,
-    payment_provider_id='veritatis',
+    payment_provider_id='sapiente',
     shipping_address=shared.ShippingAddress(
-        city='El Monte',
+        city='Lake Golda',
         country='US',
-        line1='enim',
-        line2='consequatur',
-        postal_code='81678-2213',
-        state='cupiditate',
+        line1='vel',
+        line2='natus',
+        postal_code='40437-6223',
+        state='natus',
     ),
     tax_id=shared.CustomerTaxID(
-        country='Marshall Islands',
-        type='perferendis',
-        value='magni',
+        country='Saint Helena',
+        type='eum',
+        value='vero',
     ),
     timezone='Etc/UTC',
 )
@@ -264,9 +287,9 @@ s = orb.Orb(
 )
 
 
-res = s.customer.create_transaction('assumenda', shared.NewTransaction(
+res = s.customer.create_transaction('aspernatur', shared.NewTransaction(
     amount='1.00',
-    description='ipsam',
+    description='architecto',
     type=shared.TransactionType.INCREMENT,
 ))
 
@@ -293,7 +316,7 @@ s = orb.Orb(
 )
 
 
-res = s.customer.delete('fugit')
+res = s.customer.delete('et')
 
 if res.status_code == 200:
     # handle response
@@ -319,7 +342,7 @@ s = orb.Orb(
 )
 
 
-res = s.customer.fetch('dolorum')
+res = s.customer.fetch('excepturi')
 
 if res.customer is not None:
     # handle response
@@ -344,7 +367,7 @@ s = orb.Orb(
 )
 
 
-res = s.customer.fetch_by_external_id('excepturi')
+res = s.customer.fetch_by_external_id('ullam')
 
 if res.customer is not None:
     # handle response
@@ -434,8 +457,8 @@ s = orb.Orb(
 )
 
 req = operations.FetchCustomerCostsRequest(
-    customer_id='tempora',
-    group_by='facilis',
+    customer_id='provident',
+    group_by='quos',
     timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
     view_mode=shared.ViewMode.CUMULATIVE,
@@ -465,11 +488,11 @@ s = orb.Orb(
 )
 
 req = operations.FetchCustomerCostsExternalIDRequest(
-    external_customer_id='labore',
-    group_by='delectus',
+    external_customer_id='accusantium',
+    group_by='mollitia',
     timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
-    view_mode=shared.ViewMode.PERIODIC,
+    view_mode=shared.ViewMode.CUMULATIVE,
 )
 
 res = s.customer.fetch_costs_by_external_id(req)
@@ -507,7 +530,7 @@ s = orb.Orb(
 )
 
 
-res = s.customer.fetch_transactions('non')
+res = s.customer.fetch_transactions('mollitia')
 
 if res.transactions is not None:
     # handle response
@@ -559,37 +582,40 @@ s = orb.Orb(
 )
 
 
-res = s.customer.update_by_external_id('eligendi', shared.NewCustomer(
+res = s.customer.update_by_external_id('ad', shared.NewCustomer(
     auto_collection=False,
     billing_address=shared.BillingAddress(
-        city='Gracestead',
+        city='Dallasside',
         country='US',
-        line1='necessitatibus',
-        line2='sint',
-        postal_code='28964-4896',
-        state='dicta',
+        line1='odit',
+        line2='nemo',
+        postal_code='49828',
+        state='deleniti',
     ),
-    currency='magnam',
-    email='Raquel_Jenkins@hotmail.com',
-    external_customer_id='accusamus',
+    currency='facilis',
+    email='Barbara.Bradtke71@yahoo.com',
+    external_customer_id='nihil',
     metadata={
-        "occaecati": 'enim',
+        "quibusdam": 'sed',
+        "saepe": 'pariatur',
+        "accusantium": 'consequuntur',
+        "praesentium": 'natus',
     },
-    name='Toby Pouros',
-    payment_provider=shared.PaymentProvider.STRIPE_INVOICE,
-    payment_provider_id='blanditiis',
+    name='Joan Satterfield',
+    payment_provider=shared.PaymentProvider.NULL,
+    payment_provider_id='ea',
     shipping_address=shared.ShippingAddress(
-        city='Verlieburgh',
+        city='Brookview',
         country='US',
-        line1='deserunt',
-        line2='nisi',
-        postal_code='66404',
-        state='magnam',
+        line1='accusantium',
+        line2='ab',
+        postal_code='63447-0839',
+        state='perferendis',
     ),
     tax_id=shared.CustomerTaxID(
-        country='Portugal',
-        type='id',
-        value='labore',
+        country='Swaziland',
+        type='amet',
+        value='aut',
     ),
     timezone='Etc/UTC',
 ))
@@ -617,37 +643,40 @@ s = orb.Orb(
 )
 
 
-res = s.customer.update_customer('labore', shared.NewCustomer(
+res = s.customer.update_customer('cumque', shared.NewCustomer(
     auto_collection=False,
     billing_address=shared.BillingAddress(
-        city='New Nellie',
+        city='Fort Morgan',
         country='US',
-        line1='eum',
-        line2='vero',
-        postal_code='12053',
-        state='provident',
+        line1='nobis',
+        line2='dolores',
+        postal_code='54031',
+        state='eos',
     ),
-    currency='quos',
-    email='Alexis_OHara32@yahoo.com',
-    external_customer_id='eum',
+    currency='perferendis',
+    email='Peggie87@gmail.com',
+    external_customer_id='nostrum',
     metadata={
-        "necessitatibus": 'odit',
+        "recusandae": 'omnis',
+        "facilis": 'perspiciatis',
+        "voluptatem": 'porro',
+        "consequuntur": 'blanditiis',
     },
-    name='Joyce Kertzmann',
-    payment_provider=shared.PaymentProvider.BILL_COM,
-    payment_provider_id='maxime',
+    name='Gary Mayert',
+    payment_provider=shared.PaymentProvider.NULL,
+    payment_provider_id='earum',
     shipping_address=shared.ShippingAddress(
-        city='Mckennaport',
+        city='New Marielle',
         country='US',
-        line1='architecto',
-        line2='architecto',
-        postal_code='37498-1980',
-        state='consequuntur',
+        line1='deleniti',
+        line2='pariatur',
+        postal_code='77935-3222',
+        state='qui',
     ),
     tax_id=shared.CustomerTaxID(
-        country='Lithuania',
-        type='natus',
-        value='magni',
+        country='Cuba',
+        type='hic',
+        value='excepturi',
     ),
     timezone='Etc/UTC',
 ))

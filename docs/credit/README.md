@@ -31,23 +31,21 @@ s = orb.Orb(
 )
 
 
-res = s.credit.add_by_external_id('porro', shared.NewCreditLedgerEntry(
-    amount=6788.8,
-    block_id='dicta',
-    description='nam',
-    entry_type=shared.EntryType.EXPIRATION_CHANGE,
+res = s.credit.add_by_external_id('reiciendis', shared.NewCreditLedgerEntry(
+    amount=6667.67,
+    block_id='mollitia',
+    description='laborum',
+    entry_type=shared.EntryType.INCREMENT,
     expiry_date=dateutil.parser.parse('2023-01-01').date(),
     invoice_settings=shared.NewCreditLedgerEntryInvoiceSettings(
         auto_collection=False,
-        memo='occaecati',
-        net_terms=1433.53,
+        memo='dolorem',
+        net_terms=3581.52,
     ),
     metadata={
-        "hic": 'optio',
-        "totam": 'beatae',
-        "commodi": 'molestiae',
+        "nobis": 'enim',
     },
-    per_unit_cost_basis='modi',
+    per_unit_cost_basis='omnis',
     target_expiry_date=dateutil.parser.parse('2023-02-01').date(),
 ))
 
@@ -129,21 +127,24 @@ s = orb.Orb(
 )
 
 
-res = s.credit.create('qui', shared.NewCreditLedgerEntry(
-    amount=7742.34,
-    block_id='cum',
-    description='esse',
-    entry_type=shared.EntryType.INCREMENT,
+res = s.credit.create('nemo', shared.NewCreditLedgerEntry(
+    amount=3250.47,
+    block_id='excepturi',
+    description='accusantium',
+    entry_type=shared.EntryType.DECREMENT,
     expiry_date=dateutil.parser.parse('2023-01-01').date(),
     invoice_settings=shared.NewCreditLedgerEntryInvoiceSettings(
         auto_collection=False,
-        memo='excepturi',
-        net_terms=1352.18,
+        memo='culpa',
+        net_terms=9883.74,
     ),
     metadata={
-        "ad": 'natus',
+        "architecto": 'mollitia',
+        "dolorem": 'culpa',
+        "consequuntur": 'repellat',
+        "mollitia": 'occaecati',
     },
-    per_unit_cost_basis='sed',
+    per_unit_cost_basis='numquam',
     target_expiry_date=dateutil.parser.parse('2023-02-01').date(),
 ))
 
@@ -172,7 +173,7 @@ s = orb.Orb(
 )
 
 
-res = s.credit.fetch('iste')
+res = s.credit.fetch('commodi')
 
 if res.credits is not None:
     # handle response
@@ -195,7 +196,7 @@ s = orb.Orb(
 )
 
 
-res = s.credit.fetch_by_external_id('dolor')
+res = s.credit.fetch_by_external_id('quam')
 
 if res.credits is not None:
     # handle response
@@ -248,7 +249,7 @@ s = orb.Orb(
 )
 
 
-res = s.credit.fetch_ledger('natus', shared.EntryStatus.COMMITTED, 'hic', 9025.99)
+res = s.credit.fetch_ledger('molestiae', shared.EntryStatus.COMMITTED, 'error', 1589.69)
 
 if res.credit_ledger_entries is not None:
     # handle response
@@ -271,7 +272,7 @@ s = orb.Orb(
 )
 
 
-res = s.credit.fetch_ledger_by_external_id('fuga', shared.EntryStatus.COMMITTED, 'corporis', 6130.64)
+res = s.credit.fetch_ledger_by_external_id('quis', shared.EntryStatus.COMMITTED, 'laborum', 6563.3)
 
 if res.credit_ledger_entries is not None:
     # handle response

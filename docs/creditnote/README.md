@@ -27,7 +27,7 @@ s = orb.Orb(
 )
 
 
-res = s.credit_note.list('iure', 'saepe', 'quidem')
+res = s.credit_note.list('enim', 'odit', 'quo')
 
 if res.credit_notes is not None:
     # handle response
