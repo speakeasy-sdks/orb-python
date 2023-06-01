@@ -108,7 +108,7 @@ src/orb/models/shared/upcominginvoice.py
 src/orb/models/shared/invoices.py
 src/orb/models/shared/subscriptioncancellation.py
 src/orb/models/shared/newsubscription.py
-src/orb/models/shared/create_discount.py
+src/orb/models/shared/newdiscount.py
 src/orb/models/shared/subscriptioncosts.py
 src/orb/models/shared/subscriptioncost.py
 src/orb/models/shared/subscriptionschedule.py
@@ -116,6 +116,13 @@ src/orb/models/shared/subscriptionscheduleitem.py
 src/orb/models/shared/subscriptionusage.py
 src/orb/models/shared/subscriptions.py
 src/orb/models/shared/subscriptionplanchange.py
+src/orb/models/shared/tieredpriceoverride.py
+src/orb/models/shared/unitpriceoverride.py
+src/orb/models/shared/bulkpriceoverride.py
+src/orb/models/shared/packagepriceoverride.py
+src/orb/models/shared/bpspriceoverride.py
+src/orb/models/shared/bulkbpspriceoverride.py
+src/orb/models/shared/tieredbpspriceoverride.py
 src/orb/models/shared/fixedfeequantitychange.py
 src/orb/models/shared/security.py
 src/orb/models/shared/__init__.py
