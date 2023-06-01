@@ -2,37 +2,20 @@
 
 from __future__ import annotations
 import dataclasses
-import dateutil.parser
 import requests as requests_http
+from ..shared import amendedevent as shared_amendedevent
+from ..shared import amendeventresult as shared_amendeventresult
 from dataclasses_json import Undefined, dataclass_json
-from datetime import datetime
-from marshmallow import fields
 from orb import utils
-from typing import Any, Optional
+from typing import Optional
 
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class AmendEventRequestBody:
-    
-    event_name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('event_name') }})
-    r"""A name to meaningfully identify the action or event type."""
-    properties: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('properties') }})
-    r"""A dictionary of custom properties. Values in this dictionary must be numeric, boolean, or strings. Nested dictionaries are disallowed."""
-    timestamp: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timestamp'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
-    r"""An ISO 8601 format date with no timezone offset (i.e. UTC). This should represent the time that usage was recorded, and is particularly important to attribute usage to a given billing period."""
-    customer_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('customer_id'), 'exclude': lambda f: f is None }})
-    r"""The Orb Customer identifier"""
-    external_customer_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id'), 'exclude': lambda f: f is None }})
-    r"""An alias for the Orb customer, whose mapping is specified when creating the customer"""
-    
 
 @dataclasses.dataclass
 class AmendEventRequest:
     
     event_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'event_id', 'style': 'simple', 'explode': False }})
     r"""Identical to the `idempotency_key` provided on event ingestion. Uniquely identifies an event in the system."""
-    request_body: Optional[AmendEventRequestBody] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
+    amended_event: Optional[shared_amendedevent.AmendedEvent] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
     
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -58,23 +41,14 @@ class AmendEvent400ApplicationJSON:
     r"""Contains all failing validation events."""
     
 
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class AmendEvent200ApplicationJSON:
-    r"""OK"""
-    
-    amended: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amended'), 'exclude': lambda f: f is None }})
-    r"""event_id of the amended event, if successfully ingested"""
-    
-
 @dataclasses.dataclass
 class AmendEventResponse:
     
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
-    amend_event_200_application_json_object: Optional[AmendEvent200ApplicationJSON] = dataclasses.field(default=None)
-    r"""OK"""
     amend_event_400_application_json_object: Optional[AmendEvent400ApplicationJSON] = dataclasses.field(default=None)
     r"""Bad Request"""
+    amend_event_result: Optional[shared_amendeventresult.AmendEventResult] = dataclasses.field(default=None)
+    r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

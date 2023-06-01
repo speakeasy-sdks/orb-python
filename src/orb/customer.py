@@ -24,7 +24,7 @@ class Customer:
         self._gen_version = gen_version
         
     
-    def amend(self, customer_id: str, timeframe_end: datetime, timeframe_start: datetime, request_body: Optional[operations.AmendUsageRequestBody] = None) -> operations.AmendUsageResponse:
+    def amend(self, customer_id: str, request_body: Optional[list[shared.Event]] = None, timeframe_end: Optional[str] = None, timeframe_start: Optional[datetime] = None) -> operations.AmendUsageResponse:
         r"""Amend customer usage
         This endpoint is used to amend usage within a timeframe for a customer that has an active subscription.
         
@@ -83,9 +83,9 @@ class Customer:
         """
         request = operations.AmendUsageRequest(
             customer_id=customer_id,
+            request_body=request_body,
             timeframe_end=timeframe_end,
             timeframe_start=timeframe_start,
-            request_body=request_body,
         )
         
         base_url = self._server_url
@@ -108,8 +108,8 @@ class Customer:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.AmendUsage200ApplicationJSON])
-                res.amend_usage_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.AmendedUsage])
+                res.amended_usage = out
         elif http_res.status_code == 400:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[operations.AmendUsage400ApplicationJSON])
@@ -118,15 +118,15 @@ class Customer:
         return res
 
     
-    def amend_by_external_id(self, external_customer_id: str, timeframe_end: datetime, timeframe_start: datetime, request_body: Optional[operations.AmendUsageExternalCustomerIDRequestBody] = None) -> operations.AmendUsageExternalCustomerIDResponse:
+    def amend_by_external_id(self, external_customer_id: str, request_body: Optional[list[shared.Event]] = None, timeframe_end: Optional[str] = None, timeframe_start: Optional[datetime] = None) -> operations.AmendUsageExternalCustomerIDResponse:
         r"""Amend customer usage by external ID
         This endpoint's resource and semantics exactly mirror [Amend customer usage](amend-usage) but operates on an [external customer ID](../guides/events-and-metrics/customer-aliases) rather than an Orb issued identifier.
         """
         request = operations.AmendUsageExternalCustomerIDRequest(
             external_customer_id=external_customer_id,
+            request_body=request_body,
             timeframe_end=timeframe_end,
             timeframe_start=timeframe_start,
-            request_body=request_body,
         )
         
         base_url = self._server_url
@@ -149,8 +149,8 @@ class Customer:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.AmendUsageExternalCustomerID200ApplicationJSON])
-                res.amend_usage_external_customer_id_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.AmendedUsage])
+                res.amended_usage = out
         elif http_res.status_code == 400:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[operations.AmendUsageExternalCustomerID400ApplicationJSON])
@@ -193,20 +193,20 @@ class Customer:
         return res
 
     
-    def create_transaction(self, customer_id: str, request_body: Optional[operations.PostCustomersCustomerIDBalanceTransactionsRequestBody] = None) -> operations.PostCustomersCustomerIDBalanceTransactionsResponse:
+    def create_transaction(self, customer_id: str, new_transaction: Optional[shared.NewTransaction] = None) -> operations.PostCustomersCustomerIDBalanceTransactionsResponse:
         r"""Create a customer balance transaction
         Creates an immutable balance transaction that updates the customer's balance and returns back the newly created transaction.
         """
         request = operations.PostCustomersCustomerIDBalanceTransactionsRequest(
             customer_id=customer_id,
-            request_body=request_body,
+            new_transaction=new_transaction,
         )
         
         base_url = self._server_url
         
         url = utils.generate_url(operations.PostCustomersCustomerIDBalanceTransactionsRequest, base_url, '/customers/{customer_id}/balance_transactions', request)
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        req_content_type, data, form = utils.serialize_request_body(request, "new_transaction", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         headers['Accept'] = 'application/json'
@@ -221,8 +221,8 @@ class Customer:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[shared.CustomerBalanceTransaction])
-                res.customer_balance_transaction = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Transaction])
+                res.transaction = out
 
         return res
 
@@ -474,8 +474,8 @@ class Customer:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.ListBalanceTransactions200ApplicationJSON])
-                res.list_balance_transactions_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Transactions])
+                res.transactions = out
 
         return res
 
@@ -508,7 +508,7 @@ class Customer:
         return res
 
     
-    def update_by_external_id(self, external_customer_id: str, request_body: Optional[operations.UpdateCustomerExternalIDRequestBody] = None) -> operations.UpdateCustomerExternalIDResponse:
+    def update_by_external_id(self, external_customer_id: str, new_customer: Optional[shared.NewCustomer] = None) -> operations.UpdateCustomerExternalIDResponse:
         r"""Update a customer by external ID
         This endpoint is used to update customer details given an `external_customer_id` (see [Customer ID Aliases](../guides/events-and-metrics/customer-aliases)).
         
@@ -516,14 +516,14 @@ class Customer:
         """
         request = operations.UpdateCustomerExternalIDRequest(
             external_customer_id=external_customer_id,
-            request_body=request_body,
+            new_customer=new_customer,
         )
         
         base_url = self._server_url
         
         url = utils.generate_url(operations.UpdateCustomerExternalIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}', request)
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        req_content_type, data, form = utils.serialize_request_body(request, "new_customer", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         headers['Accept'] = 'application/json'

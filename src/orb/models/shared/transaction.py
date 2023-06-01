@@ -10,7 +10,7 @@ from marshmallow import fields
 from orb import utils
 from typing import Optional
 
-class CustomerBalanceTransactionAction(str, Enum):
+class TransactionAction(str, Enum):
     r"""Describes the reason that this transaction took place."""
     APPLIED_TO_INVOICE = 'applied_to_invoice'
     PRORATED_REFUND = 'prorated_refund'
@@ -19,7 +19,7 @@ class CustomerBalanceTransactionAction(str, Enum):
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class CustomerBalanceTransactionCreditNote:
+class TransactionCreditNote:
     r"""The Credit note associated with this transaction. This may appear as the result of a credit note being applied to an invoice and balance is added back to the customer balance or it is being reapplied to the invoice."""
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
@@ -28,23 +28,23 @@ class CustomerBalanceTransactionCreditNote:
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class CustomerBalanceTransactionInvoice:
+class TransactionInvoice:
     r"""The Invoice associated with this transaction"""
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     r"""The Invoice id"""
     
-class CustomerBalanceTransactionType(str, Enum):
+class TransactionType(str, Enum):
     INCREMENT = 'increment'
     DECREMENT = 'decrement'
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class CustomerBalanceTransaction:
+class Transaction:
     r"""A single change to the customer balance. All amounts are in the customer's currency."""
     
-    action: CustomerBalanceTransactionAction = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('action') }})
+    action: TransactionAction = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('action') }})
     r"""Describes the reason that this transaction took place."""
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
     r"""The value of the amount changed in the transaction."""
@@ -56,11 +56,11 @@ class CustomerBalanceTransaction:
     r"""The new value of the customer's balance prior to the transaction, in the customer's currency."""
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     r"""A unique id for this transaction."""
-    invoice: CustomerBalanceTransactionInvoice = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('invoice') }})
+    invoice: TransactionInvoice = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('invoice') }})
     r"""The Invoice associated with this transaction"""
     starting_balance: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('starting_balance') }})
     r"""The original value of the customer's balance prior to the transaction, in the customer's currency."""
-    type: CustomerBalanceTransactionType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
-    credit_note: Optional[CustomerBalanceTransactionCreditNote] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('credit_note'), 'exclude': lambda f: f is None }})
+    type: TransactionType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
+    credit_note: Optional[TransactionCreditNote] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('credit_note'), 'exclude': lambda f: f is None }})
     r"""The Credit note associated with this transaction. This may appear as the result of a credit note being applied to an invoice and balance is added back to the customer balance or it is being reapplied to the invoice."""
     

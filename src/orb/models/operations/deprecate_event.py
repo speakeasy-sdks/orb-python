@@ -3,6 +3,7 @@
 from __future__ import annotations
 import dataclasses
 import requests as requests_http
+from ..shared import deprecatedeventresult as shared_deprecatedeventresult
 from dataclasses_json import Undefined, dataclass_json
 from orb import utils
 from typing import Optional
@@ -38,23 +39,14 @@ class DeprecateEvent400ApplicationJSON:
     r"""Contains all failing validation events."""
     
 
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class DeprecateEvent200ApplicationJSON:
-    r"""OK"""
-    
-    deprecated: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('deprecated'), 'exclude': lambda f: f is None }})
-    r"""event_id of the deprecated event, if successfully updated"""
-    
-
 @dataclasses.dataclass
 class DeprecateEventResponse:
     
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
-    deprecate_event_200_application_json_object: Optional[DeprecateEvent200ApplicationJSON] = dataclasses.field(default=None)
-    r"""OK"""
     deprecate_event_400_application_json_object: Optional[DeprecateEvent400ApplicationJSON] = dataclasses.field(default=None)
     r"""Bad Request"""
+    deprecated_event_result: Optional[shared_deprecatedeventresult.DeprecatedEventResult] = dataclasses.field(default=None)
+    r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

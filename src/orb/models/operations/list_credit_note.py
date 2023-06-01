@@ -3,10 +3,7 @@
 from __future__ import annotations
 import dataclasses
 import requests as requests_http
-from ..shared import credit_note as shared_credit_note
-from ..shared import pagination_metadata as shared_pagination_metadata
-from dataclasses_json import Undefined, dataclass_json
-from orb import utils
+from ..shared import creditnotes as shared_creditnotes
 from typing import Optional
 
 
@@ -21,21 +18,12 @@ class ListCreditNoteRequest:
     r"""Filter by a specific subscription"""
     
 
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class ListCreditNote200ApplicationJSON:
-    r"""OK"""
-    
-    data: Optional[list[shared_credit_note.CreditNote]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data'), 'exclude': lambda f: f is None }})
-    pagination_metadata: Optional[shared_pagination_metadata.PaginationMetadata] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata'), 'exclude': lambda f: f is None }})
-    
-
 @dataclasses.dataclass
 class ListCreditNoteResponse:
     
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
-    list_credit_note_200_application_json_object: Optional[ListCreditNote200ApplicationJSON] = dataclasses.field(default=None)
+    credit_notes: Optional[shared_creditnotes.CreditNotes] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

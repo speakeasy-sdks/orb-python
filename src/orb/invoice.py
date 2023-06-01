@@ -23,7 +23,7 @@ class Invoice:
         self._gen_version = gen_version
         
     
-    def create(self, request: operations.CreateInvoiceLineItemRequestBody) -> operations.CreateInvoiceLineItemResponse:
+    def create(self, request: shared.NewInvoiceLineItem) -> operations.CreateInvoiceLineItemResponse:
         r"""Create invoice line item
         This creates a one-off fixed fee invoice line item on an [Invoice](../guides/concepts#invoice). This can only be done for invoices that are in a `draft` status.
         """

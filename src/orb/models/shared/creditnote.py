@@ -3,7 +3,7 @@
 from __future__ import annotations
 import dataclasses
 import dateutil.parser
-from ..shared import credit_note_line_item as shared_credit_note_line_item
+from ..shared import creditnotelineitem as shared_creditnotelineitem
 from ..shared import discount as shared_discount
 from dataclasses_json import Undefined, dataclass_json
 from datetime import datetime
@@ -51,7 +51,7 @@ class CreditNote:
     r"""The unique id of this credit note."""
     invoice_id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('invoice_id') }})
     r"""The Invoice resource that this credit note is applied to."""
-    line_items: list[shared_credit_note_line_item.CreditNoteLineItem] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('line_items') }})
+    line_items: list[shared_creditnotelineitem.CreditNoteLineItem] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('line_items') }})
     r"""All of the line items associated with this credit note"""
     memo: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('memo') }})
     r"""An optional memo supplied on the credit note."""
