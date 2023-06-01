@@ -99,6 +99,7 @@ src/orb/models/shared/amendedusage.py
 src/orb/models/shared/event.py
 src/orb/models/shared/newcustomer.py
 src/orb/models/shared/transaction.py
+src/orb/models/shared/transactiontype.py
 src/orb/models/shared/newtransaction.py
 src/orb/models/shared/customercosts.py
 src/orb/models/shared/customercost.py

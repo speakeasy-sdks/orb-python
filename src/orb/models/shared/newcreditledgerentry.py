@@ -9,7 +9,7 @@ from marshmallow import fields
 from orb import utils
 from typing import Any, Optional
 
-class NewCreditLedgerEntryEntryType(str, Enum):
+class EntryType1(str, Enum):
     INCREMENT = 'increment'
     DECREMENT = 'decrement'
     EXPIRATION_CHANGE = 'expiration_change'
@@ -32,7 +32,7 @@ class NewCreditLedgerEntryInvoiceSettings:
 @dataclasses.dataclass
 class NewCreditLedgerEntry:
     
-    entry_type: NewCreditLedgerEntryEntryType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_type') }})
+    entry_type: EntryType1 = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_type') }})
     amount: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount'), 'exclude': lambda f: f is None }})
     r"""The number of credits to effect. Note that this is required for increment or decrement operations."""
     block_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('block_id'), 'exclude': lambda f: f is None }})
