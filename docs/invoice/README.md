@@ -21,7 +21,7 @@ This creates a one-off fixed fee invoice line item on an [Invoice](../guides/con
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -29,13 +29,13 @@ s = orb.Orb(
     ),
 )
 
-req = operations.CreateInvoiceLineItemRequestBody(
-    amount='eaque',
-    end_date=dateutil.parser.parse('2022-10-20').date(),
-    invoice_id='eos',
-    name='Jacqueline Schimmel',
-    quantity=8745.73,
-    start_date=dateutil.parser.parse('2022-01-21').date(),
+req = shared.NewInvoiceLineItem(
+    amount='eos',
+    end_date=dateutil.parser.parse('2022-10-30').date(),
+    invoice_id='4khy3nwzktxv7',
+    name='Darryl Fadel',
+    quantity=47hhsws4z2i13,
+    start_date=dateutil.parser.parse('2020-03-20').date(),
 )
 
 res = s.invoice.create(req)
@@ -61,7 +61,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.fetch('recusandae')
+res = s.invoice.fetch('omnis')
 
 if res.invoice is not None:
     # handle response
@@ -84,7 +84,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.fetch_upcoming('omnis')
+res = s.invoice.fetch_upcoming('facilis')
 
 if res.upcoming_invoice is not None:
     # handle response
@@ -111,7 +111,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.list('facilis', 'perspiciatis', 'voluptatem', 'porro')
+res = s.invoice.list('perspiciatis', 'voluptatem', 'porro', 'consequuntur')
 
 if res.invoices is not None:
     # handle response
@@ -136,7 +136,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.void('consequuntur')
+res = s.invoice.void('blanditiis')
 
 if res.invoice is not None:
     # handle response

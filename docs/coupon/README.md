@@ -121,7 +121,7 @@ s = orb.Orb(
 
 res = s.coupon.list('esse', False)
 
-if res.list_coupons_200_application_json_object is not None:
+if res.coupons is not None:
     # handle response
 ```
 
@@ -144,6 +144,6 @@ s = orb.Orb(
 
 res = s.coupon.list_subscriptions('totam')
 
-if res.list_coupon_subscriptions_200_application_json_object is not None:
+if res.subscriptions is not None:
     # handle response
 ```

@@ -33,7 +33,7 @@ s = orb.Orb(
 )
 
 
-res = s.plan.fetch('blanditiis')
+res = s.plan.fetch('error')
 
 if res.plan is not None:
     # handle response
@@ -60,376 +60,270 @@ s = orb.Orb(
 )
 
 
-res = s.plan.get_by_external_id('error', shared.Plan(
+res = s.plan.get_by_external_id('eaque', shared.Plan(
     base_plan=shared.PlanBasePlan(
-        external_plan_id='eaque',
-        id='9b3fe49a-8d9c-4bf4-8633-323f9b77f3a4',
-        name='Melissa Bednar',
+        external_plan_id='occaecati',
+        id='b3fe49a8-d9cb-4f48-a333-23f9b77f3a41',
+        name='Angela Kerluke',
     ),
-    base_plan_id='quaerat',
-    created_at=dateutil.parser.isoparse('2020-11-29T12:05:35.198Z'),
-    currency='voluptatibus',
-    default_invoice_memo='voluptas',
-    description='natus',
+    base_plan_id='accusamus',
+    created_at=dateutil.parser.isoparse('2021-01-18T05:23:42.271Z'),
+    currency='voluptas',
+    default_invoice_memo='natus',
+    description='eos',
     discount=shared.Discount(
-        amount_discount='eos',
+        amount_discount='atque',
         applies_to_price_ids=[
-            'sit',
             'fugiat',
-            'ab',
         ],
         discount_type=shared.DiscountDiscountType.PERCENTAGE,
         percentage_discount=0.15,
-        trial_amount_discount='soluta',
-        usage_discount=6793.93,
+        trial_amount_discount='ab',
+        usage_discount=7438.35,
     ),
-    external_plan_id='iusto',
-    id='7a89ebf7-37ae-4420-bce5-e6a95d8a0d44',
-    invoicing_currency='vel',
+    external_plan_id='dolorum',
+    id='77a89ebf-737a-4e42-83ce-5e6a95d8a0d4',
+    invoicing_currency='tempora',
     minimum=shared.MinimumAmount(
         applies_to_price_ids=[
+            'quod',
             'officiis',
-            'qui',
-            'dolorum',
-            'a',
         ],
-        minimum_amount='esse',
+        minimum_amount='qui',
     ),
-    name='Tyrone Emard',
-    net_terms=229442,
+    name='Randal Klocko',
+    net_terms=215507,
     plan_phases=[
         shared.PlanPhase(
-            description='accusamus',
+            description='tenetur',
             discount=shared.Discount(
-                amount_discount='numquam',
+                amount_discount='amet',
                 applies_to_price_ids=[
-                    'dolorem',
-                    'sapiente',
+                    'accusamus',
+                    'numquam',
+                    'enim',
                 ],
                 discount_type=shared.DiscountDiscountType.PERCENTAGE,
                 percentage_discount=0.15,
-                trial_amount_discount='totam',
-                usage_discount=4717.52,
+                trial_amount_discount='dolorem',
+                usage_discount=9574.51,
             ),
-            duration=25662,
-            duration_unit=shared.PlanPhaseDurationUnit.ANNUAL,
+            duration=518201,
+            duration_unit=shared.PlanPhaseDurationUnit.QUARTERLY,
             minimum=shared.MinimumAmount(
                 applies_to_price_ids=[
-                    'sed',
+                    'expedita',
                 ],
-                minimum_amount='vel',
+                minimum_amount='neque',
             ),
-            name='Glen Oberbrunner',
-            order=277628,
+            name='Gina Renner',
+            order=463575,
+        ),
+        shared.PlanPhase(
+            description='ipsum',
+            discount=shared.Discount(
+                amount_discount='incidunt',
+                applies_to_price_ids=[
+                    'cupiditate',
+                ],
+                discount_type=shared.DiscountDiscountType.PERCENTAGE,
+                percentage_discount=0.15,
+                trial_amount_discount='maxime',
+                usage_discount=8638.56,
+            ),
+            duration=747080,
+            duration_unit=shared.PlanPhaseDurationUnit.MONTHLY,
+            minimum=shared.MinimumAmount(
+                applies_to_price_ids=[
+                    'totam',
+                    'incidunt',
+                    'aspernatur',
+                ],
+                minimum_amount='dolores',
+            ),
+            name='Cesar Hyatt',
+            order=840429,
         ),
         shared.PlanPhase(
             description='qui',
             discount=shared.Discount(
-                amount_discount='cupiditate',
+                amount_discount='neque',
                 applies_to_price_ids=[
-                    'pariatur',
-                    'soluta',
-                    'dicta',
-                    'laborum',
+                    'magni',
                 ],
                 discount_type=shared.DiscountDiscountType.PERCENTAGE,
                 percentage_discount=0.15,
-                trial_amount_discount='totam',
-                usage_discount=2768.94,
+                trial_amount_discount='odio',
+                usage_discount=1248.33,
             ),
-            duration=132068,
-            duration_unit=shared.PlanPhaseDurationUnit.MONTHLY,
-            minimum=shared.MinimumAmount(
-                applies_to_price_ids=[
-                    'facilis',
-                    'aliquid',
-                    'quam',
-                ],
-                minimum_amount='molestias',
-            ),
-            name='Shawn Doyle',
-            order=488056,
-        ),
-        shared.PlanPhase(
-            description='sunt',
-            discount=shared.Discount(
-                amount_discount='ullam',
-                applies_to_price_ids=[
-                    'hic',
-                    'voluptatem',
-                    'cumque',
-                ],
-                discount_type=shared.DiscountDiscountType.PERCENTAGE,
-                percentage_discount=0.15,
-                trial_amount_discount='soluta',
-                usage_discount=7486.64,
-            ),
-            duration=92596,
+            duration=355613,
             duration_unit=shared.PlanPhaseDurationUnit.ANNUAL,
             minimum=shared.MinimumAmount(
                 applies_to_price_ids=[
-                    'veritatis',
+                    'voluptatem',
+                    'cumque',
+                    'soluta',
+                    'nobis',
                 ],
-                minimum_amount='nobis',
+                minimum_amount='et',
             ),
-            name='Dr. Randolph McDermott',
-            order=292147,
+            name='Dale Boehm',
+            order=731694,
+        ),
+        shared.PlanPhase(
+            description='cupiditate',
+            discount=shared.Discount(
+                amount_discount='aperiam',
+                applies_to_price_ids=[
+                    'dolorem',
+                    'dolore',
+                    'labore',
+                    'adipisci',
+                ],
+                discount_type=shared.DiscountDiscountType.PERCENTAGE,
+                percentage_discount=0.15,
+                trial_amount_discount='dolorum',
+                usage_discount=1002.94,
+            ),
+            duration=63038,
+            duration_unit=shared.PlanPhaseDurationUnit.MONTHLY,
+            minimum=shared.MinimumAmount(
+                applies_to_price_ids=[
+                    'itaque',
+                    'consequatur',
+                    'est',
+                ],
+                minimum_amount='repellendus',
+            ),
+            name='Domingo Grady',
+            order=181631,
         ),
     ],
     prices=[
         shared.Price(
             billable_metric=shared.PriceBillableMetric(
-                id='3a1108e0-adcf-44b9-a187-9fce953f73ef',
+                id='879fce95-3f73-4ef7-bbc7-abd74dd39c0f',
             ),
             bps_config=shared.PriceBpsConfig(
-                bps=4922.68,
-                per_unit_maximum='hic',
+                bps=3472.33,
+                per_unit_maximum='nulla',
             ),
             bulk_bps_config=shared.PriceBulkBpsConfig(
                 tiers=[
                     shared.PriceBulkBpsConfigTiers(
-                        bps=7992.03,
-                        maximum_amount='odio',
-                        per_unit_maximum='similique',
-                    ),
-                    shared.PriceBulkBpsConfigTiers(
-                        bps=7085.48,
-                        maximum_amount='vero',
-                        per_unit_maximum='ducimus',
-                    ),
-                    shared.PriceBulkBpsConfigTiers(
-                        bps=2930.2,
-                        maximum_amount='quibusdam',
-                        per_unit_maximum='illum',
+                        bps=7804.27,
+                        maximum_amount='maiores',
+                        per_unit_maximum='doloribus',
                     ),
                 ],
             ),
             bulk_config=shared.PriceBulkConfig(
                 tiers=[
                     shared.PriceBulkConfigTiers(
-                        maximum_units='natus',
-                        unit_amount='impedit',
+                        maximum_units='eligendi',
+                        unit_amount='ducimus',
+                    ),
+                    shared.PriceBulkConfigTiers(
+                        maximum_units='alias',
+                        unit_amount='officia',
                     ),
                 ],
             ),
             cadence=shared.PriceCadence.ANNUAL,
-            created_at=dateutil.parser.isoparse('2021-12-16T18:42:11.269Z'),
+            created_at=dateutil.parser.isoparse('2022-08-04T04:05:19.236Z'),
             currency='USD',
             discount=shared.Discount(
-                amount_discount='nulla',
+                amount_discount='aspernatur',
                 applies_to_price_ids=[
-                    'porro',
+                    'possimus',
+                    'magnam',
                 ],
                 discount_type=shared.DiscountDiscountType.PERCENTAGE,
                 percentage_discount=0.15,
-                trial_amount_discount='maiores',
-                usage_discount=9850.33,
+                trial_amount_discount='ratione',
+                usage_discount=4011.32,
             ),
-            fixed_price_quantity=4783.7,
-            id='c70a4562-6d43-4681-bf16-d9f5fce6c556',
+            fixed_price_quantity=5113.19,
+            id='13f16d9f-5fce-46c5-9614-6c3e250fb008',
             matrix_config=shared.PriceMatrixConfig(
-                default_unit_amount='inventore',
+                default_unit_amount='impedit',
                 dimensions=[
-                    'ea',
-                    'quo',
+                    'fugit',
+                    'accusamus',
                 ],
                 matrix_values=[
                     shared.PriceMatrixConfigMatrixValues(
                         dimension_values=[
-                            'aspernatur',
-                            'minima',
-                            'eaque',
-                            'a',
+                            'et',
+                            'dolorum',
                         ],
-                        unit_amount='libero',
+                        unit_amount='laborum',
                     ),
                 ],
             ),
             minimum=shared.MinimumAmount(
                 applies_to_price_ids=[
-                    'aut',
+                    'velit',
+                    'eum',
+                    'autem',
+                    'nobis',
                 ],
-                minimum_amount='deleniti',
+                minimum_amount='quas',
             ),
             model_type=shared.PriceModelType.BULK_BPS,
-            name='Mrs. Denise Tillman MD',
+            name='Mrs. Shane Reinger',
             package_config=shared.PricePackageConfig(
-                package_amount='laborum',
-                package_size=8104.24,
+                package_amount='explicabo',
+                package_size=5919.35,
             ),
-            plan_phase_order=2453.67,
+            plan_phase_order=553.74,
             tiered_bps_config=shared.PriceTieredBpsConfig(
                 tiers=[
                     shared.PriceTieredBpsConfigTiers(
-                        bps=4205.39,
-                        maximum_amount='nobis',
-                        minimum_amount='quas',
-                        per_unit_maximum='assumenda',
-                    ),
-                    shared.PriceTieredBpsConfigTiers(
-                        bps=8605.52,
-                        maximum_amount='voluptas',
-                        minimum_amount='libero',
-                        per_unit_maximum='quasi',
-                    ),
-                ],
-            ),
-            tiered_config=shared.PriceTieredConfig(
-                tiers=[
-                    shared.PriceTieredConfigTiers(
-                        first_unit='numquam',
-                        last_unit='explicabo',
-                        unit_amount='provident',
-                    ),
-                    shared.PriceTieredConfigTiers(
-                        first_unit='ipsa',
-                        last_unit='molestiae',
-                        unit_amount='magnam',
-                    ),
-                ],
-            ),
-            unit_config=shared.PriceUnitConfig(
-                unit_amount='odio',
-            ),
-        ),
-        shared.Price(
-            billable_metric=shared.PriceBillableMetric(
-                id='4778a7bd-466d-428c-90ab-3cdca4251904',
-            ),
-            bps_config=shared.PriceBpsConfig(
-                bps=8920.5,
-                per_unit_maximum='ipsam',
-            ),
-            bulk_bps_config=shared.PriceBulkBpsConfig(
-                tiers=[
-                    shared.PriceBulkBpsConfigTiers(
-                        bps=1970.54,
-                        maximum_amount='quo',
+                        bps=3015.98,
+                        maximum_amount='odio',
+                        minimum_amount='eius',
                         per_unit_maximum='esse',
                     ),
-                ],
-            ),
-            bulk_config=shared.PriceBulkConfig(
-                tiers=[
-                    shared.PriceBulkConfigTiers(
-                        maximum_units='aperiam',
-                        unit_amount='distinctio',
-                    ),
-                    shared.PriceBulkConfigTiers(
-                        maximum_units='quod',
-                        unit_amount='dignissimos',
-                    ),
-                    shared.PriceBulkConfigTiers(
-                        maximum_units='inventore',
-                        unit_amount='nihil',
-                    ),
-                    shared.PriceBulkConfigTiers(
-                        maximum_units='totam',
-                        unit_amount='accusamus',
-                    ),
-                ],
-            ),
-            cadence=shared.PriceCadence.ANNUAL,
-            created_at=dateutil.parser.isoparse('2022-06-04T04:43:25.138Z'),
-            currency='USD',
-            discount=shared.Discount(
-                amount_discount='commodi',
-                applies_to_price_ids=[
-                    'dolores',
-                    'deserunt',
-                    'molestiae',
-                    'accusantium',
-                ],
-                discount_type=shared.DiscountDiscountType.PERCENTAGE,
-                percentage_discount=0.15,
-                trial_amount_discount='porro',
-                usage_discount=4304.02,
-            ),
-            fixed_price_quantity=5564.29,
-            id='8282aa48-2562-4f22-ae98-17ee17cbe61e',
-            matrix_config=shared.PriceMatrixConfig(
-                default_unit_amount='vel',
-                dimensions=[
-                    'molestiae',
-                    'rerum',
-                    'occaecati',
-                ],
-                matrix_values=[
-                    shared.PriceMatrixConfigMatrixValues(
-                        dimension_values=[
-                            'eligendi',
-                            'sit',
-                            'culpa',
-                        ],
-                        unit_amount='tempore',
-                    ),
-                    shared.PriceMatrixConfigMatrixValues(
-                        dimension_values=[
-                            'cumque',
-                        ],
-                        unit_amount='consequuntur',
-                    ),
-                ],
-            ),
-            minimum=shared.MinimumAmount(
-                applies_to_price_ids=[
-                    'minus',
-                ],
-                minimum_amount='quaerat',
-            ),
-            model_type=shared.PriceModelType.MATRIX,
-            name='Joy Labadie',
-            package_config=shared.PricePackageConfig(
-                package_amount='nulla',
-                package_size=5578.11,
-            ),
-            plan_phase_order=4572.23,
-            tiered_bps_config=shared.PriceTieredBpsConfig(
-                tiers=[
                     shared.PriceTieredBpsConfigTiers(
-                        bps=9518.75,
-                        maximum_amount='error',
-                        minimum_amount='sint',
-                        per_unit_maximum='pariatur',
+                        bps=4561.41,
+                        maximum_amount='rem',
+                        minimum_amount='fuga',
+                        per_unit_maximum='reprehenderit',
                     ),
                 ],
             ),
             tiered_config=shared.PriceTieredConfig(
                 tiers=[
                     shared.PriceTieredConfigTiers(
-                        first_unit='quia',
-                        last_unit='eveniet',
-                        unit_amount='asperiores',
+                        first_unit='fugiat',
+                        last_unit='ut',
+                        unit_amount='eum',
                     ),
                     shared.PriceTieredConfigTiers(
-                        first_unit='facere',
-                        last_unit='veritatis',
-                        unit_amount='consequuntur',
+                        first_unit='suscipit',
+                        last_unit='assumenda',
+                        unit_amount='eos',
                     ),
                     shared.PriceTieredConfigTiers(
-                        first_unit='quasi',
-                        last_unit='similique',
-                        unit_amount='culpa',
-                    ),
-                    shared.PriceTieredConfigTiers(
-                        first_unit='aliquid',
-                        last_unit='tenetur',
-                        unit_amount='quae',
+                        first_unit='praesentium',
+                        last_unit='quisquam',
+                        unit_amount='veritatis',
                     ),
                 ],
             ),
             unit_config=shared.PriceUnitConfig(
-                unit_amount='earum',
+                unit_amount='ipsa',
             ),
         ),
     ],
     product=shared.PlanProduct(
-        created_at=dateutil.parser.isoparse('2022-07-21T16:57:57.397Z'),
-        id='4bdb04f1-5756-4082-968e-a19f1d170513',
-        name='Ms. Cora Spencer IV',
+        created_at=dateutil.parser.isoparse('2021-08-10T04:36:29.661Z'),
+        id='3cdca425-1904-4e52-bc7e-0bc7178e4796',
+        name='Todd Oberbrunner DDS',
     ),
     trial_config=shared.PlanTrialConfig(
-        trial_period=4287.96,
+        trial_period=4304.02,
         trial_period_unit=shared.PlanTrialConfigTrialPeriodUnit.DAYS,
     ),
 ))
@@ -460,6 +354,6 @@ s = orb.Orb(
 
 res = s.plan.list()
 
-if res.list_plans_200_application_json_object is not None:
+if res.plans is not None:
     # handle response
 ```

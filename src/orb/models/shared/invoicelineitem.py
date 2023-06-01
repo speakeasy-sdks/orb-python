@@ -6,64 +6,12 @@ import dateutil.parser
 from ..shared import discount as shared_discount
 from ..shared import minimum_amount as shared_minimum_amount
 from ..shared import price as shared_price
+from ..shared import sublineitem as shared_sublineitem
 from dataclasses_json import Undefined, dataclass_json
 from datetime import datetime
-from enum import Enum
 from marshmallow import fields
 from orb import utils
-from typing import Optional
 
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class InvoiceLineItemSubLineItemsGrouping:
-    r"""For configured prices that are split by a grouping key, this will be populated with the key and a value. The `amount` will be the values for this particular grouping."""
-    
-    key: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('key'), 'exclude': lambda f: f is None }})
-    value: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('value'), 'exclude': lambda f: f is None }})
-    
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class InvoiceLineItemSubLineItemsMatrixConfig:
-    r"""Only available if `type` is `matrix`. Contains the values of the matrix that this `sub_line_item` represents."""
-    
-    dimension_values: list[str] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dimension_values') }})
-    r"""The ordered dimension values for this line item."""
-    
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class InvoiceLineItemSubLineItemsTierConfig:
-    r"""Only available if `type` is `tier`. Contains the range of units in this tier and the unit amount."""
-    
-    first_unit: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('first_unit') }})
-    last_unit: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('last_unit') }})
-    unit_amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount') }})
-    
-class InvoiceLineItemSubLineItemsType(str, Enum):
-    r"""An identifier for a sub line item that is specific to a pricing model."""
-    MATRIX = 'matrix'
-    TIER = 'tier'
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class InvoiceLineItemSubLineItems:
-    
-    amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
-    r"""The total amount for this sub line item."""
-    grouping: InvoiceLineItemSubLineItemsGrouping = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('grouping') }})
-    r"""For configured prices that are split by a grouping key, this will be populated with the key and a value. The `amount` will be the values for this particular grouping."""
-    name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
-    quantity: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('quantity') }})
-    type: InvoiceLineItemSubLineItemsType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
-    r"""An identifier for a sub line item that is specific to a pricing model."""
-    matrix_config: Optional[InvoiceLineItemSubLineItemsMatrixConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('matrix_config'), 'exclude': lambda f: f is None }})
-    r"""Only available if `type` is `matrix`. Contains the values of the matrix that this `sub_line_item` represents."""
-    tier_config: Optional[InvoiceLineItemSubLineItemsTierConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tier_config'), 'exclude': lambda f: f is None }})
-    r"""Only available if `type` is `tier`. Contains the range of units in this tier and the unit amount."""
-    
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
@@ -275,7 +223,7 @@ class InvoiceLineItem:
     quantity: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('quantity') }})
     start_date: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('start_date'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
     r"""The start date of the range of time applied for this line item's price."""
-    sub_line_items: list[InvoiceLineItemSubLineItems] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('sub_line_items') }})
+    sub_line_items: list[shared_sublineitem.SubLineItem] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('sub_line_items') }})
     r"""For complex pricing structures, the line item can be broken down further in `sub_line_items`."""
     subtotal: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('subtotal') }})
     r"""The line amount before any line item-specific discounts or minimums."""

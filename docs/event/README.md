@@ -38,7 +38,7 @@ This amendment API is always audit-safe. The process will still retain the origi
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -47,20 +47,20 @@ s = orb.Orb(
 )
 
 
-res = s.event.amend('fQp2wSmK7CF9oPcu', operations.AmendEventRequestBody(
-    customer_id='ad',
-    event_name='eum',
-    external_customer_id='dolor',
+res = s.event.amend('fQp2wSmK7CF9oPcu', shared.AmendedEvent(
+    customer_id='sunt',
+    event_name='quo',
+    external_customer_id='illum',
     properties={
-        "odit": 'nemo',
-        "quasi": 'iure',
-        "doloribus": 'debitis',
-        "eius": 'maxime',
+        "maxime": 'ea',
+        "excepturi": 'odit',
+        "ea": 'accusantium',
+        "ab": 'maiores',
     },
     timestamp=dateutil.parser.isoparse('2020-12-09T16:09:53Z'),
 ))
 
-if res.amend_event_200_application_json_object is not None:
+if res.amend_event_result is not None:
     # handle response
 ```
 
@@ -83,7 +83,7 @@ s = orb.Orb(
 )
 
 
-res = s.event.close_backfill('deleniti')
+res = s.event.close_backfill('quidem')
 
 if res.backfill is not None:
     # handle response
@@ -108,7 +108,7 @@ If the `replace_existing_events` is `true`, existing events in the backfill's ti
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -116,13 +116,13 @@ s = orb.Orb(
     ),
 )
 
-req = operations.CreateBackfillRequestBody(
-    close_time=dateutil.parser.isoparse('2022-02-08T00:19:59.821Z'),
-    customer_id='architecto',
-    external_customer_id='architecto',
+req = shared.NewBackfill(
+    close_time=dateutil.parser.isoparse('2022-07-19T10:57:57.489Z'),
+    customer_id='autem',
+    external_customer_id='nam',
     replace_existing_events=False,
-    timeframe_end=dateutil.parser.isoparse('2021-12-11T05:14:57.773Z'),
-    timeframe_start=dateutil.parser.isoparse('2022-01-23T10:45:15.714Z'),
+    timeframe_end=dateutil.parser.isoparse('2022-02-18T18:29:26.833Z'),
+    timeframe_start=dateutil.parser.isoparse('2022-01-09T22:25:53.570Z'),
 )
 
 res = s.event.create(req)
@@ -165,7 +165,7 @@ s = orb.Orb(
 
 res = s.event.deprecate_event('fQp2wSmK7CF9oPcu')
 
-if res.deprecate_event_200_application_json_object is not None:
+if res.deprecated_event_result is not None:
     # handle response
 ```
 
@@ -324,50 +324,17 @@ s = orb.Orb(
 
 res = s.event.ingest([
     shared.Event(
-        customer_id='quibusdam',
-        event_name='sed',
-        external_customer_id='saepe',
-        idempotency_key='pariatur',
+        customer_id='fugiat',
+        event_name='amet',
+        external_customer_id='aut',
+        idempotency_key='cumque',
         properties={
-            "consequuntur": 'praesentium',
+            "hic": 'libero',
+            "nobis": 'dolores',
         },
         timestamp='2020-12-09T16:09:53Z',
     ),
-    shared.Event(
-        customer_id='natus',
-        event_name='magni',
-        external_customer_id='sunt',
-        idempotency_key='quo',
-        properties={
-            "pariatur": 'maxime',
-            "ea": 'excepturi',
-            "odit": 'ea',
-            "accusantium": 'ab',
-        },
-        timestamp='2020-12-09T16:09:53Z',
-    ),
-    shared.Event(
-        customer_id='maiores',
-        event_name='quidem',
-        external_customer_id='ipsam',
-        idempotency_key='voluptate',
-        properties={
-            "nam": 'eaque',
-            "pariatur": 'nemo',
-        },
-        timestamp='2020-12-09T16:09:53Z',
-    ),
-    shared.Event(
-        customer_id='voluptatibus',
-        event_name='perferendis',
-        external_customer_id='fugiat',
-        idempotency_key='amet',
-        properties={
-            "cumque": 'corporis',
-        },
-        timestamp='2020-12-09T16:09:53Z',
-    ),
-], 'backfill_123', operations.IngestDebug.FALSE)
+], 'backfill_123', operations.IngestDebug.TRUE)
 
 if res.ingestion_response is not None:
     # handle response
@@ -394,7 +361,7 @@ s = orb.Orb(
 
 res = s.event.list_backfills()
 
-if res.list_backfills_200_application_json_object is not None:
+if res.backfills is not None:
     # handle response
 ```
 
@@ -417,7 +384,7 @@ s = orb.Orb(
 )
 
 
-res = s.event.revert_backfill('libero')
+res = s.event.revert_backfill('totam')
 
 if res.backfill is not None:
     # handle response
@@ -441,7 +408,7 @@ By default, Orb will not throw a `404` if no events matched, Orb will return an 
 
 ```python
 import orb
-from orb.models import operations
+from orb.models import shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -449,17 +416,16 @@ s = orb.Orb(
     ),
 )
 
-req = operations.SearchEventsRequestBody(
+req = shared.EventSearchCriteria(
     event_ids=[
-        'dolores',
+        'eaque',
         'quis',
-        'totam',
     ],
-    invoice_id='dignissimos',
+    invoice_id='nesciunt',
 )
 
 res = s.event.search(req)
 
-if res.search_events_200_application_json_object is not None:
+if res.event_search_results is not None:
     # handle response
 ```

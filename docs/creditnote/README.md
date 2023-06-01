@@ -29,6 +29,6 @@ s = orb.Orb(
 
 res = s.credit_note.list('iure', 'saepe', 'quidem')
 
-if res.list_credit_note_200_application_json_object is not None:
+if res.credit_notes is not None:
     # handle response
 ```

@@ -3,11 +3,11 @@
 from __future__ import annotations
 import dataclasses
 import dateutil.parser
-from ..shared import customer_balance_transaction as shared_customer_balance_transaction
 from ..shared import customer_tax_id as shared_customer_tax_id
 from ..shared import discount as shared_discount
-from ..shared import invoice_line_item as shared_invoice_line_item
+from ..shared import invoicelineitem as shared_invoicelineitem
 from ..shared import minimum_amount as shared_minimum_amount
+from ..shared import transactions as shared_transactions
 from dataclasses_json import Undefined, dataclass_json
 from datetime import datetime
 from enum import Enum
@@ -77,8 +77,7 @@ class Invoice:
     r"""An ISO 4217 currency string or `credits`"""
     customer: InvoiceCustomer = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('customer') }})
     r"""The customer receiving this invoice."""
-    customer_balance_transactions: list[shared_customer_balance_transaction.CustomerBalanceTransaction] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('customer_balance_transactions') }})
-    r"""A list of Customer balance transactions that may be associated with this invoice."""
+    customer_balance_transactions: shared_transactions.Transactions = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('customer_balance_transactions') }})
     discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
     due_date: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('due_date'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
     r"""When the invoice payment is due."""
@@ -87,7 +86,7 @@ class Invoice:
     r"""Issue date of the invoice"""
     invoice_pdf: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('invoice_pdf') }})
     r"""The link to download the PDF representation of the `Invoice`."""
-    line_items: list[shared_invoice_line_item.InvoiceLineItem] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('line_items') }})
+    line_items: list[shared_invoicelineitem.InvoiceLineItem] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('line_items') }})
     r"""The breakdown of prices in this invoice."""
     minimum: shared_minimum_amount.MinimumAmount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum') }})
     status: InvoiceStatus = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status') }})

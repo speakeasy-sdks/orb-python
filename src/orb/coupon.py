@@ -136,8 +136,8 @@ class Coupon:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.ListCoupons200ApplicationJSON])
-                res.list_coupons_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Coupons])
+                res.coupons = out
 
         return res
 
@@ -166,8 +166,8 @@ class Coupon:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.ListCouponSubscriptions200ApplicationJSON])
-                res.list_coupon_subscriptions_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Subscriptions])
+                res.subscriptions = out
 
         return res
 

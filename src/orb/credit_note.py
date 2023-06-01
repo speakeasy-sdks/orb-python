@@ -2,7 +2,7 @@
 
 import requests as requests_http
 from . import utils
-from orb.models import operations
+from orb.models import operations, shared
 from typing import Optional
 
 class CreditNote:
@@ -52,8 +52,8 @@ class CreditNote:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.ListCreditNote200ApplicationJSON])
-                res.list_credit_note_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.CreditNotes])
+                res.credit_notes = out
 
         return res
 

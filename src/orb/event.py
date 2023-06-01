@@ -23,7 +23,7 @@ class Event:
         self._gen_version = gen_version
         
     
-    def amend(self, event_id: str, request_body: Optional[operations.AmendEventRequestBody] = None) -> operations.AmendEventResponse:
+    def amend(self, event_id: str, amended_event: Optional[shared.AmendedEvent] = None) -> operations.AmendEventResponse:
         r"""Amend single event
         This endpoint is used to amend a single usage event with a given `event_id`. `event_id` refers to the `idempotency_key` passed in during ingestion. The event will maintain its existing `event_id` after the amendment.
         
@@ -43,14 +43,14 @@ class Event:
         """
         request = operations.AmendEventRequest(
             event_id=event_id,
-            request_body=request_body,
+            amended_event=amended_event,
         )
         
         base_url = self._server_url
         
         url = utils.generate_url(operations.AmendEventRequest, base_url, '/events/{event_id}', request)
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        req_content_type, data, form = utils.serialize_request_body(request, "amended_event", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         headers['Accept'] = 'application/json;q=1, application/json;q=0'
@@ -65,8 +65,8 @@ class Event:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.AmendEvent200ApplicationJSON])
-                res.amend_event_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.AmendEventResult])
+                res.amend_event_result = out
         elif http_res.status_code == 400:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[operations.AmendEvent400ApplicationJSON])
@@ -105,7 +105,7 @@ class Event:
         return res
 
     
-    def create(self, request: operations.CreateBackfillRequestBody) -> operations.CreateBackfillResponse:
+    def create(self, request: shared.NewBackfill) -> operations.CreateBackfillResponse:
         r"""Create a backfill
         Creating the backfill enables adding or replacing past events, even those that are older than the ingestion grace period. Performing a backfill in Orb involves 3 steps:
         
@@ -183,8 +183,8 @@ class Event:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.DeprecateEvent200ApplicationJSON])
-                res.deprecate_event_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.DeprecatedEventResult])
+                res.deprecated_event_result = out
         elif http_res.status_code == 400:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[operations.DeprecateEvent400ApplicationJSON])
@@ -391,8 +391,8 @@ class Event:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.ListBackfills200ApplicationJSON])
-                res.list_backfills_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Backfills])
+                res.backfills = out
 
         return res
 
@@ -429,7 +429,7 @@ class Event:
         return res
 
     
-    def search(self, request: operations.SearchEventsRequestBody) -> operations.SearchEventsResponse:
+    def search(self, request: shared.EventSearchCriteria) -> operations.SearchEventsResponse:
         r"""Search events
         This endpoint returns a filtered set of events for an account in a [paginated list format](../api/pagination). 
         
@@ -462,8 +462,8 @@ class Event:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.SearchEvents200ApplicationJSON])
-                res.search_events_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.EventSearchResults])
+                res.event_search_results = out
 
         return res
 

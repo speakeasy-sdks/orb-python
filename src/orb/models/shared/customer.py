@@ -5,22 +5,13 @@ import dataclasses
 import dateutil.parser
 from ..shared import billing_address as shared_billing_address
 from ..shared import customer_tax_id as shared_customer_tax_id
+from ..shared import paymentprovider as shared_paymentprovider
 from ..shared import shipping_address as shared_shipping_address
 from dataclasses_json import Undefined, dataclass_json
 from datetime import datetime
-from enum import Enum
 from marshmallow import fields
 from orb import utils
 from typing import Any, Optional
-
-class CustomerPaymentProvider(str, Enum):
-    r"""The external payments or invoicing solution connected to this customer."""
-    STRIPE = 'stripe'
-    QUICKBOOKS = 'quickbooks'
-    BILL_COM = 'bill.com'
-    STRIPE_CHARGE = 'stripe_charge'
-    STRIPE_INVOICE = 'stripe_invoice'
-    LESS_THAN_NIL_GREATER_THAN_ = '<nil>'
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -47,8 +38,11 @@ class Customer:
     metadata: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata') }})
     r"""User specified key-value pairs. If there is no metadata for the customer, this defaults to an empty dictionary."""
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
-    payment_provider: CustomerPaymentProvider = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider') }})
-    r"""The external payments or invoicing solution connected to this customer."""
+    payment_provider: shared_paymentprovider.PaymentProvider = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider') }})
+    r"""This is used for creating charges or invoices in an external system via Orb. When not in test mode:
+    - the connection must first be configured in the Orb webapp. 
+    - if the provider is an invoicing provider (`stripe_invoice`, `quickbooks`, `bill.com`), any product mappings must first be configured with the Orb team.
+    """
     payment_provider_id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider_id') }})
     r"""The ID of this customer in an external payments solution, such as Stripe. This is used for creating charges or invoices in the external system via Orb."""
     tax_id: shared_customer_tax_id.CustomerTaxID = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tax_id') }})

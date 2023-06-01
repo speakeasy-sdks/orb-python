@@ -118,8 +118,8 @@ class Plan:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.ListPlans200ApplicationJSON])
-                res.list_plans_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Plans])
+                res.plans = out
 
         return res
 

@@ -4,22 +4,11 @@ from __future__ import annotations
 import dataclasses
 from ..shared import billing_address as shared_billing_address
 from ..shared import customer_tax_id as shared_customer_tax_id
+from ..shared import paymentprovider as shared_paymentprovider
 from ..shared import shipping_address as shared_shipping_address
 from dataclasses_json import Undefined, dataclass_json
-from enum import Enum
 from orb import utils
 from typing import Any, Optional
-
-class NewCustomerPaymentProvider(str, Enum):
-    r"""This is used for creating charges or invoices in an external system via Orb. When not in test mode:
-    - the connection must first be configured in the Orb webapp. 
-    - if the provider is an invoicing provider (`stripe_invoice`, `quickbooks`, `bill.com`), any product mappings must first be configured with the Orb team.
-    """
-    QUICKBOOKS = 'quickbooks'
-    BILL_COM = 'bill.com'
-    STRIPE_CHARGE = 'stripe_charge'
-    STRIPE_INVOICE = 'stripe_invoice'
-    NULL = 'null'
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -40,7 +29,7 @@ class NewCustomer:
     r"""An optional user-defined ID for this customer resource, used throughout the system as an alias for this Customer. Use this field to identify a customer by an existing identifier in your system."""
     metadata: Optional[dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata'), 'exclude': lambda f: f is None }})
     r"""User-specified key value pairs, often useful for referencing internal resources or IDs. Returned as-is in the customer resource."""
-    payment_provider: Optional[NewCustomerPaymentProvider] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider'), 'exclude': lambda f: f is None }})
+    payment_provider: Optional[shared_paymentprovider.PaymentProvider] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider'), 'exclude': lambda f: f is None }})
     r"""This is used for creating charges or invoices in an external system via Orb. When not in test mode:
     - the connection must first be configured in the Orb webapp. 
     - if the provider is an invoicing provider (`stripe_invoice`, `quickbooks`, `bill.com`), any product mappings must first be configured with the Orb team.
