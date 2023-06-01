@@ -5,8 +5,7 @@ import dataclasses
 import requests as requests_http
 from ..shared import creditledgerentries as shared_creditledgerentries
 from ..shared import entrystatus as shared_entrystatus
-from ..shared import entrytype as shared_entrytype
-from typing import Optional
+from typing import Any, Optional
 
 
 @dataclasses.dataclass
@@ -15,7 +14,7 @@ class FetchCustomerCreditsLedgerExternalIDRequest:
     external_customer_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'external_customer_id', 'style': 'simple', 'explode': False }})
     entry_status: Optional[shared_entrystatus.EntryStatus] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'entry_status', 'style': 'form', 'explode': True }})
     r"""Filters to a single status of ledger entry"""
-    entry_type: Optional[shared_entrytype.EntryType] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'entry_type', 'style': 'form', 'explode': True }})
+    entry_type: Optional[Any] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'entry_type', 'style': 'form', 'explode': True }})
     r"""Filter to a single type of ledger entry"""
     minimum_amount: Optional[float] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'minimum_amount', 'style': 'form', 'explode': True }})
     r"""Filter to ledger entries that affect at least this amount"""

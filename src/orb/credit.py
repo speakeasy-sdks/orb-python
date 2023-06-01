@@ -3,7 +3,7 @@
 import requests as requests_http
 from . import utils
 from orb.models import operations, shared
-from typing import Optional
+from typing import Any, Optional
 
 class Credit:
     r"""The Credits resource represents a customer's credits. Credits are created when a customer's invoice is paid, and are updated when a customer's transaction is refunded."""
@@ -211,7 +211,7 @@ class Credit:
         return res
 
     
-    def fetch_ledger(self, customer_id: str, entry_status: Optional[shared.EntryStatus] = None, entry_type: Optional[shared.EntryType] = None, minimum_amount: Optional[float] = None) -> operations.FetchCustomerCreditsLedgerResponse:
+    def fetch_ledger(self, customer_id: str, entry_status: Optional[shared.EntryStatus] = None, entry_type: Optional[Any] = None, minimum_amount: Optional[float] = None) -> operations.FetchCustomerCreditsLedgerResponse:
         r"""View credits ledger
         The credits ledger provides _auditing_ functionality over Orb's credits system with a list of actions that have taken place to modify a customer's credit balance. This [paginated endpoint](../api/pagination) lists these entries, starting from the most recent ledger entry.
         
@@ -275,7 +275,7 @@ class Credit:
         return res
 
     
-    def fetch_ledger_by_external_id(self, external_customer_id: str, entry_status: Optional[shared.EntryStatus] = None, entry_type: Optional[shared.EntryType] = None, minimum_amount: Optional[float] = None) -> operations.FetchCustomerCreditsLedgerExternalIDResponse:
+    def fetch_ledger_by_external_id(self, external_customer_id: str, entry_status: Optional[shared.EntryStatus] = None, entry_type: Optional[Any] = None, minimum_amount: Optional[float] = None) -> operations.FetchCustomerCreditsLedgerExternalIDResponse:
         r"""View credits ledger by external customer ID
         This endpoint's resource and semantics exactly mirror [View credits ledger](fetch-customer-credits-ledger) but operates on an [external customer ID](../guides/events-and-metrics/customer-aliases) rather than an Orb issued identifier.
         """

@@ -7,7 +7,7 @@ from enum import Enum
 from orb import utils
 from typing import Optional
 
-class TieredPriceOverrideModelType(str, Enum):
+class TieredModelType(str, Enum):
     TIERED = 'tiered'
 
 
@@ -34,7 +34,7 @@ class TieredPriceOverride:
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     r"""price_id"""
-    model_type: TieredPriceOverrideModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: TieredModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     tiered_config: TieredPriceOverrideTieredConfig = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiered_config') }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""

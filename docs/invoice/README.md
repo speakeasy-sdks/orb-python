@@ -30,12 +30,12 @@ s = orb.Orb(
 )
 
 req = shared.NewInvoiceLineItem(
-    amount='eos',
-    end_date=dateutil.parser.parse('2022-10-30').date(),
+    amount='minus',
+    end_date=dateutil.parser.parse('2022-10-11').date(),
     invoice_id='4khy3nwzktxv7',
-    name='Darryl Fadel',
+    name='Dean Welch',
     quantity=47hhsws4z2i13,
-    start_date=dateutil.parser.parse('2020-03-20').date(),
+    start_date=dateutil.parser.parse('2021-10-22').date(),
 )
 
 res = s.invoice.create(req)
@@ -61,7 +61,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.fetch('omnis')
+res = s.invoice.fetch('voluptatem')
 
 if res.invoice is not None:
     # handle response
@@ -84,7 +84,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.fetch_upcoming('facilis')
+res = s.invoice.fetch_upcoming('porro')
 
 if res.upcoming_invoice is not None:
     # handle response
@@ -111,7 +111,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.list('perspiciatis', 'voluptatem', 'porro', 'consequuntur')
+res = s.invoice.list('consequuntur', 'blanditiis', 'error', 'eaque')
 
 if res.invoices is not None:
     # handle response
@@ -136,7 +136,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.void('blanditiis')
+res = s.invoice.void('occaecati')
 
 if res.invoice is not None:
     # handle response

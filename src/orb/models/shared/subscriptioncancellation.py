@@ -10,7 +10,7 @@ from marshmallow import fields
 from orb import utils
 from typing import Optional
 
-class SubscriptionCancellationCancelOption(str, Enum):
+class CancelOptions(str, Enum):
     r"""Determines the timing of subscription cancellation"""
     IMMEDIATE = 'immediate'
     END_OF_SUBSCRIPTION_TERM = 'end_of_subscription_term'
@@ -21,7 +21,7 @@ class SubscriptionCancellationCancelOption(str, Enum):
 @dataclasses.dataclass
 class SubscriptionCancellation:
     
-    cancel_option: SubscriptionCancellationCancelOption = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cancel_option') }})
+    cancel_option: CancelOptions = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cancel_option') }})
     r"""Determines the timing of subscription cancellation"""
     cancellation_date: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cancellation_date'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     r"""The date that the cancellation should take effect. This parameter can only be passed if the `cancel_option` is `requested_date`."""

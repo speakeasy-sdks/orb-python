@@ -35,7 +35,7 @@ res = s.credit.add_by_external_id('porro', shared.NewCreditLedgerEntry(
     amount=6788.8,
     block_id='dicta',
     description='nam',
-    entry_type=shared.EntryType1.DECREMENT,
+    entry_type=shared.EntryType.EXPIRATION_CHANGE,
     expiry_date=dateutil.parser.parse('2023-01-01').date(),
     invoice_settings=shared.NewCreditLedgerEntryInvoiceSettings(
         auto_collection=False,
@@ -133,7 +133,7 @@ res = s.credit.create('qui', shared.NewCreditLedgerEntry(
     amount=7742.34,
     block_id='cum',
     description='esse',
-    entry_type=shared.EntryType1.INCREMENT,
+    entry_type=shared.EntryType.INCREMENT,
     expiry_date=dateutil.parser.parse('2023-01-01').date(),
     invoice_settings=shared.NewCreditLedgerEntryInvoiceSettings(
         auto_collection=False,
@@ -248,7 +248,7 @@ s = orb.Orb(
 )
 
 
-res = s.credit.fetch_ledger('natus', shared.EntryStatus.COMMITTED, shared.EntryType.CREDIT_BLOCK_EXPIRY, 9025.99)
+res = s.credit.fetch_ledger('natus', shared.EntryStatus.COMMITTED, 'hic', 9025.99)
 
 if res.credit_ledger_entries is not None:
     # handle response
@@ -271,7 +271,7 @@ s = orb.Orb(
 )
 
 
-res = s.credit.fetch_ledger_by_external_id('fuga', shared.EntryStatus.COMMITTED, shared.EntryType.DECREMENT, 6130.64)
+res = s.credit.fetch_ledger_by_external_id('fuga', shared.EntryStatus.COMMITTED, 'corporis', 6130.64)
 
 if res.credit_ledger_entries is not None:
     # handle response

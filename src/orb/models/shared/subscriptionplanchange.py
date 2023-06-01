@@ -10,7 +10,7 @@ from marshmallow import fields
 from orb import utils
 from typing import Any, Optional
 
-class SubscriptionPlanChangeChangeOption(str, Enum):
+class ChangeOptions(str, Enum):
     r"""Determines the timing of the plan change"""
     REQUESTED_DATE = 'requested_date'
     END_OF_SUBSCRIPTION_TERM = 'end_of_subscription_term'
@@ -21,7 +21,7 @@ class SubscriptionPlanChangeChangeOption(str, Enum):
 @dataclasses.dataclass
 class SubscriptionPlanChange:
     
-    change_option: SubscriptionPlanChangeChangeOption = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('change_option') }})
+    change_option: ChangeOptions = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('change_option') }})
     r"""Determines the timing of the plan change"""
     align_billing_with_plan_change_date: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('align_billing_with_plan_change_date'), 'exclude': lambda f: f is None }})
     r"""Reset billing periods to be aligned with the plan change’s effective date."""

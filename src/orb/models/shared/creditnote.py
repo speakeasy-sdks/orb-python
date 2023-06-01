@@ -27,7 +27,7 @@ class CreditNoteReason(str, Enum):
     ORDER_CHANGE = 'Order change'
     PRODUCT_UNSATISFACTORY = 'Product unsatisfactory'
 
-class CreditNoteType(str, Enum):
+class AdjustmentType(str, Enum):
     r"""Describing if this is an `adjustment` or a `refund`"""
     REFUND = 'refund'
     ADJUSTMENT = 'adjustment'
@@ -63,7 +63,7 @@ class CreditNote:
     r"""The total prior to any creditable invoice-level discounts or minimums"""
     total: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('total') }})
     r"""The total including creditable invoice-level discounts or minimums, and tax"""
-    type: CreditNoteType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
+    type: AdjustmentType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
     r"""Describing if this is an `adjustment` or a `refund`"""
     voided_at: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('voided_at'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
     r"""The time when the credit note was voided in Orb, if applicable."""
