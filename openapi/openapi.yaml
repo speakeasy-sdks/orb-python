@@ -4599,6 +4599,7 @@
         "x-internal": false,
         "properties": {
           "discount_type": {
+            "$anchor": "discount_type",
             "type": "string",
             "enum": [
               "percentage",
@@ -4784,6 +4785,7 @@
             "description": "The number of credits to effect. Note that this is required for increment or decrement operations."
           },
           "entry_type": {
+            "$anchor": "entry_type",
             "type": "string",
             "enum": [
               "increment",
@@ -4871,6 +4873,7 @@
             "description": "How many terms of length `duration_unit` this phase is active for. If null, this phase is evergreen and active indefinitely"
           },
           "duration_unit": {
+            "$anchor": "duration_unit",
             "type": "string",
             "enum": [
               "monthly",
@@ -4941,6 +4944,14 @@
           }
         }
       },
+      "TransactionType": {
+        "$anchor": "transaction_type",
+        "type": "string",
+        "enum": [
+          "increment",
+          "decrement"
+        ]
+      },
       "NewTransaction": {
         "type": "object",
         "properties": {
@@ -4950,11 +4961,7 @@
             "minLength": 1
           },
           "type": {
-            "type": "string",
-            "enum": [
-              "increment",
-              "decrement"
-            ]
+            "$ref": "#/components/schemas/TransactionType"
           },
           "description": {
             "type": "string",
@@ -5006,6 +5013,7 @@
             "minLength": 1
           },
           "action": {
+            "$anchor": "action_type",
             "type": "string",
             "description": "Describes the reason that this transaction took place.",
             "enum": [
@@ -5041,11 +5049,7 @@
             }
           },
           "type": {
-            "type": "string",
-            "enum": [
-              "increment",
-              "decrement"
-            ]
+            "$ref": "#/components/schemas/TransactionType"
           },
           "credit_note": {
             "type": [
@@ -5213,6 +5217,7 @@
             "type": "string"
           },
           "status": {
+            "$anchor": "backfill_status",
             "type": "string",
             "x-stoplight": {
               "id": "s3wf6ze54xok9"
@@ -5403,6 +5408,7 @@
             "description": "An optional memo supplied on the credit note."
           },
           "reason": {
+            "$anchor": "credit_note_reason",
             "type": "string",
             "x-stoplight": {
               "id": "aeejptd44bpkq"
