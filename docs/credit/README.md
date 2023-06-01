@@ -22,7 +22,7 @@ This endpoint's resource and semantics exactly mirror [Add credit ledger entry](
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -31,13 +31,13 @@ s = orb.Orb(
 )
 
 
-res = s.credit.add_by_external_id('porro', operations.AddLedgerEntryExternalIDRequestBody(
+res = s.credit.add_by_external_id('porro', shared.NewCreditLedgerEntry(
     amount=6788.8,
     block_id='dicta',
     description='nam',
-    entry_type=operations.AddLedgerEntryExternalIDRequestBodyEntryType.DECREMENT,
+    entry_type=shared.NewCreditLedgerEntryEntryType.DECREMENT,
     expiry_date=dateutil.parser.parse('2023-01-01').date(),
-    invoice_settings=operations.AddLedgerEntryExternalIDRequestBodyInvoiceSettings(
+    invoice_settings=shared.NewCreditLedgerEntryInvoiceSettings(
         auto_collection=False,
         memo='occaecati',
         net_terms=1433.53,
@@ -120,7 +120,7 @@ The following snippet illustrates a sample request body to extend the expiration
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -129,13 +129,13 @@ s = orb.Orb(
 )
 
 
-res = s.credit.create('qui', operations.CreateLedgerEntryRequestBody(
+res = s.credit.create('qui', shared.NewCreditLedgerEntry(
     amount=7742.34,
     block_id='cum',
     description='esse',
-    entry_type=operations.CreateLedgerEntryRequestBodyEntryType.INCREMENT,
+    entry_type=shared.NewCreditLedgerEntryEntryType.INCREMENT,
     expiry_date=dateutil.parser.parse('2023-01-01').date(),
-    invoice_settings=operations.CreateLedgerEntryRequestBodyInvoiceSettings(
+    invoice_settings=shared.NewCreditLedgerEntryInvoiceSettings(
         auto_collection=False,
         memo='excepturi',
         net_terms=1352.18,
@@ -174,7 +174,7 @@ s = orb.Orb(
 
 res = s.credit.fetch('iste')
 
-if res.fetch_customer_credits_200_application_json_object is not None:
+if res.credits is not None:
     # handle response
 ```
 
@@ -197,7 +197,7 @@ s = orb.Orb(
 
 res = s.credit.fetch_by_external_id('dolor')
 
-if res.fetch_customer_credits_external_id_200_application_json_object is not None:
+if res.credits is not None:
     # handle response
 ```
 
@@ -239,7 +239,7 @@ When a set of credits expire on pre-set expiration date, the customer's balance 
 
 ```python
 import orb
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -248,9 +248,9 @@ s = orb.Orb(
 )
 
 
-res = s.credit.fetch_ledger('natus', operations.FetchCustomerCreditsLedgerEntryStatus.COMMITTED, operations.FetchCustomerCreditsLedgerEntryType.CREDIT_BLOCK_EXPIRY, 9025.99)
+res = s.credit.fetch_ledger('natus', shared.EntryStatus.COMMITTED, shared.EntryType.CREDIT_BLOCK_EXPIRY, 9025.99)
 
-if res.fetch_customer_credits_ledger_200_application_json_object is not None:
+if res.credit_ledger_entries is not None:
     # handle response
 ```
 
@@ -262,7 +262,7 @@ This endpoint's resource and semantics exactly mirror [View credits ledger](fetc
 
 ```python
 import orb
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -271,8 +271,8 @@ s = orb.Orb(
 )
 
 
-res = s.credit.fetch_ledger_by_external_id('fuga', operations.FetchCustomerCreditsLedgerExternalIDEntryStatus.COMMITTED, operations.FetchCustomerCreditsLedgerExternalIDEntryType.DECREMENT, 6130.64)
+res = s.credit.fetch_ledger_by_external_id('fuga', shared.EntryStatus.COMMITTED, shared.EntryType.DECREMENT, 6130.64)
 
-if res.fetch_customer_credits_ledger_external_id_200_application_json_object is not None:
+if res.credit_ledger_entries is not None:
     # handle response
 ```

@@ -8,14 +8,13 @@ from typing import Optional
 
 
 @dataclasses.dataclass
-class GetPlansExternalPlanIDRequest:
+class FetchPlanRequest:
     
-    external_plan_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'external_plan_id', 'style': 'simple', 'explode': False }})
-    plan: Optional[shared_plan.Plan] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
+    plan_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'plan_id', 'style': 'simple', 'explode': False }})
     
 
 @dataclasses.dataclass
-class GetPlansExternalPlanIDResponse:
+class FetchPlanResponse:
     
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()

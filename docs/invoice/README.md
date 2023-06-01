@@ -14,7 +14,7 @@ The Invoice resource represents an invoice that has been generated for a custome
 
 ## create
 
-This creates a one-off fixed fee [Invoice line item](../reference/Orb-API.json/components/schemas/Invoice-line-item) on an [Invoice](../reference/Orb-API.json/components/schemas/Invoice). This can only be done for invoices that are in a `draft` status.
+This creates a one-off fixed fee invoice line item on an [Invoice](../guides/concepts#invoice). This can only be done for invoices that are in a `draft` status.
 
 ### Example Usage
 
@@ -30,12 +30,12 @@ s = orb.Orb(
 )
 
 req = operations.CreateInvoiceLineItemRequestBody(
-    amount='dolor',
-    end_date=dateutil.parser.parse('2021-12-18').date(),
-    invoice_id='hic',
-    name='Alejandro Purdy DDS',
-    quantity=1646.94,
-    start_date=dateutil.parser.parse('2021-10-04').date(),
+    amount='eaque',
+    end_date=dateutil.parser.parse('2022-10-20').date(),
+    invoice_id='eos',
+    name='Jacqueline Schimmel',
+    quantity=8745.73,
+    start_date=dateutil.parser.parse('2022-01-21').date(),
 )
 
 res = s.invoice.create(req)
@@ -46,7 +46,7 @@ if res.invoice_line_item is not None:
 
 ## fetch
 
-This endpoint is used to fetch an [`Invoice`](../reference/Orb-API.json/components/schemas/Invoice) given an identifier.
+This endpoint is used to fetch an [`Invoice`](../guides/concepts#invoice) given an identifier.
 
 ### Example Usage
 
@@ -61,7 +61,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.fetch('eaque')
+res = s.invoice.fetch('recusandae')
 
 if res.invoice is not None:
     # handle response
@@ -69,7 +69,7 @@ if res.invoice is not None:
 
 ## fetch_upcoming
 
-This endpoint can be used to fetch the [`Upcoming Invoice`](../reference/Orb-API.json/components/schemas/UpcomingInvoice) for the current billing period given a subscription.
+This endpoint can be used to fetch the upcoming [invoice](../guides/concepts#invoice) for the current billing period given a subscription.
 
 ### Example Usage
 
@@ -84,7 +84,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.fetch_upcoming('occaecati')
+res = s.invoice.fetch_upcoming('omnis')
 
 if res.upcoming_invoice is not None:
     # handle response
@@ -92,7 +92,7 @@ if res.upcoming_invoice is not None:
 
 ## list
 
-This endpoint returns a list of all [`Invoice`](../reference/Orb-API.json/components/schemas/Invoice)s for an account in a list format. 
+This endpoint returns a list of all [`Invoice`](../guides/concepts#invoice)s for an account in a list format. 
 
 The list of invoices is ordered starting from the most recently issued invoice date. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist.
 
@@ -111,9 +111,9 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.list('rerum', 'adipisci', 'asperiores', 'earum')
+res = s.invoice.list('facilis', 'perspiciatis', 'voluptatem', 'porro')
 
-if res.list_invoices_200_application_json_object is not None:
+if res.invoices is not None:
     # handle response
 ```
 
@@ -136,7 +136,7 @@ s = orb.Orb(
 )
 
 
-res = s.invoice.void('modi')
+res = s.invoice.void('consequuntur')
 
 if res.invoice is not None:
     # handle response

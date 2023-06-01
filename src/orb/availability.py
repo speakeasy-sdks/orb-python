@@ -45,8 +45,8 @@ class Availability:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.Ping200ApplicationJSON])
-                res.ping_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[operations.PingAvailability])
+                res.availability = out
 
         return res
 

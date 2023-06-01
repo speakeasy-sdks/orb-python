@@ -163,7 +163,7 @@ if res.amend_usage_external_customer_id_200_application_json_object is not None:
 
 ## create
 
-This operation is used to create an Orb customer, who is party to the core billing relationship. See [Customer](../reference/Orb-API.json/components/schemas/Customer) for an overview of the customer resource.
+This operation is used to create an Orb customer, who is party to the core billing relationship. See [Customer](../guides/concepts#customer) for an overview of the customer resource.
 
 This endpoint is critical in the following Orb functionality:
 * Automated charges can be configured by setting `payment_provider` and `payment_provider_id` to automatically issue invoices
@@ -174,7 +174,7 @@ This endpoint is critical in the following Orb functionality:
 
 ```python
 import orb
-from orb.models import operations, shared
+from orb.models import shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -182,7 +182,7 @@ s = orb.Orb(
     ),
 )
 
-req = operations.CreateCustomerRequestBody(
+req = shared.NewCustomer(
     auto_collection=False,
     billing_address=shared.BillingAddress(
         city='North Marguerite',
@@ -202,7 +202,7 @@ req = operations.CreateCustomerRequestBody(
         "cum": 'perferendis',
     },
     name='Bessie Grady II',
-    payment_provider=operations.CreateCustomerRequestBodyPaymentProvider.BILL_COM,
+    payment_provider=shared.NewCustomerPaymentProvider.BILL_COM,
     payment_provider_id='iusto',
     shipping_address=shared.ShippingAddress(
         city='Lake Emilieside',
@@ -228,7 +228,7 @@ if res.customer is not None:
 
 ## create_transaction
 
-Creates an immutable balance transaction that updates the customer's balance and returns back the newly created [transaction](../reference/Orb-API.json/components/schemas/Customer-balance-transaction).
+Creates an immutable balance transaction that updates the customer's balance and returns back the newly created transaction.
 
 ### Example Usage
 
@@ -404,7 +404,7 @@ When a price uses matrix pricing, it's important to view costs grouped by those 
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -417,12 +417,12 @@ req = operations.FetchCustomerCostsRequest(
     group_by='consequatur',
     timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
-    view_mode=operations.FetchCustomerCostsViewMode.CUMULATIVE,
+    view_mode=shared.ViewMode.CUMULATIVE,
 )
 
 res = s.customer.fetch_costs(req)
 
-if res.fetch_customer_costs_200_application_json_object is not None:
+if res.customer_costs is not None:
     # handle response
 ```
 
@@ -435,7 +435,7 @@ This endpoint's resource and semantics exactly mirror [View customer costs](fetc
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -448,12 +448,12 @@ req = operations.FetchCustomerCostsExternalIDRequest(
     group_by='explicabo',
     timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
-    view_mode=operations.FetchCustomerCostsExternalIDViewMode.CUMULATIVE,
+    view_mode=shared.ViewMode.CUMULATIVE,
 )
 
 res = s.customer.fetch_costs_by_external_id(req)
 
-if res.fetch_customer_costs_external_id_200_application_json_object is not None:
+if res.customer_costs is not None:
     # handle response
 ```
 
@@ -498,7 +498,7 @@ if res.list_balance_transactions_200_application_json_object is not None:
 
 This endpoint returns a list of all customers for an account. The list of customers is ordered starting from the most recently created customer. This endpoint follows Orb's [standardized pagination format](../api/pagination).
 
-See [Customer](../reference/Orb-API.json/components/schemas/Customer) for an overview of the customer model.
+See [Customer](../guides/concepts#customer) for an overview of the customer model.
 
 ### Example Usage
 
@@ -515,7 +515,7 @@ s = orb.Orb(
 
 res = s.customer.list()
 
-if res.list_customers_200_application_json_object is not None:
+if res.customers is not None:
     # handle response
 ```
 
@@ -584,7 +584,7 @@ s = orb.Orb(
 )
 
 
-res = s.customer.update_customer('facere', operations.UpdateCustomerRequestBody(
+res = s.customer.update_customer('facere', shared.NewCustomer(
     auto_collection=False,
     billing_address=shared.BillingAddress(
         city='Graciechester',
@@ -594,29 +594,29 @@ res = s.customer.update_customer('facere', operations.UpdateCustomerRequestBody(
         postal_code='38965-7655',
         state='sapiente',
     ),
-    email='Luis_Huels@gmail.com',
-    email_delivery=False,
+    currency='amet',
+    email='Golda_Kassulke@yahoo.com',
+    external_customer_id='molestiae',
     metadata={
-        "molestiae": 'perferendis',
         "nihil": 'magnam',
-        "distinctio": 'id',
     },
-    name='Jamie Hoppe',
-    payment_provider=operations.UpdateCustomerRequestBodyPaymentProvider.BILL_COM,
-    payment_provider_id='vero',
+    name='Alfonso Green',
+    payment_provider=shared.NewCustomerPaymentProvider.STRIPE_INVOICE,
+    payment_provider_id='nobis',
     shipping_address=shared.ShippingAddress(
-        city='North Elianeland',
+        city='Shainaville',
         country='US',
-        line1='excepturi',
-        line2='ullam',
-        postal_code='55069-6342',
-        state='necessitatibus',
+        line1='architecto',
+        line2='magnam',
+        postal_code='53555',
+        state='accusantium',
     ),
     tax_id=shared.CustomerTaxID(
-        country='Burundi',
-        type='nemo',
-        value='quasi',
+        country='Niue',
+        type='reiciendis',
+        value='mollitia',
     ),
+    timezone='Etc/UTC',
 ))
 
 if res.customer is not None:

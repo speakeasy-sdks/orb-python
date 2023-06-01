@@ -110,9 +110,9 @@ class Coupon:
     
     def list(self, redemption_code: Optional[str] = None, show_archived: Optional[bool] = None) -> operations.ListCouponsResponse:
         r"""List coupons
-        This endpoint returns a list of all [coupons](../reference/Orb-API.json/components/schemas/Coupon) for an account in a list format. 
+        This endpoint returns a list of all coupons for an account in a list format. 
         
-        The list of coupons is ordered starting from the most recently created coupon. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist. More information about pagination can be found in the [Pagination-metadata schema](../reference/Orb-API.json/components/schemas/Pagination-metadata).
+        The list of coupons is ordered starting from the most recently created coupon. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist. More information about pagination can be found in the [Pagination-metadata schema](pagination).
         """
         request = operations.ListCouponsRequest(
             redemption_code=redemption_code,
@@ -144,7 +144,7 @@ class Coupon:
     
     def list_subscriptions(self, coupon_id: str) -> operations.ListCouponSubscriptionsResponse:
         r"""List subscriptions for a coupon
-        This endpoint returns a list of all subscriptions that have redeemed a given coupon as a [paginated](../api/pagination) list, ordered starting from the most recently created subscription. For a full discussion of the subscription resource, see [Subscription](../reference/Orb-API.json/components/schemas/Subscription).
+        This endpoint returns a list of all subscriptions that have redeemed a given coupon as a [paginated](../api/pagination) list, ordered starting from the most recently created subscription. For a full discussion of the subscription resource, see [Subscription](../guides/concepts#subscription).
         """
         request = operations.ListCouponSubscriptionsRequest(
             coupon_id=coupon_id,

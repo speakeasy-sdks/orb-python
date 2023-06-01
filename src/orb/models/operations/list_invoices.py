@@ -3,10 +3,7 @@
 from __future__ import annotations
 import dataclasses
 import requests as requests_http
-from ..shared import invoice as shared_invoice
-from ..shared import pagination_metadata as shared_pagination_metadata
-from dataclasses_json import Undefined, dataclass_json
-from orb import utils
+from ..shared import invoices as shared_invoices
 from typing import Any, Optional
 
 
@@ -23,21 +20,12 @@ class ListInvoicesRequest:
     r"""Filter by a specific subscription"""
     
 
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class ListInvoices200ApplicationJSON:
-    r"""OK"""
-    
-    data: Optional[list[shared_invoice.Invoice]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data'), 'exclude': lambda f: f is None }})
-    pagination_metadata: Optional[shared_pagination_metadata.PaginationMetadata] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata'), 'exclude': lambda f: f is None }})
-    
-
 @dataclasses.dataclass
 class ListInvoicesResponse:
     
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
-    list_invoices_200_application_json_object: Optional[ListInvoices200ApplicationJSON] = dataclasses.field(default=None)
+    invoices: Optional[shared_invoices.Invoices] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
