@@ -455,7 +455,7 @@
           }
         ],
         "operationId": "fetch-customer-credits-ledger-external-id",
-        "x-speakeasy-name-override": "fetch-by-external-id",
+        "x-speakeasy-name-override": "fetch-ledger-by-external-id",
         "description": "This endpoint's resource and semantics exactly mirror [View credits ledger](fetch-customer-credits-ledger) but operates on an [external customer ID](../guides/events-and-metrics/customer-aliases) rather than an Orb issued identifier.",
         "summary": "View credits ledger by external customer ID",
         "tags": [
