@@ -48,12 +48,14 @@ s = orb.Orb(
 
 
 res = s.event.amend('fQp2wSmK7CF9oPcu', operations.AmendEventRequestBody(
-    customer_id='iure',
-    event_name='doloribus',
-    external_customer_id='debitis',
+    customer_id='ad',
+    event_name='eum',
+    external_customer_id='dolor',
     properties={
-        "maxime": 'deleniti',
-        "facilis": 'in',
+        "odit": 'nemo',
+        "quasi": 'iure',
+        "doloribus": 'debitis',
+        "eius": 'maxime',
     },
     timestamp=dateutil.parser.isoparse('2020-12-09T16:09:53Z'),
 ))
@@ -81,7 +83,7 @@ s = orb.Orb(
 )
 
 
-res = s.event.close_backfill('architecto')
+res = s.event.close_backfill('deleniti')
 
 if res.backfill is not None:
     # handle response
@@ -115,12 +117,12 @@ s = orb.Orb(
 )
 
 req = operations.CreateBackfillRequestBody(
-    close_time=dateutil.parser.isoparse('2022-01-30T09:19:56.236Z'),
-    customer_id='ullam',
-    external_customer_id='expedita',
+    close_time=dateutil.parser.isoparse('2022-02-08T00:19:59.821Z'),
+    customer_id='architecto',
+    external_customer_id='architecto',
     replace_existing_events=False,
-    timeframe_end=dateutil.parser.isoparse('2022-01-01T10:06:00.916Z'),
-    timeframe_start=dateutil.parser.isoparse('2022-07-21T08:29:53.942Z'),
+    timeframe_end=dateutil.parser.isoparse('2021-12-11T05:14:57.773Z'),
+    timeframe_start=dateutil.parser.isoparse('2022-01-23T10:45:15.714Z'),
 )
 
 res = s.event.create(req)
@@ -311,7 +313,7 @@ We strongly recommend that you only use debug mode as part of testing your initi
 
 ```python
 import orb
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -320,67 +322,62 @@ s = orb.Orb(
 )
 
 
-res = s.event.ingest(operations.IngestRequestBody(
-    events=[
-        operations.IngestRequestBodyEvents(
-            customer_id='pariatur',
-            event_name='accusantium',
-            external_customer_id='consequuntur',
-            idempotency_key='praesentium',
-            properties={
-                "magni": 'sunt',
-                "quo": 'illum',
-                "pariatur": 'maxime',
-            },
-            timestamp='2020-12-09T16:09:53Z',
-        ),
-        operations.IngestRequestBodyEvents(
-            customer_id='ea',
-            event_name='excepturi',
-            external_customer_id='odit',
-            idempotency_key='ea',
-            properties={
-                "ab": 'maiores',
-            },
-            timestamp='2020-12-09T16:09:53Z',
-        ),
-        operations.IngestRequestBodyEvents(
-            customer_id='quidem',
-            event_name='ipsam',
-            external_customer_id='voluptate',
-            idempotency_key='autem',
-            properties={
-                "eaque": 'pariatur',
-                "nemo": 'voluptatibus',
-                "perferendis": 'fugiat',
-            },
-            timestamp='2020-12-09T16:09:53Z',
-        ),
-        operations.IngestRequestBodyEvents(
-            customer_id='amet',
-            event_name='aut',
-            external_customer_id='cumque',
-            idempotency_key='corporis',
-            properties={
-                "libero": 'nobis',
-                "dolores": 'quis',
-                "totam": 'dignissimos',
-                "eaque": 'quis',
-            },
-            timestamp='2020-12-09T16:09:53Z',
-        ),
-    ],
-), 'nesciunt', operations.IngestDebug.TRUE)
+res = s.event.ingest([
+    shared.Event(
+        customer_id='quibusdam',
+        event_name='sed',
+        external_customer_id='saepe',
+        idempotency_key='pariatur',
+        properties={
+            "consequuntur": 'praesentium',
+        },
+        timestamp='2020-12-09T16:09:53Z',
+    ),
+    shared.Event(
+        customer_id='natus',
+        event_name='magni',
+        external_customer_id='sunt',
+        idempotency_key='quo',
+        properties={
+            "pariatur": 'maxime',
+            "ea": 'excepturi',
+            "odit": 'ea',
+            "accusantium": 'ab',
+        },
+        timestamp='2020-12-09T16:09:53Z',
+    ),
+    shared.Event(
+        customer_id='maiores',
+        event_name='quidem',
+        external_customer_id='ipsam',
+        idempotency_key='voluptate',
+        properties={
+            "nam": 'eaque',
+            "pariatur": 'nemo',
+        },
+        timestamp='2020-12-09T16:09:53Z',
+    ),
+    shared.Event(
+        customer_id='voluptatibus',
+        event_name='perferendis',
+        external_customer_id='fugiat',
+        idempotency_key='amet',
+        properties={
+            "cumque": 'corporis',
+        },
+        timestamp='2020-12-09T16:09:53Z',
+    ),
+], 'backfill_123', operations.IngestDebug.FALSE)
 
-if res.ingest_200_application_json_object is not None:
+if res.ingestion_response is not None:
     # handle response
 ```
 
 ## list_backfills
 
-This endpoint returns a list of all [backfills](../reference/Orb-API.json/components/schemas/Backfill) in a list format. 
+This endpoint returns a list of all backfills in a list format. 
 
-The list of backfills is ordered starting from the most recently created backfill. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist. More information about pagination can be found in the [Pagination-metadata schema](../reference/Orb-API.json/components/schemas/Pagination-metadata).
+The list of backfills is ordered starting from the most recently created backfill. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist. More information about pagination can be found in the [Pagination-metadata schema](pagination).
 
 ### Example Usage
 
@@ -420,7 +417,7 @@ s = orb.Orb(
 )
 
 
-res = s.event.revert_backfill('perferendis')
+res = s.event.revert_backfill('libero')
 
 if res.backfill is not None:
     # handle response
@@ -454,9 +451,11 @@ s = orb.Orb(
 
 req = operations.SearchEventsRequestBody(
     event_ids=[
-        'minus',
+        'dolores',
+        'quis',
+        'totam',
     ],
-    invoice_id='quam',
+    invoice_id='dignissimos',
 )
 
 res = s.event.search(req)

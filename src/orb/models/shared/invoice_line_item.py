@@ -80,7 +80,7 @@ class InvoiceLineItemTaxAmounts:
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
 class InvoiceLineItem:
-    r"""The component line of an [Invoice](../reference/Orb-API.json/components/schemas/Invoice)"""
+    r"""The component line of an [Invoice](../guides/concepts#invoice)"""
     
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
     r"""The final amount after any discounts or minimums."""

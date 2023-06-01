@@ -29,6 +29,6 @@ s = orb.Orb(
 
 res = s.availability.ping()
 
-if res.ping_200_application_json_object is not None:
+if res.availability is not None:
     # handle response
 ```

@@ -2,12 +2,8 @@
 
 from __future__ import annotations
 import dataclasses
-import dateutil.parser
 import requests as requests_http
-from dataclasses_json import Undefined, dataclass_json
-from datetime import datetime
-from marshmallow import fields
-from orb import utils
+from ..shared import credits as shared_credits
 from typing import Optional
 
 
@@ -18,42 +14,12 @@ class FetchCustomerCreditsRequest:
     r"""The Orb Customer ID"""
     
 
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class FetchCustomerCredits200ApplicationJSONData:
-    
-    balance: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('balance') }})
-    r"""Remaining credits in this block"""
-    expiry_date: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('expiry_date'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
-    r"""An ISO 8601 format date with a timezone offset that represents when this block of credits is no longer usable."""
-    id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    per_unit_cost_basis: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_unit_cost_basis') }})
-    r"""How much, in USD, a customer paid for a single credit in this block"""
-    
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class FetchCustomerCredits200ApplicationJSONPaginationMetadata:
-    
-    has_more: bool = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('has_more') }})
-    next_cursor: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('next_cursor'), 'exclude': lambda f: f is None }})
-    
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class FetchCustomerCredits200ApplicationJSON:
-    r"""OK"""
-    
-    data: list[FetchCustomerCredits200ApplicationJSONData] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data') }})
-    pagination_metadata: FetchCustomerCredits200ApplicationJSONPaginationMetadata = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata') }})
-    
-
 @dataclasses.dataclass
 class FetchCustomerCreditsResponse:
     
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
-    fetch_customer_credits_200_application_json_object: Optional[FetchCustomerCredits200ApplicationJSON] = dataclasses.field(default=None)
+    credits: Optional[shared_credits.Credits] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

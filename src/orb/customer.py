@@ -159,9 +159,9 @@ class Customer:
         return res
 
     
-    def create(self, request: operations.CreateCustomerRequestBody) -> operations.CreateCustomerResponse:
+    def create(self, request: shared.NewCustomer) -> operations.CreateCustomerResponse:
         r"""Create customer
-        This operation is used to create an Orb customer, who is party to the core billing relationship. See [Customer](../reference/Orb-API.json/components/schemas/Customer) for an overview of the customer resource.
+        This operation is used to create an Orb customer, who is party to the core billing relationship. See [Customer](../guides/concepts#customer) for an overview of the customer resource.
         
         This endpoint is critical in the following Orb functionality:
         * Automated charges can be configured by setting `payment_provider` and `payment_provider_id` to automatically issue invoices
@@ -195,7 +195,7 @@ class Customer:
     
     def create_transaction(self, customer_id: str, request_body: Optional[operations.PostCustomersCustomerIDBalanceTransactionsRequestBody] = None) -> operations.PostCustomersCustomerIDBalanceTransactionsResponse:
         r"""Create a customer balance transaction
-        Creates an immutable balance transaction that updates the customer's balance and returns back the newly created [transaction](../reference/Orb-API.json/components/schemas/Customer-balance-transaction).
+        Creates an immutable balance transaction that updates the customer's balance and returns back the newly created transaction.
         """
         request = operations.PostCustomersCustomerIDBalanceTransactionsRequest(
             customer_id=customer_id,
@@ -405,8 +405,8 @@ class Customer:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchCustomerCosts200ApplicationJSON])
-                res.fetch_customer_costs_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.CustomerCosts])
+                res.customer_costs = out
 
         return res
 
@@ -432,8 +432,8 @@ class Customer:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchCustomerCostsExternalID200ApplicationJSON])
-                res.fetch_customer_costs_external_id_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.CustomerCosts])
+                res.customer_costs = out
 
         return res
 
@@ -484,7 +484,7 @@ class Customer:
         r"""List customers
         This endpoint returns a list of all customers for an account. The list of customers is ordered starting from the most recently created customer. This endpoint follows Orb's [standardized pagination format](../api/pagination).
         
-        See [Customer](../reference/Orb-API.json/components/schemas/Customer) for an overview of the customer model.
+        See [Customer](../guides/concepts#customer) for an overview of the customer model.
         """
         base_url = self._server_url
         
@@ -502,8 +502,8 @@ class Customer:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.ListCustomers200ApplicationJSON])
-                res.list_customers_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Customers])
+                res.customers = out
 
         return res
 
@@ -544,7 +544,7 @@ class Customer:
         return res
 
     
-    def update_customer(self, customer_id: str, request_body: Optional[operations.UpdateCustomerRequestBody] = None) -> operations.UpdateCustomerResponse:
+    def update_customer(self, customer_id: str, new_customer: Optional[shared.NewCustomer] = None) -> operations.UpdateCustomerResponse:
         r"""Update customer
         This endpoint can be used to update the `payment_provider`, `payment_provider_id`, `name`, `email`, `email_delivery`, `auto_collection`, `shipping_address`, and `billing_address` of an existing customer.
         
@@ -552,14 +552,14 @@ class Customer:
         """
         request = operations.UpdateCustomerRequest(
             customer_id=customer_id,
-            request_body=request_body,
+            new_customer=new_customer,
         )
         
         base_url = self._server_url
         
         url = utils.generate_url(operations.UpdateCustomerRequest, base_url, '/customers/{customer_id}', request)
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        req_content_type, data, form = utils.serialize_request_body(request, "new_customer", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         headers['Accept'] = 'application/json'
