@@ -3,17 +3,12 @@
 from __future__ import annotations
 import dataclasses
 import requests as requests_http
+from ..shared import debug as shared_debug
 from ..shared import event as shared_event
 from ..shared import ingestionresponse as shared_ingestionresponse
 from dataclasses_json import Undefined, dataclass_json
-from enum import Enum
 from orb import utils
 from typing import Optional
-
-class IngestDebug(str, Enum):
-    r"""Flag to enable additional debug information in the endpoint response"""
-    TRUE = 'true'
-    FALSE = 'false'
 
 
 @dataclasses.dataclass
@@ -21,7 +16,7 @@ class IngestRequest:
     
     backfill_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'backfill_id', 'style': 'form', 'explode': True }})
     r"""If this ingestion request is part of a backfill, this parameter ties the ingested events to the backfill"""
-    debug: Optional[IngestDebug] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'debug', 'style': 'form', 'explode': True }})
+    debug: Optional[shared_debug.Debug] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'debug', 'style': 'form', 'explode': True }})
     r"""Flag to enable additional debug information in the endpoint response"""
     request_body: Optional[list[shared_event.Event]] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
     

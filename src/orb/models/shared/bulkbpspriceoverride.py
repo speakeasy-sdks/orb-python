@@ -23,7 +23,7 @@ class BulkBPSPriceOverrideBulkBPSConfig:
     
     tiers: Optional[list[BulkBPSPriceOverrideBulkBPSConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})
     
-class BulkBPSPriceOverrideModelType(str, Enum):
+class BulkBpsModelType(str, Enum):
     BULK_BPS = 'bulk_bps'
 
 
@@ -33,7 +33,7 @@ class BulkBPSPriceOverride:
     r"""Bulk BPS price override"""
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    model_type: BulkBPSPriceOverrideModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: BulkBpsModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     bulk_bps_config: Optional[BulkBPSPriceOverrideBulkBPSConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bulk_bps_config'), 'exclude': lambda f: f is None }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""

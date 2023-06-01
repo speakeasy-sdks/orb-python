@@ -334,7 +334,15 @@ res = s.event.ingest([
         },
         timestamp='2020-12-09T16:09:53Z',
     ),
-], 'backfill_123', operations.IngestDebug.TRUE)
+], 'backfill_123', shared.Debug(
+    duplicate=[
+        'totam',
+        'dignissimos',
+    ],
+    ingested=[
+        'quis',
+    ],
+))
 
 if res.ingestion_response is not None:
     # handle response
@@ -384,7 +392,7 @@ s = orb.Orb(
 )
 
 
-res = s.event.revert_backfill('totam')
+res = s.event.revert_backfill('nesciunt')
 
 if res.backfill is not None:
     # handle response
@@ -418,10 +426,9 @@ s = orb.Orb(
 
 req = shared.EventSearchCriteria(
     event_ids=[
-        'eaque',
-        'quis',
+        'perferendis',
     ],
-    invoice_id='nesciunt',
+    invoice_id='dolores',
 )
 
 res = s.event.search(req)

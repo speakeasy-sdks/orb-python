@@ -193,7 +193,7 @@ class Event:
         return res
 
     
-    def ingest(self, request_body: Optional[list[shared.Event]] = None, backfill_id: Optional[str] = None, debug: Optional[operations.IngestDebug] = None) -> operations.IngestResponse:
+    def ingest(self, request_body: Optional[list[shared.Event]] = None, backfill_id: Optional[str] = None, debug: Optional[shared.Debug] = None) -> operations.IngestResponse:
         r"""Ingest events
         Orb's event ingestion model and API is designed around two core principles:
         

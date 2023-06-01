@@ -22,7 +22,7 @@ class BulkPriceOverrideBulkConfig:
     
     tiers: list[BulkPriceOverrideBulkConfigTiers] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers') }})
     
-class BulkPriceOverrideModelType(str, Enum):
+class BulkModelType(str, Enum):
     BULK = 'bulk'
 
 
@@ -33,7 +33,7 @@ class BulkPriceOverride:
     
     bulk_config: BulkPriceOverrideBulkConfig = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bulk_config') }})
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    model_type: BulkPriceOverrideModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: BulkModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""
     

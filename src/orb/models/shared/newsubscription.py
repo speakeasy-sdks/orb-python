@@ -10,7 +10,7 @@ from marshmallow import fields
 from orb import utils
 from typing import Any, Optional
 
-class NewSubscriptionExternalMarketplace(str, Enum):
+class ExternalMarketplace(str, Enum):
     r"""Optionally provide the name of the external marketplace that the subscription is attached to."""
     GOOGLE = 'google'
     AWS = 'aws'
@@ -33,7 +33,7 @@ class NewSubscription:
     r"""Invoices for this subscription will populate with this memo. When not set, the plan-level setting for memo will be used."""
     external_customer_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id'), 'exclude': lambda f: f is None }})
     r"""The external ID of the customer to subscribe, as an alternate to passing the `customer_id`."""
-    external_marketplace: Optional[NewSubscriptionExternalMarketplace] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_marketplace'), 'exclude': lambda f: f is None }})
+    external_marketplace: Optional[ExternalMarketplace] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_marketplace'), 'exclude': lambda f: f is None }})
     r"""Optionally provide the name of the external marketplace that the subscription is attached to."""
     external_marketplace_reporting_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_marketplace_reporting_id'), 'exclude': lambda f: f is None }})
     r"""The reporting ID to associate this subscription with the external marketplace. Required if external_marketplace is specified."""

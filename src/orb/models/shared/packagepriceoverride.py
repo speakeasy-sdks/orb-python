@@ -7,7 +7,7 @@ from enum import Enum
 from orb import utils
 from typing import Optional
 
-class PackagePriceOverrideModelType(str, Enum):
+class PackageModelType(str, Enum):
     PACKAGE = 'package'
 
 
@@ -25,7 +25,7 @@ class PackagePriceOverride:
     r"""Package price override"""
     
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    model_type: PackagePriceOverrideModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
+    model_type: PackageModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
     package_config: PackagePriceOverridePackageConfig = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('package_config') }})
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for this price."""

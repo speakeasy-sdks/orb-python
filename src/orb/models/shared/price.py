@@ -61,7 +61,7 @@ class PriceBulkConfig:
     
     tiers: Optional[list[PriceBulkConfigTiers]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tiers'), 'exclude': lambda f: f is None }})
     
-class PriceCadence(str, Enum):
+class Cadence(str, Enum):
     ANNUAL = 'annual'
     MONTHLY = 'monthly'
     QUARTERLY = 'quarterly'
@@ -341,7 +341,7 @@ class Price:
     r"""Provided when model_type is `bulk_bps`"""
     bulk_config: Optional[PriceBulkConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('bulk_config'), 'exclude': lambda f: f is None }})
     r"""Provided when model_type is `bulk`"""
-    cadence: Optional[PriceCadence] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cadence'), 'exclude': lambda f: f is None }})
+    cadence: Optional[Cadence] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cadence'), 'exclude': lambda f: f is None }})
     created_at: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     fixed_price_quantity: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('fixed_price_quantity'), 'exclude': lambda f: f is None }})
     r"""If the Price represents a fixed cost, this represents the quantity of units applied. Mutually exclusive with billable_metric."""
