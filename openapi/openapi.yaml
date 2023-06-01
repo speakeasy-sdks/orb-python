@@ -26,12 +26,7 @@
           "name": "debug",
           "description": "Flag to enable additional debug information in the endpoint response",
           "schema": {
-            "type": "string",
-            "enum": [
-              "true",
-              "false"
-            ],
-            "default": "false"
+            "$ref": "#/components/schemas/Debug"
           }
         },
         {
@@ -401,7 +396,7 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/EntryType"
+            "$ref": "#/components/parameters/EntryTypeParam"
           },
           {
             "$ref": "#/components/parameters/MinimumAmount"
@@ -445,7 +440,7 @@
       "get": {
         "parameters": [
           {
-            "$ref": "#/components/parameters/EntryType"
+            "$ref": "#/components/parameters/EntryTypeParam"
           },
           {
             "$ref": "#/components/parameters/MinimumAmount"          
@@ -2004,6 +1999,7 @@
             "format": "date-time"
           },
           "status": {
+            "$anchor": "subscription-status",
             "type": "string",
             "minLength": 1,
             "enum": [
@@ -2153,6 +2149,7 @@
             "example": "2022-01-01"
           },
           "external_marketplace": {
+            "$anchor": "external-marketplace",
             "type": "string",
             "description": "Optionally provide the name of the external marketplace that the subscription is attached to.",
             "example": "google",
@@ -2215,51 +2212,58 @@
           "data": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "model_type": {
-                  "type": "string",
-                  "enum": [
-                    "usage"
-                  ],
-                  "example": "usage"
-                },
-                "usage": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "quantity": {
-                        "type": "string"
-                      },
-                      "timeframe_start": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "timeframe_end": {
-                        "type": "string",
-                        "format": "date-time"
-                      }
-                    },
-                    "required": [
-                      "quantity",
-                      "timeframe_start",
-                      "timeframe_end"
-                    ]
-                  }
-                }
-              },
-              "required": [
-                "id",
-                "model_type",
-                "usage"
-              ]
+              "$ref": "#/components/schemas/Usage"
             }
           }
         }
+      },
+      "Usage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "model_type": {
+            "$anchor": "model-type",
+            "type": "string",
+            "enum": [
+              "usage"
+            ],
+            "example": "usage"
+          },
+          "usage": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsageItem"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "model_type",
+          "usage"
+        ]
+      },
+      "UsageItem": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "string"
+          },
+          "timeframe_start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "timeframe_end": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "quantity",
+          "timeframe_start",
+          "timeframe_end"
+        ]
       },
       "SubscriptionCosts": {
         "description": "",
@@ -2369,6 +2373,7 @@
         "type": "object",
         "properties": {
           "cancel_option": {
+            "$anchor": "cancel-options",
             "type": "string",
             "description": "Determines the timing of subscription cancellation",
             "enum": [
@@ -2403,6 +2408,7 @@
             "example": "ZMwNQefe7J3ecf7W"
           },
           "change_option": {
+            "$anchor": "change-options",
             "type": "string",
             "enum": [
               "requested_date",
@@ -2507,6 +2513,7 @@
             "example": "mqBkze6HoCwL4ytV"
           },
           "model_type": {
+            "$anchor": "tiered-model-type",
             "type": "string",
             "enum": [
               "tiered"
@@ -2558,6 +2565,7 @@
             "type": "string"
           },
           "model_type": {
+            "$anchor": "unit-model-type",
             "type": "string",
             "enum": [
               "unit"
@@ -2595,6 +2603,7 @@
             "type": "string"
           },
           "model_type": {
+            "$anchor": "bulk-model-type",
             "type": "string",
             "enum": [
               "bulk"
@@ -2647,6 +2656,7 @@
           },
           "model_type": {
             "type": "string",
+            "$anchor": "package-model-type",
             "enum": [
               "package"
             ],
@@ -2688,6 +2698,7 @@
           },
           "model_type": {
             "type": "string",
+            "$anchor": "bps-model-type",
             "enum": [
               "bps"
             ],
@@ -2728,6 +2739,7 @@
           },
           "model_type": {
             "type": "string",
+            "$anchor": "bulk-bps-model-type",
             "enum": [
               "bulk_bps"
             ],
@@ -2779,6 +2791,7 @@
           },
           "model_type": {
             "type": "string",
+            "$anchor": "tiered-bps-model-type",
             "enum": [
               "tiered_bps"
             ],
@@ -2847,6 +2860,7 @@
             "example": "\"2022-12-21\""
           },
           "change_option": {
+            "$anchor": "fee-change_option",
             "type": "string",
             "x-stoplight": {
               "id": "exiyopgavm7qn"
@@ -2971,6 +2985,7 @@
         }
       },
       "PaymentProvider": {
+        "$anchor": "payment-provider",
         "type": [
           "string",
           "null"
@@ -3215,6 +3230,7 @@
             "description": "If the Price represents a fixed cost, this represents the quantity of units applied. Mutually exclusive with billable_metric."
           },
           "cadence": {
+            "$anchor": "cadence",
             "type": "string",
             "enum": [
               "annual",
@@ -4785,13 +4801,7 @@
             "description": "The number of credits to effect. Note that this is required for increment or decrement operations."
           },
           "entry_type": {
-            "$anchor": "entry_type",
-            "type": "string",
-            "enum": [
-              "increment",
-              "decrement",
-              "expiration_change"
-            ]
+            "$ref": "#/components/schemas/EntryType"
           },
           "expiry_date": {
             "type": "string",
@@ -5423,6 +5433,7 @@
             "example": "Product unsatisfactory"
           },
           "type": {
+            "$anchor": "adjustment_type",
             "type": "string",
             "x-stoplight": {
               "id": "1n41ak4btp9e5"
@@ -5826,6 +5837,16 @@
           "validation_failed"
         ]
       },
+      "EntryType": {
+        "$anchor": "entry_type",
+        "type": "string",
+        "enum": [
+          "increment",
+          "decrement",
+          "expiration_change",
+          "credit_block_expiry"
+        ]
+      },
       "Debug": {
         "type": "object",
         "description": "Optional debug information (only present when debug=true is passed to the endpoint). Contains ingested and duplicate event idempotency keys.",
@@ -5976,6 +5997,7 @@
         ]
       }
     },
+    
     "securitySchemes": {
       "APIKeyAuth": {
         "bearerFormat": "auth-scheme",
@@ -6026,15 +6048,9 @@
         "name": "group_by",
         "description": "Groups per-price costs by the key provided."
       },
-      "EntryType": {
+      "EntryTypeParam": {
         "schema": {
-          "type": "string",
-          "enum": [
-            "increment",
-            "decrement",
-            "expiration_change",
-            "credit_block_expiry"
-          ]
+          "$ref:": "#/components/schemas/EntryType"
         },
         "in": "query",
         "name": "entry_type",
@@ -6050,6 +6066,7 @@
       },
       "EntryStatus": {
         "schema": {
+          "$anchor": "entry_status",
           "type": "string",
           "enum": [
             "committed",
