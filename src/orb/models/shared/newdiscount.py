@@ -7,7 +7,7 @@ from enum import Enum
 from orb import utils
 from typing import Optional
 
-class CreateDiscountDiscountType(str, Enum):
+class NewDiscountDiscountType(str, Enum):
     PERCENTAGE = 'percentage'
     USAGE = 'usage'
     AMOUNT = 'amount'
@@ -15,12 +15,12 @@ class CreateDiscountDiscountType(str, Enum):
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class CreateDiscount:
+class NewDiscount:
     r"""The subscription's override discount for this price."""
     
     amount_discount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount_discount'), 'exclude': lambda f: f is None }})
     r"""Only allowed if discount_type is amount"""
-    discount_type: Optional[CreateDiscountDiscountType] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount_type'), 'exclude': lambda f: f is None }})
+    discount_type: Optional[NewDiscountDiscountType] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount_type'), 'exclude': lambda f: f is None }})
     percentage_discount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('percentage_discount'), 'exclude': lambda f: f is None }})
     r"""Only allowed if discount_type is percentage"""
     usage_discount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('usage_discount'), 'exclude': lambda f: f is None }})

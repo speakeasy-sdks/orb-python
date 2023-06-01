@@ -478,9 +478,9 @@ req = shared.NewSubscription(
                     ),
                 ],
             ),
-            discount=shared.CreateDiscount(
+            discount=shared.NewDiscount(
                 amount_discount='officia',
-                discount_type=shared.CreateDiscountDiscountType.AMOUNT,
+                discount_type=shared.NewDiscountDiscountType.AMOUNT,
                 percentage_discount='nemo',
                 usage_discount='quae',
             ),
@@ -489,9 +489,9 @@ req = shared.NewSubscription(
             model_type=shared.NewSubscriptionPriceOverrides3ModelType.BULK,
         ),
         shared.NewSubscriptionPriceOverrides1(
-            discount=shared.CreateDiscount(
+            discount=shared.NewDiscount(
                 amount_discount='cum',
-                discount_type=shared.CreateDiscountDiscountType.PERCENTAGE,
+                discount_type=shared.NewDiscountDiscountType.PERCENTAGE,
                 percentage_discount='in',
                 usage_discount='exercitationem',
             ),
@@ -538,9 +538,9 @@ req = shared.NewSubscription(
                     ),
                 ],
             ),
-            discount=shared.CreateDiscount(
+            discount=shared.NewDiscount(
                 amount_discount='dolore',
-                discount_type=shared.CreateDiscountDiscountType.PERCENTAGE,
+                discount_type=shared.NewDiscountDiscountType.PERCENTAGE,
                 percentage_discount='asperiores',
                 usage_discount='adipisci',
             ),
@@ -549,9 +549,9 @@ req = shared.NewSubscription(
             model_type=shared.NewSubscriptionPriceOverrides6ModelType.BULK_BPS,
         ),
         shared.NewSubscriptionPriceOverrides7(
-            discount=shared.CreateDiscount(
+            discount=shared.NewDiscount(
                 amount_discount='temporibus',
-                discount_type=shared.CreateDiscountDiscountType.USAGE,
+                discount_type=shared.NewDiscountDiscountType.USAGE,
                 percentage_discount='adipisci',
                 usage_discount='cum',
             ),
@@ -883,23 +883,23 @@ res = s.subscription.schedule_plan_change('occaecati', shared.SubscriptionPlanCh
     minimum_amount='1.23',
     plan_id='ZMwNQefe7J3ecf7W',
     price_overrides=[
-        shared.SubscriptionPlanChangePriceOverrides2(
+        shared.UnitPriceOverride(
             id='7f603e8b-445e-480c-a55e-fd20e457e185',
             minimum_amount='1.23',
-            model_type=shared.SubscriptionPlanChangePriceOverrides2ModelType.UNIT,
-            unit_config=shared.SubscriptionPlanChangePriceOverrides2UnitConfig(
+            model_type=shared.UnitPriceOverrideModelType.UNIT,
+            unit_config=shared.UnitPriceOverrideUnitConfig(
                 unit_amount='praesentium',
             ),
         ),
-        shared.SubscriptionPlanChangePriceOverrides6(
-            bulk_bps_config=shared.SubscriptionPlanChangePriceOverrides6BulkBpsConfig(
+        shared.BulkBPSPriceOverride(
+            bulk_bps_config=shared.BulkBPSPriceOverrideBulkBPSConfig(
                 tiers=[
-                    shared.SubscriptionPlanChangePriceOverrides6BulkBpsConfigTiers(
+                    shared.BulkBPSPriceOverrideBulkBPSConfigTiers(
                         bps=6805.15,
                         maximum_amount='voluptatum',
                         per_unit_maximum='error',
                     ),
-                    shared.SubscriptionPlanChangePriceOverrides6BulkBpsConfigTiers(
+                    shared.BulkBPSPriceOverrideBulkBPSConfigTiers(
                         bps=9447.08,
                         maximum_amount='expedita',
                         per_unit_maximum='debitis',
@@ -908,7 +908,7 @@ res = s.subscription.schedule_plan_change('occaecati', shared.SubscriptionPlanCh
             ),
             id='3a5aa8e4-824d-40ab-8075-088e51862065',
             minimum_amount='1.23',
-            model_type=shared.SubscriptionPlanChangePriceOverrides6ModelType.BULK_BPS,
+            model_type=shared.BulkBPSPriceOverrideModelType.BULK_BPS,
         ),
     ],
 ))
