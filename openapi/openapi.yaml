@@ -2669,7 +2669,7 @@
                       "example": "1.23"
                     },
                     "discount": {
-                      "$ref": "#/components/schemas/Create-discount"
+                      "$ref": "#/components/schemas/NewDiscount"
                     }
                   },
                   "required": [
@@ -2712,7 +2712,7 @@
                       "example": "1.23"
                     },
                     "discount": {
-                      "$ref": "#/components/schemas/Create-discount"
+                      "$ref": "#/components/schemas/NewDiscount"
                     },
                     "fixed_price_quantity": {
                       "type": "integer"
@@ -2773,7 +2773,7 @@
                       "example": "1.23"
                     },
                     "discount": {
-                      "$ref": "#/components/schemas/Create-discount"
+                      "$ref": "#/components/schemas/NewDiscount"
                     }
                   },
                   "required": [
@@ -2819,7 +2819,7 @@
                       "example": "1.23"
                     },
                     "discount": {
-                      "$ref": "#/components/schemas/Create-discount"
+                      "$ref": "#/components/schemas/NewDiscount"
                     }
                   },
                   "required": [
@@ -2866,7 +2866,7 @@
                       "example": "1.23"
                     },
                     "discount": {
-                      "$ref": "#/components/schemas/Create-discount"
+                      "$ref": "#/components/schemas/NewDiscount"
                     }
                   },
                   "required": [
@@ -2924,7 +2924,7 @@
                       "example": "1.23"
                     },
                     "discount": {
-                      "$ref": "#/components/schemas/Create-discount"
+                      "$ref": "#/components/schemas/NewDiscount"
                     }
                   },
                   "required": [
@@ -2988,7 +2988,7 @@
                       "example": "1.23"
                     },
                     "discount": {
-                      "$ref": "#/components/schemas/Create-discount"
+                      "$ref": "#/components/schemas/NewDiscount"
                     }
                   },
                   "required": [
@@ -3273,346 +3273,7 @@
             "description": "Reset billing periods to be aligned with the plan change’s effective date."
           },
           "price_overrides": {
-            "description": "Optionally provide a list of overrides for prices on the plan",
-            "type": "array",
-            "items": {
-              "oneOf": [
-                {
-                  "description": "Tiered price override",
-                  "additionalProperties": false,
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "description": "price_id",
-                      "example": "mqBkze6HoCwL4ytV"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "tiered"
-                      ],
-                      "example": "tiered"
-                    },
-                    "tiered_config": {
-                      "type": "object",
-                      "properties": {
-                        "tiers": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "first_unit": {
-                                "type": "string",
-                                "example": "0"
-                              },
-                              "last_unit": {
-                                "type": "string",
-                                "example": "10"
-                              },
-                              "unit_amount": {
-                                "type": "string",
-                                "example": "2.5"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": "string",
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "tiered_config"
-                  ]
-                },
-                {
-                  "description": "Unit price override",
-                  "additionalProperties": false,
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "unit"
-                      ],
-                      "example": "unit"
-                    },
-                    "unit_config": {
-                      "type": "object",
-                      "required": [
-                        "unit_amount"
-                      ],
-                      "properties": {
-                        "unit_amount": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": "string",
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "unit_config"
-                  ]
-                },
-                {
-                  "description": "Bulk price override",
-                  "additionalProperties": false,
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "bulk"
-                      ],
-                      "example": "bulk"
-                    },
-                    "bulk_config": {
-                      "type": "object",
-                      "required": [
-                        "tiers"
-                      ],
-                      "properties": {
-                        "tiers": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "maximum_units": {
-                                "type": "string"
-                              },
-                              "unit_amount": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "maximum_units",
-                              "unit_amount"
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": "string",
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "bulk_config"
-                  ]
-                },
-                {
-                  "description": "Package price override",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "package"
-                      ],
-                      "example": "package"
-                    },
-                    "package_config": {
-                      "type": "object",
-                      "required": [
-                        "unit_amount",
-                        "num_units"
-                      ],
-                      "properties": {
-                        "unit_amount": {
-                          "type": "string"
-                        },
-                        "num_units": {
-                          "type": "number"
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": "string",
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "package_config"
-                  ]
-                },
-                {
-                  "additionalProperties": false,
-                  "description": "BPS price override",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "bps"
-                      ],
-                      "example": "bps"
-                    },
-                    "bps_config": {
-                      "type": "object",
-                      "required": [
-                        "bps",
-                        "per_unit_maximum"
-                      ],
-                      "properties": {
-                        "bps": {
-                          "type": "number"
-                        },
-                        "per_unit_maximum": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": "string",
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "bps_config"
-                  ]
-                },
-                {
-                  "description": "Bulk BPS price override",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "bulk_bps"
-                      ],
-                      "example": "bulk_bps"
-                    },
-                    "bulk_bps_config": {
-                      "type": "object",
-                      "properties": {
-                        "tiers": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "maximum_amount": {
-                                "type": "string"
-                              },
-                              "bps": {
-                                "type": "number"
-                              },
-                              "per_unit_maximum": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "maximum_amount",
-                              "bps",
-                              "per_unit_maximum"
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": "string",
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type"
-                  ]
-                },
-                {
-                  "description": "Tiered BPS price override",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "tiered_bps"
-                      ],
-                      "example": "tiered_bps"
-                    },
-                    "tiered_bps_config": {
-                      "type": "object",
-                      "required": [
-                        "tiers"
-                      ],
-                      "properties": {
-                        "tiers": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "minimum_amount": {
-                                "type": "string"
-                              },
-                              "maximum_amount": {
-                                "type": "string"
-                              },
-                              "bps": {
-                                "type": "number"
-                              },
-                              "per_unit_maximum": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "minimum_amount",
-                              "maximum_amount",
-                              "bps",
-                              "per_unit_maximum"
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": "string",
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "tiered_bps_config"
-                  ]
-                }
-              ],
-              "type": "object"
-            }
+            "$ref": "#/components/schemas/PriceOverrides"
           },
           "minimum_amount": {
             "type": "string",
@@ -3626,6 +3287,372 @@
         },
         "required": [
           "change_option"
+        ]
+      },
+      "PriceOverrides": {
+        "description": "Optionally provide a list of overrides for prices on the plan",
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PriceOverride"
+        }
+      },
+      "PriceOverride": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/TieredPriceOverride"
+          },
+          {
+            "$ref": "#/components/schemas/UnitPriceOverride"
+          },
+          {
+            "$ref": "#/components/schemas/BulkPriceOverride"
+          },
+          {
+            "$ref": "#/components/schemas/PackagePriceOverride"
+          },
+          {
+            "$ref": "#/components/schemas/BPSPriceOverride"
+          },
+          {
+            "$ref": "#/components/schemas/BulkBPSPriceOverride"
+          },
+          {
+            "$ref": "#/components/schemas/TieredBPSPriceOverride"
+          }
+        ],
+        "type": "object"
+      },
+      "TieredPriceOverride": {
+        "description": "Tiered price override",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "price_id",
+            "example": "mqBkze6HoCwL4ytV"
+          },
+          "model_type": {
+            "type": "string",
+            "enum": [
+              "tiered"
+            ],
+            "example": "tiered"
+          },
+          "tiered_config": {
+            "type": "object",
+            "properties": {
+              "tiers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "first_unit": {
+                      "type": "string",
+                      "example": "0"
+                    },
+                    "last_unit": {
+                      "type": "string",
+                      "example": "10"
+                    },
+                    "unit_amount": {
+                      "type": "string",
+                      "example": "2.5"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "minimum_amount": {
+            "type": "string",
+            "description": "The subscription's override minimum amount for this price.",
+            "example": "1.23"
+          }
+        },
+        "required": [
+          "id",
+          "model_type",
+          "tiered_config"
+        ]
+      },
+      "UnitPriceOverride": {
+        "description": "Unit price override",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "model_type": {
+            "type": "string",
+            "enum": [
+              "unit"
+            ],
+            "example": "unit"
+          },
+          "unit_config": {
+            "type": "object",
+            "required": [
+              "unit_amount"
+            ],
+            "properties": {
+              "unit_amount": {
+                "type": "string"
+              }
+            }
+          },
+          "minimum_amount": {
+            "type": "string",
+            "description": "The subscription's override minimum amount for this price.",
+            "example": "1.23"
+          }
+        },
+        "required": [
+          "id",
+          "model_type",
+          "unit_config"
+        ]
+      },
+      "BulkPriceOverride": {
+        "description": "Bulk price override",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "model_type": {
+            "type": "string",
+            "enum": [
+              "bulk"
+            ],
+            "example": "bulk"
+          },
+          "bulk_config": {
+            "type": "object",
+            "required": [
+              "tiers"
+            ],
+            "properties": {
+              "tiers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "maximum_units": {
+                      "type": "string"
+                    },
+                    "unit_amount": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "maximum_units",
+                    "unit_amount"
+                  ]
+                }
+              }
+            }
+          },
+          "minimum_amount": {
+            "type": "string",
+            "description": "The subscription's override minimum amount for this price.",
+            "example": "1.23"
+          }
+        },
+        "required": [
+          "id",
+          "model_type",
+          "bulk_config"
+        ]
+      },
+      "PackagePriceOverride": {
+        "description": "Package price override",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "model_type": {
+            "type": "string",
+            "enum": [
+              "package"
+            ],
+            "example": "package"
+          },
+          "package_config": {
+            "type": "object",
+            "required": [
+              "unit_amount",
+              "num_units"
+            ],
+            "properties": {
+              "unit_amount": {
+                "type": "string"
+              },
+              "num_units": {
+                "type": "number"
+              }
+            }
+          },
+          "minimum_amount": {
+            "type": "string",
+            "description": "The subscription's override minimum amount for this price.",
+            "example": "1.23"
+          }
+        },
+        "required": [
+          "id",
+          "model_type",
+          "package_config"
+        ]
+      },
+      "BPSPriceOverride": {
+        "additionalProperties": false,
+        "description": "BPS price override",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "model_type": {
+            "type": "string",
+            "enum": [
+              "bps"
+            ],
+            "example": "bps"
+          },
+          "bps_config": {
+            "type": "object",
+            "required": [
+              "bps",
+              "per_unit_maximum"
+            ],
+            "properties": {
+              "bps": {
+                "type": "number"
+              },
+              "per_unit_maximum": {
+                "type": "string"
+              }
+            }
+          },
+          "minimum_amount": {
+            "type": "string",
+            "description": "The subscription's override minimum amount for this price.",
+            "example": "1.23"
+          }
+        },
+        "required": [
+          "id",
+          "model_type",
+          "bps_config"
+        ]
+      },
+      "BulkBPSPriceOverride": {
+        "description": "Bulk BPS price override",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "model_type": {
+            "type": "string",
+            "enum": [
+              "bulk_bps"
+            ],
+            "example": "bulk_bps"
+          },
+          "bulk_bps_config": {
+            "type": "object",
+            "properties": {
+              "tiers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "maximum_amount": {
+                      "type": "string"
+                    },
+                    "bps": {
+                      "type": "number"
+                    },
+                    "per_unit_maximum": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "maximum_amount",
+                    "bps",
+                    "per_unit_maximum"
+                  ]
+                }
+              }
+            }
+          },
+          "minimum_amount": {
+            "type": "string",
+            "description": "The subscription's override minimum amount for this price.",
+            "example": "1.23"
+          }
+        },
+        "required": [
+          "id",
+          "model_type"
+        ]
+      },
+      "TieredBPSPriceOverride": {
+        "description": "Tiered BPS price override",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "model_type": {
+            "type": "string",
+            "enum": [
+              "tiered_bps"
+            ],
+            "example": "tiered_bps"
+          },
+          "tiered_bps_config": {
+            "type": "object",
+            "required": [
+              "tiers"
+            ],
+            "properties": {
+              "tiers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "minimum_amount": {
+                      "type": "string"
+                    },
+                    "maximum_amount": {
+                      "type": "string"
+                    },
+                    "bps": {
+                      "type": "number"
+                    },
+                    "per_unit_maximum": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "minimum_amount",
+                    "maximum_amount",
+                    "bps",
+                    "per_unit_maximum"
+                  ]
+                }
+              }
+            }
+          },
+          "minimum_amount": {
+            "type": "string",
+            "description": "The subscription's override minimum amount for this price.",
+            "example": "1.23"
+          }
+        },
+        "required": [
+          "id",
+          "model_type",
+          "tiered_bps_config"
         ]
       },
       "FixedFeeQuantityChange": {
@@ -5572,7 +5599,7 @@
           "entry_type"
         ]
       },
-      "Create-discount": {
+      "NewDiscount": {
         "title": "Create discount",
         "x-stoplight": {
           "id": "rf2zsdvf9sp46"
