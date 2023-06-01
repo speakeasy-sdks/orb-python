@@ -2615,391 +2615,7 @@
             "example": "project_number:983410661111"
           },
           "price_overrides": {
-            "description": "Optionally provide a list of overrides for prices on the plan",
-            "type": "array",
-            "items": {
-              "oneOf": [
-                {
-                  "description": "Tiered price override",
-                  "additionalProperties": false,
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "description": "price_id",
-                      "example": "2dbSXs47wDkmtEME"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "tiered"
-                      ],
-                      "example": "tiered"
-                    },
-                    "tiered_config": {
-                      "type": "object",
-                      "properties": {
-                        "tiers": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "first_unit": {
-                                "type": "string",
-                                "example": "0"
-                              },
-                              "last_unit": {
-                                "type": "string",
-                                "example": "10"
-                              },
-                              "unit_amount": {
-                                "type": "string",
-                                "example": "2.5"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    },
-                    "discount": {
-                      "$ref": "#/components/schemas/NewDiscount"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "tiered_config"
-                  ]
-                },
-                {
-                  "description": "Unit price override",
-                  "additionalProperties": false,
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "unit"
-                      ],
-                      "example": "unit"
-                    },
-                    "unit_config": {
-                      "type": "object",
-                      "required": [
-                        "unit_amount"
-                      ],
-                      "properties": {
-                        "unit_amount": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    },
-                    "discount": {
-                      "$ref": "#/components/schemas/NewDiscount"
-                    },
-                    "fixed_price_quantity": {
-                      "type": "integer"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "unit_config"
-                  ]
-                },
-                {
-                  "description": "Bulk price override",
-                  "additionalProperties": false,
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "bulk"
-                      ],
-                      "example": "bulk"
-                    },
-                    "bulk_config": {
-                      "type": "object",
-                      "required": [
-                        "tiers"
-                      ],
-                      "properties": {
-                        "tiers": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "maximum_units": {
-                                "type": "string"
-                              },
-                              "unit_amount": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "maximum_units",
-                              "unit_amount"
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    },
-                    "discount": {
-                      "$ref": "#/components/schemas/NewDiscount"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "bulk_config"
-                  ]
-                },
-                {
-                  "description": "Package price override",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "package"
-                      ],
-                      "example": "package"
-                    },
-                    "package_config": {
-                      "type": "object",
-                      "required": [
-                        "package_amount",
-                        "package_size"
-                      ],
-                      "properties": {
-                        "package_amount": {
-                          "type": "string"
-                        },
-                        "package_size": {
-                          "type": "number"
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    },
-                    "discount": {
-                      "$ref": "#/components/schemas/NewDiscount"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "package_config"
-                  ]
-                },
-                {
-                  "additionalProperties": false,
-                  "description": "BPS price override",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "bps"
-                      ],
-                      "example": "bps"
-                    },
-                    "bps_config": {
-                      "type": "object",
-                      "required": [
-                        "bps",
-                        "per_unit_maximum"
-                      ],
-                      "properties": {
-                        "bps": {
-                          "type": "number"
-                        },
-                        "per_unit_maximum": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    },
-                    "discount": {
-                      "$ref": "#/components/schemas/NewDiscount"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "bps_config"
-                  ]
-                },
-                {
-                  "description": "Bulk BPS price override",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "bulk_bps"
-                      ],
-                      "example": "bulk_bps"
-                    },
-                    "bulk_bps_config": {
-                      "type": "object",
-                      "properties": {
-                        "tiers": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "maximum_amount": {
-                                "type": "string"
-                              },
-                              "bps": {
-                                "type": "number"
-                              },
-                              "per_unit_maximum": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "maximum_amount",
-                              "bps",
-                              "per_unit_maximum"
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    },
-                    "discount": {
-                      "$ref": "#/components/schemas/NewDiscount"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type"
-                  ]
-                },
-                {
-                  "description": "Tiered BPS price override",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "model_type": {
-                      "type": "string",
-                      "enum": [
-                        "tiered_bps"
-                      ],
-                      "example": "tiered_bps"
-                    },
-                    "tiered_bps_config": {
-                      "type": "object",
-                      "required": [
-                        "tiers"
-                      ],
-                      "properties": {
-                        "tiers": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "minimum_amount": {
-                                "type": "string"
-                              },
-                              "maximum_amount": {
-                                "type": "string"
-                              },
-                              "bps": {
-                                "type": "number"
-                              },
-                              "per_unit_maximum": {
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "minimum_amount",
-                              "maximum_amount",
-                              "bps",
-                              "per_unit_maximum"
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    "minimum_amount": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
-                      "description": "The subscription's override minimum amount for this price.",
-                      "example": "1.23"
-                    },
-                    "discount": {
-                      "$ref": "#/components/schemas/NewDiscount"
-                    }
-                  },
-                  "required": [
-                    "id",
-                    "model_type",
-                    "tiered_bps_config"
-                  ]
-                }
-              ],
-              "type": "object"
-            }
+            "$ref": "#/components/schemas/PriceOverrides"
           },
           "align_billing_with_subscription_start_date": {
             "type": "boolean",
@@ -3011,27 +2627,7 @@
             "example": "1.23"
           },
           "phase_overrides": {
-            "type": "array",
-            "description": "Optionally provide a list of minimum amount or discount overrides for phases on the plan.",
-            "items": {
-              "type": "object",
-              "properties": {
-                "order": {
-                  "type": "number",
-                  "description": "The phase order that is being modified."
-                },
-                "minimum_amount": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "description": "The new minimum amount for the phase. Providing `null` will clear the existing minimum, if it exists."
-                },
-                "discount": {
-                  "$ref": "#/components/schemas/Discount"
-                }
-              }
-            }
+            "$ref": "#/components/schemas/PhaseOverrides"
           },
           "net_terms": {
             "type": "integer",
@@ -3288,6 +2884,32 @@
         "required": [
           "change_option"
         ]
+      },
+      "PhaseOverrides": {
+        "type": "array",
+        "description": "Optionally provide a list of minimum amount or discount overrides for phases on the plan.",
+        "items": {
+          "$ref": "#/components/schemas/PhaseOverride"
+        }
+      },
+      "PhaseOverride": {
+        "type": "object",
+        "properties": {
+          "order": {
+            "type": "number",
+            "description": "The phase order that is being modified."
+          },
+          "minimum_amount": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The new minimum amount for the phase. Providing `null` will clear the existing minimum, if it exists."
+          },
+          "discount": {
+            "$ref": "#/components/schemas/Discount"
+          }
+        }
       },
       "PriceOverrides": {
         "description": "Optionally provide a list of overrides for prices on the plan",
