@@ -9,7 +9,7 @@ from enum import Enum
 from orb import utils
 from typing import Optional
 
-class PlanPhaseDurationUnit(str, Enum):
+class DurationUnit(str, Enum):
     r"""Term for this plan, which is the maximum cadence among all component prices"""
     MONTHLY = 'monthly'
     QUARTERLY = 'quarterly'
@@ -22,7 +22,7 @@ class PlanPhase:
     r"""A plan can optionally consist of plan phases, which represents a pricing configuration that's only active for the length of time specified by `duration` and `duration_unit`. All plans must have an evergreen phase, which is the last phase and active indefinitely."""
     
     discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
-    duration_unit: PlanPhaseDurationUnit = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('duration_unit') }})
+    duration_unit: DurationUnit = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('duration_unit') }})
     r"""Term for this plan, which is the maximum cadence among all component prices"""
     minimum: shared_minimum_amount.MinimumAmount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum') }})
     description: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('description'), 'exclude': lambda f: f is None }})

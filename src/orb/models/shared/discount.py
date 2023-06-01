@@ -7,7 +7,7 @@ from enum import Enum
 from orb import utils
 from typing import Optional
 
-class DiscountDiscountType(str, Enum):
+class DiscountType(str, Enum):
     PERCENTAGE = 'percentage'
     TRIAL = 'trial'
     USAGE = 'usage'
@@ -18,7 +18,7 @@ class DiscountDiscountType(str, Enum):
 @dataclasses.dataclass
 class Discount:
     
-    discount_type: DiscountDiscountType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount_type') }})
+    discount_type: DiscountType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount_type') }})
     amount_discount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount_discount'), 'exclude': lambda f: f is None }})
     r"""Only available if discount_type is `amount`."""
     applies_to_price_ids: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('applies_to_price_ids'), 'exclude': lambda f: f is None }})

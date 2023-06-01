@@ -59,7 +59,7 @@ req = shared.CouponInput(
             'unde',
             'nulla',
         ],
-        discount_type=shared.DiscountDiscountType.PERCENTAGE,
+        discount_type=shared.DiscountType.PERCENTAGE,
         percentage_discount=0.15,
         trial_amount_discount='corrupti',
         usage_discount=8472.52,

@@ -2,14 +2,10 @@
 
 from __future__ import annotations
 import dataclasses
+from ..shared import transactiontype as shared_transactiontype
 from dataclasses_json import Undefined, dataclass_json
-from enum import Enum
 from orb import utils
 from typing import Optional
-
-class NewTransactionType(str, Enum):
-    INCREMENT = 'increment'
-    DECREMENT = 'decrement'
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
@@ -17,7 +13,7 @@ class NewTransactionType(str, Enum):
 class NewTransaction:
     
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
-    type: NewTransactionType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
+    type: shared_transactiontype.TransactionType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
     description: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('description'), 'exclude': lambda f: f is None }})
     r"""An optional description that can be specified around this entry."""
     

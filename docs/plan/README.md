@@ -76,7 +76,7 @@ res = s.plan.get_by_external_id('eaque', shared.Plan(
         applies_to_price_ids=[
             'fugiat',
         ],
-        discount_type=shared.DiscountDiscountType.PERCENTAGE,
+        discount_type=shared.DiscountType.PERCENTAGE,
         percentage_discount=0.15,
         trial_amount_discount='ab',
         usage_discount=7438.35,
@@ -103,13 +103,13 @@ res = s.plan.get_by_external_id('eaque', shared.Plan(
                     'numquam',
                     'enim',
                 ],
-                discount_type=shared.DiscountDiscountType.PERCENTAGE,
+                discount_type=shared.DiscountType.PERCENTAGE,
                 percentage_discount=0.15,
                 trial_amount_discount='dolorem',
                 usage_discount=9574.51,
             ),
             duration=518201,
-            duration_unit=shared.PlanPhaseDurationUnit.QUARTERLY,
+            duration_unit=shared.DurationUnit.QUARTERLY,
             minimum=shared.MinimumAmount(
                 applies_to_price_ids=[
                     'expedita',
@@ -126,13 +126,13 @@ res = s.plan.get_by_external_id('eaque', shared.Plan(
                 applies_to_price_ids=[
                     'cupiditate',
                 ],
-                discount_type=shared.DiscountDiscountType.PERCENTAGE,
+                discount_type=shared.DiscountType.PERCENTAGE,
                 percentage_discount=0.15,
                 trial_amount_discount='maxime',
                 usage_discount=8638.56,
             ),
             duration=747080,
-            duration_unit=shared.PlanPhaseDurationUnit.MONTHLY,
+            duration_unit=shared.DurationUnit.MONTHLY,
             minimum=shared.MinimumAmount(
                 applies_to_price_ids=[
                     'totam',
@@ -151,13 +151,13 @@ res = s.plan.get_by_external_id('eaque', shared.Plan(
                 applies_to_price_ids=[
                     'magni',
                 ],
-                discount_type=shared.DiscountDiscountType.PERCENTAGE,
+                discount_type=shared.DiscountType.PERCENTAGE,
                 percentage_discount=0.15,
                 trial_amount_discount='odio',
                 usage_discount=1248.33,
             ),
             duration=355613,
-            duration_unit=shared.PlanPhaseDurationUnit.ANNUAL,
+            duration_unit=shared.DurationUnit.ANNUAL,
             minimum=shared.MinimumAmount(
                 applies_to_price_ids=[
                     'voluptatem',
@@ -180,13 +180,13 @@ res = s.plan.get_by_external_id('eaque', shared.Plan(
                     'labore',
                     'adipisci',
                 ],
-                discount_type=shared.DiscountDiscountType.PERCENTAGE,
+                discount_type=shared.DiscountType.PERCENTAGE,
                 percentage_discount=0.15,
                 trial_amount_discount='dolorum',
                 usage_discount=1002.94,
             ),
             duration=63038,
-            duration_unit=shared.PlanPhaseDurationUnit.MONTHLY,
+            duration_unit=shared.DurationUnit.MONTHLY,
             minimum=shared.MinimumAmount(
                 applies_to_price_ids=[
                     'itaque',
@@ -238,7 +238,7 @@ res = s.plan.get_by_external_id('eaque', shared.Plan(
                     'possimus',
                     'magnam',
                 ],
-                discount_type=shared.DiscountDiscountType.PERCENTAGE,
+                discount_type=shared.DiscountType.PERCENTAGE,
                 percentage_discount=0.15,
                 trial_amount_discount='ratione',
                 usage_discount=4011.32,

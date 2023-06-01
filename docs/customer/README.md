@@ -267,7 +267,7 @@ s = orb.Orb(
 res = s.customer.create_transaction('assumenda', shared.NewTransaction(
     amount='1.00',
     description='ipsam',
-    type=shared.NewTransactionType.INCREMENT,
+    type=shared.TransactionType.INCREMENT,
 ))
 
 if res.transaction is not None:
