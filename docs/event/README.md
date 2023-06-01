@@ -48,14 +48,14 @@ s = orb.Orb(
 
 
 res = s.event.amend('fQp2wSmK7CF9oPcu', shared.AmendedEvent(
-    customer_id='sunt',
-    event_name='quo',
-    external_customer_id='illum',
+    customer_id='cum',
+    event_name='voluptate',
+    external_customer_id='dignissimos',
     properties={
-        "maxime": 'ea',
-        "excepturi": 'odit',
-        "ea": 'accusantium',
-        "ab": 'maiores',
+        "amet": 'dolorum',
+        "numquam": 'veritatis',
+        "ipsa": 'ipsa',
+        "iure": 'odio',
     },
     timestamp=dateutil.parser.isoparse('2020-12-09T16:09:53Z'),
 ))
@@ -83,7 +83,7 @@ s = orb.Orb(
 )
 
 
-res = s.event.close_backfill('quidem')
+res = s.event.close_backfill('quaerat')
 
 if res.backfill is not None:
     # handle response
@@ -117,12 +117,12 @@ s = orb.Orb(
 )
 
 req = shared.NewBackfill(
-    close_time=dateutil.parser.isoparse('2022-07-19T10:57:57.489Z'),
-    customer_id='autem',
-    external_customer_id='nam',
+    close_time=dateutil.parser.isoparse('2020-11-29T12:05:35.198Z'),
+    customer_id='voluptatibus',
+    external_customer_id='voluptas',
     replace_existing_events=False,
-    timeframe_end=dateutil.parser.isoparse('2022-02-18T18:29:26.833Z'),
-    timeframe_start=dateutil.parser.isoparse('2022-01-09T22:25:53.570Z'),
+    timeframe_end=dateutil.parser.isoparse('2022-08-22T21:20:36.034Z'),
+    timeframe_start=dateutil.parser.isoparse('2022-12-13T23:37:42.244Z'),
 )
 
 res = s.event.create(req)
@@ -324,23 +324,58 @@ s = orb.Orb(
 
 res = s.event.ingest([
     shared.Event(
-        customer_id='fugiat',
-        event_name='amet',
-        external_customer_id='aut',
-        idempotency_key='cumque',
+        customer_id='ab',
+        event_name='soluta',
+        external_customer_id='dolorum',
+        idempotency_key='iusto',
         properties={
-            "hic": 'libero',
-            "nobis": 'dolores',
+            "dolorum": 'deleniti',
+            "omnis": 'necessitatibus',
+        },
+        timestamp='2020-12-09T16:09:53Z',
+    ),
+    shared.Event(
+        customer_id='distinctio',
+        event_name='asperiores',
+        external_customer_id='nihil',
+        idempotency_key='ipsum',
+        properties={
+            "id": 'saepe',
+            "eius": 'aspernatur',
+        },
+        timestamp='2020-12-09T16:09:53Z',
+    ),
+    shared.Event(
+        customer_id='perferendis',
+        event_name='amet',
+        external_customer_id='optio',
+        idempotency_key='accusamus',
+        properties={
+            "saepe": 'suscipit',
+            "deserunt": 'provident',
+        },
+        timestamp='2020-12-09T16:09:53Z',
+    ),
+    shared.Event(
+        customer_id='minima',
+        event_name='repellendus',
+        external_customer_id='totam',
+        idempotency_key='similique',
+        properties={
+            "at": 'quaerat',
         },
         timestamp='2020-12-09T16:09:53Z',
     ),
 ], 'backfill_123', shared.Debug(
     duplicate=[
-        'totam',
-        'dignissimos',
+        'vel',
+        'quod',
     ],
     ingested=[
-        'quis',
+        'qui',
+        'dolorum',
+        'a',
+        'esse',
     ],
 ))
 
@@ -392,7 +427,7 @@ s = orb.Orb(
 )
 
 
-res = s.event.revert_backfill('nesciunt')
+res = s.event.revert_backfill('harum')
 
 if res.backfill is not None:
     # handle response
@@ -426,9 +461,10 @@ s = orb.Orb(
 
 req = shared.EventSearchCriteria(
     event_ids=[
-        'perferendis',
+        'ipsum',
+        'quisquam',
     ],
-    invoice_id='dolores',
+    invoice_id='tenetur',
 )
 
 res = s.event.search(req)

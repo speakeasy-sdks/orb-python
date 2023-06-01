@@ -29,7 +29,7 @@ s = orb.Orb(
 )
 
 
-res = s.coupon.archive('corrupti')
+res = s.coupon.archive('quod')
 
 if res.coupon is not None:
     # handle response
@@ -53,22 +53,21 @@ s = orb.Orb(
 
 req = shared.CouponInput(
     discount=shared.Discount(
-        amount_discount='provident',
+        amount_discount='quod',
         applies_to_price_ids=[
-            'quibusdam',
-            'unde',
-            'nulla',
+            'totam',
+            'porro',
         ],
         discount_type=shared.DiscountType.PERCENTAGE,
         percentage_discount=0.15,
-        trial_amount_discount='corrupti',
-        usage_discount=8472.52,
+        trial_amount_discount='dolorum',
+        usage_discount=1182.74,
     ),
-    duration_in_months=423655,
-    id='9a674e0f-467c-4c87-96ed-151a05dfc2dd',
-    max_redemptions=978619,
-    redemption_code='molestiae',
-    times_redeemed=799159,
+    duration_in_months=720633,
+    id='a928fc81-6742-4cb7-b920-5929396fea75',
+    max_redemptions=613064,
+    redemption_code='iure',
+    times_redeemed=902349,
 )
 
 res = s.coupon.create(req)
@@ -94,7 +93,7 @@ s = orb.Orb(
 )
 
 
-res = s.coupon.fetch('quod')
+res = s.coupon.fetch('quidem')
 
 if res.coupon is not None:
     # handle response
@@ -119,7 +118,7 @@ s = orb.Orb(
 )
 
 
-res = s.coupon.list('esse', False)
+res = s.coupon.list('architecto', False)
 
 if res.coupons is not None:
     # handle response
@@ -142,7 +141,7 @@ s = orb.Orb(
 )
 
 
-res = s.coupon.list_subscriptions('totam')
+res = s.coupon.list_subscriptions('ipsa')
 
 if res.subscriptions is not None:
     # handle response
