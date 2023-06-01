@@ -1630,6 +1630,7 @@
         "summary": "Create a coupon",
         "description": "This endpoint allows the creation of coupons, which can then be redeemed at subscription creation or plan change.",
         "operationId": "create-coupon",
+        "x-speakeasy-usage-example": true,
         "tags": [
           "Coupon"
         ],
