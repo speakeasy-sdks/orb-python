@@ -193,7 +193,7 @@ class Event:
         return res
 
     
-    def ingest(self, request_body: Optional[operations.IngestRequestBody] = None, backfill_id: Optional[str] = None, debug: Optional[operations.IngestDebug] = None) -> operations.IngestResponse:
+    def ingest(self, request_body: Optional[list[shared.Event]] = None, backfill_id: Optional[str] = None, debug: Optional[operations.IngestDebug] = None) -> operations.IngestResponse:
         r"""Ingest events
         Orb's event ingestion model and API is designed around two core principles:
         
@@ -359,8 +359,8 @@ class Event:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.Ingest200ApplicationJSON])
-                res.ingest_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.IngestionResponse])
+                res.ingestion_response = out
         elif http_res.status_code == 400:
             if utils.match_content_type(content_type, 'application/json'):
                 out = utils.unmarshal_json(http_res.text, Optional[operations.Ingest400ApplicationJSON])
@@ -371,9 +371,9 @@ class Event:
     
     def list_backfills(self) -> operations.ListBackfillsResponse:
         r"""List backfills
-        This endpoint returns a list of all [backfills](../reference/Orb-API.json/components/schemas/Backfill) in a list format. 
+        This endpoint returns a list of all backfills in a list format. 
         
-        The list of backfills is ordered starting from the most recently created backfill. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist. More information about pagination can be found in the [Pagination-metadata schema](../reference/Orb-API.json/components/schemas/Pagination-metadata).
+        The list of backfills is ordered starting from the most recently created backfill. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist. More information about pagination can be found in the [Pagination-metadata schema](pagination).
         """
         base_url = self._server_url
         

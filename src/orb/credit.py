@@ -23,20 +23,20 @@ class Credit:
         self._gen_version = gen_version
         
     
-    def add_by_external_id(self, external_customer_id: str, request_body: Optional[operations.AddLedgerEntryExternalIDRequestBody] = None) -> operations.AddLedgerEntryExternalIDResponse:
+    def add_by_external_id(self, external_customer_id: str, new_credit_ledger_entry: Optional[shared.NewCreditLedgerEntry] = None) -> operations.AddLedgerEntryExternalIDResponse:
         r"""Add credit ledger entry by external customer ID
         This endpoint's resource and semantics exactly mirror [Add credit ledger entry](create-ledger-entry) but operates on an [external customer ID](../guides/events-and-metrics/customer-aliases) rather than an Orb issued identifier.
         """
         request = operations.AddLedgerEntryExternalIDRequest(
             external_customer_id=external_customer_id,
-            request_body=request_body,
+            new_credit_ledger_entry=new_credit_ledger_entry,
         )
         
         base_url = self._server_url
         
         url = utils.generate_url(operations.AddLedgerEntryExternalIDRequest, base_url, '/customers/external_customer_id/{external_customer_id}/credits/ledger_entry', request)
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        req_content_type, data, form = utils.serialize_request_body(request, "new_credit_ledger_entry", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         headers['Accept'] = 'application/json'
@@ -57,7 +57,7 @@ class Credit:
         return res
 
     
-    def create(self, customer_id: str, request_body: Optional[operations.CreateLedgerEntryRequestBody] = None) -> operations.CreateLedgerEntryResponse:
+    def create(self, customer_id: str, new_credit_ledger_entry: Optional[shared.NewCreditLedgerEntry] = None) -> operations.CreateLedgerEntryResponse:
         r"""Add credit ledger entry
         This endpoint allows you to create a new ledger entry for a specified customer's balance. This can be used to increment balance, deduct credits, and change the expiry date of existing credits.
         
@@ -119,14 +119,14 @@ class Credit:
         """
         request = operations.CreateLedgerEntryRequest(
             customer_id=customer_id,
-            request_body=request_body,
+            new_credit_ledger_entry=new_credit_ledger_entry,
         )
         
         base_url = self._server_url
         
         url = utils.generate_url(operations.CreateLedgerEntryRequest, base_url, '/customers/{customer_id}/credits/ledger_entry', request)
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        req_content_type, data, form = utils.serialize_request_body(request, "new_credit_ledger_entry", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         headers['Accept'] = 'application/json'
@@ -175,8 +175,8 @@ class Credit:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchCustomerCredits200ApplicationJSON])
-                res.fetch_customer_credits_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Credits])
+                res.credits = out
 
         return res
 
@@ -205,13 +205,13 @@ class Credit:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchCustomerCreditsExternalID200ApplicationJSON])
-                res.fetch_customer_credits_external_id_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Credits])
+                res.credits = out
 
         return res
 
     
-    def fetch_ledger(self, customer_id: str, entry_status: Optional[operations.FetchCustomerCreditsLedgerEntryStatus] = None, entry_type: Optional[operations.FetchCustomerCreditsLedgerEntryType] = None, minimum_amount: Optional[float] = None) -> operations.FetchCustomerCreditsLedgerResponse:
+    def fetch_ledger(self, customer_id: str, entry_status: Optional[shared.EntryStatus] = None, entry_type: Optional[shared.EntryType] = None, minimum_amount: Optional[float] = None) -> operations.FetchCustomerCreditsLedgerResponse:
         r"""View credits ledger
         The credits ledger provides _auditing_ functionality over Orb's credits system with a list of actions that have taken place to modify a customer's credit balance. This [paginated endpoint](../api/pagination) lists these entries, starting from the most recent ledger entry.
         
@@ -269,13 +269,13 @@ class Credit:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchCustomerCreditsLedger200ApplicationJSON])
-                res.fetch_customer_credits_ledger_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.CreditLedgerEntries])
+                res.credit_ledger_entries = out
 
         return res
 
     
-    def fetch_ledger_by_external_id(self, external_customer_id: str, entry_status: Optional[operations.FetchCustomerCreditsLedgerExternalIDEntryStatus] = None, entry_type: Optional[operations.FetchCustomerCreditsLedgerExternalIDEntryType] = None, minimum_amount: Optional[float] = None) -> operations.FetchCustomerCreditsLedgerExternalIDResponse:
+    def fetch_ledger_by_external_id(self, external_customer_id: str, entry_status: Optional[shared.EntryStatus] = None, entry_type: Optional[shared.EntryType] = None, minimum_amount: Optional[float] = None) -> operations.FetchCustomerCreditsLedgerExternalIDResponse:
         r"""View credits ledger by external customer ID
         This endpoint's resource and semantics exactly mirror [View credits ledger](fetch-customer-credits-ledger) but operates on an [external customer ID](../guides/events-and-metrics/customer-aliases) rather than an Orb issued identifier.
         """
@@ -303,8 +303,8 @@ class Credit:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchCustomerCreditsLedgerExternalID200ApplicationJSON])
-                res.fetch_customer_credits_ledger_external_id_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.CreditLedgerEntries])
+                res.credit_ledger_entries = out
 
         return res
 

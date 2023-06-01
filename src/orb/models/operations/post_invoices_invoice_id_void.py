@@ -4,6 +4,8 @@ from __future__ import annotations
 import dataclasses
 import requests as requests_http
 from ..shared import invoice as shared_invoice
+from dataclasses_json import Undefined, dataclass_json
+from orb import utils
 from typing import Optional
 
 
@@ -13,6 +15,29 @@ class PostInvoicesInvoiceIDVoidRequest:
     invoice_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'invoice_id', 'style': 'simple', 'explode': False }})
     
 
+@dataclass_json(undefined=Undefined.EXCLUDE)
+@dataclasses.dataclass
+class PostInvoicesInvoiceIDVoid400ApplicationJSONValidationErrors:
+    
+    idempotency_key: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('idempotency_key'), 'exclude': lambda f: f is None }})
+    validation_errors: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('validation_errors'), 'exclude': lambda f: f is None }})
+    r"""An array of strings corresponding to each validation failure"""
+    
+
+@dataclass_json(undefined=Undefined.EXCLUDE)
+@dataclasses.dataclass
+class PostInvoicesInvoiceIDVoid400ApplicationJSON:
+    r"""Bad Request"""
+    
+    status: int = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status') }})
+    r"""HTTP Code"""
+    title: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('title') }})
+    r"""Error message"""
+    type: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
+    validation_errors: list[PostInvoicesInvoiceIDVoid400ApplicationJSONValidationErrors] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('validation_errors') }})
+    r"""Contains all failing validation events."""
+    
+
 @dataclasses.dataclass
 class PostInvoicesInvoiceIDVoidResponse:
     
@@ -20,5 +45,7 @@ class PostInvoicesInvoiceIDVoidResponse:
     status_code: int = dataclasses.field()
     invoice: Optional[shared_invoice.Invoice] = dataclasses.field(default=None)
     r"""Created"""
+    post_invoices_invoice_id_void_400_application_json_object: Optional[PostInvoicesInvoiceIDVoid400ApplicationJSON] = dataclasses.field(default=None)
+    r"""Bad Request"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

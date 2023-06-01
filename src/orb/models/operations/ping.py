@@ -10,7 +10,7 @@ from typing import Optional
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
 @dataclasses.dataclass
-class Ping200ApplicationJSON:
+class PingAvailability:
     r"""OK"""
     
     response: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('response') }})
@@ -21,7 +21,7 @@ class PingResponse:
     
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
-    ping_200_application_json_object: Optional[Ping200ApplicationJSON] = dataclasses.field(default=None)
+    availability: Optional[PingAvailability] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     

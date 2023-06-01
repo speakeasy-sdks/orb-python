@@ -25,7 +25,7 @@ class Invoice:
     
     def create(self, request: operations.CreateInvoiceLineItemRequestBody) -> operations.CreateInvoiceLineItemResponse:
         r"""Create invoice line item
-        This creates a one-off fixed fee [Invoice line item](../reference/Orb-API.json/components/schemas/Invoice-line-item) on an [Invoice](../reference/Orb-API.json/components/schemas/Invoice). This can only be done for invoices that are in a `draft` status.
+        This creates a one-off fixed fee invoice line item on an [Invoice](../guides/concepts#invoice). This can only be done for invoices that are in a `draft` status.
         """
         base_url = self._server_url
         
@@ -54,7 +54,7 @@ class Invoice:
     
     def fetch(self, invoice_id: str) -> operations.FetchInvoiceResponse:
         r"""Retrieve an Invoice
-        This endpoint is used to fetch an [`Invoice`](../reference/Orb-API.json/components/schemas/Invoice) given an identifier.
+        This endpoint is used to fetch an [`Invoice`](../guides/concepts#invoice) given an identifier.
         """
         request = operations.FetchInvoiceRequest(
             invoice_id=invoice_id,
@@ -84,7 +84,7 @@ class Invoice:
     
     def fetch_upcoming(self, subscription_id: str) -> operations.FetchUpcomingInvoiceResponse:
         r"""Retrieve upcoming invoice
-        This endpoint can be used to fetch the [`Upcoming Invoice`](../reference/Orb-API.json/components/schemas/UpcomingInvoice) for the current billing period given a subscription.
+        This endpoint can be used to fetch the upcoming [invoice](../guides/concepts#invoice) for the current billing period given a subscription.
         """
         request = operations.FetchUpcomingInvoiceRequest(
             subscription_id=subscription_id,
@@ -115,7 +115,7 @@ class Invoice:
     
     def list(self, customer_id: Optional[str] = None, external_customer_id: Optional[str] = None, status: Optional[Any] = None, subscription_id: Optional[str] = None) -> operations.ListInvoicesResponse:
         r"""List invoices
-        This endpoint returns a list of all [`Invoice`](../reference/Orb-API.json/components/schemas/Invoice)s for an account in a list format. 
+        This endpoint returns a list of all [`Invoice`](../guides/concepts#invoice)s for an account in a list format. 
         
         The list of invoices is ordered starting from the most recently issued invoice date. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist.
         
@@ -145,8 +145,8 @@ class Invoice:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.ListInvoices200ApplicationJSON])
-                res.list_invoices_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Invoices])
+                res.invoices = out
 
         return res
 
@@ -165,7 +165,7 @@ class Invoice:
         
         url = utils.generate_url(operations.PostInvoicesInvoiceIDVoidRequest, base_url, '/invoices/{invoice_id}/void', request)
         headers = {}
-        headers['Accept'] = 'application/json'
+        headers['Accept'] = 'application/json;q=1, application/json;q=0'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
         
         client = self._security_client
@@ -180,7 +180,9 @@ class Invoice:
                 out = utils.unmarshal_json(http_res.text, Optional[shared.Invoice])
                 res.invoice = out
         elif http_res.status_code == 400:
-            pass
+            if utils.match_content_type(content_type, 'application/json'):
+                out = utils.unmarshal_json(http_res.text, Optional[operations.PostInvoicesInvoiceIDVoid400ApplicationJSON])
+                res.post_invoices_invoice_id_void_400_application_json_object = out
 
         return res
 
