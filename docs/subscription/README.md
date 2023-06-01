@@ -47,7 +47,7 @@ Orb allows you to cancel a subscription in the past as long as there are no paid
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -56,8 +56,8 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.cancel('dolor', operations.CancelSubscriptionRequestBody(
-    cancel_option=operations.CancelSubscriptionRequestBodyCancelOption.IMMEDIATE,
+res = s.subscription.cancel('mollitia', shared.SubscriptionCancellation(
+    cancel_option=shared.SubscriptionCancellationCancelOption.IMMEDIATE,
     cancellation_date=dateutil.parser.isoparse('2017-07-21T17:32:28Z'),
 ))
 
@@ -71,7 +71,7 @@ A subscription represents the purchase of a plan by a customer. The customer is 
 
 By default, subscriptions begin on the day that they're created and renew automatically for each billing cycle at the cadence that's configured in the plan definition.
 
-The default configuration for subscriptions in Orb is **In-advance billing** and **Beginning of month alignment** (see [Subscription](../reference/Orb-API.json/components/schemas/Subscription) for more details).
+The default configuration for subscriptions in Orb is **In-advance billing** and **Beginning of month alignment** (see [Subscription](../guides/concepts#subscription) for more details).
 
 In order to change the alignment behavior, Orb also supports billing subscriptions on the day of the month they are created. If `align_billing_with_subscription_start_date = true` is specified, subscriptions have billing cycles that are aligned with their `start_date`. For example, a subscription that begins on January 15th will have a billing cycle from January 15th to February 15th. Every subsequent billing cycle will continue to start and invoice on the 15th.
 
@@ -416,7 +416,7 @@ Using the plan's discount example
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations, shared
+from orb.models import shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -424,75 +424,114 @@ s = orb.Orb(
     ),
 )
 
-req = operations.CreateSubscriptionRequestBody(
+req = shared.NewSubscription(
     align_billing_with_subscription_start_date=False,
     auto_collection=False,
-    coupon_redemption_code='occaecati',
+    coupon_redemption_code='ab',
     customer_id='97DPcZE9hxsbb9Y9',
-    default_invoice_memo='numquam',
-    external_customer_id='impedit',
-    external_marketplace=operations.CreateSubscriptionRequestBodyExternalMarketplace.GOOGLE,
+    default_invoice_memo='corrupti',
+    external_customer_id='non',
+    external_marketplace=shared.NewSubscriptionExternalMarketplace.GOOGLE,
     external_marketplace_reporting_id='project_number:983410661111',
-    external_plan_id='explicabo',
+    external_plan_id='voluptatem',
     metadata={
-        "aut": 'dignissimos',
-        "dicta": 'maiores',
+        "occaecati": 'numquam',
     },
     minimum_amount='1.23',
-    net_terms=618480,
+    net_terms=771089,
     phase_overrides=[
-        operations.CreateSubscriptionRequestBodyPhaseOverrides(
+        shared.NewSubscriptionPhaseOverrides(
             discount=shared.Discount(
-                amount_discount='voluptatibus',
+                amount_discount='voluptas',
                 applies_to_price_ids=[
-                    'asperiores',
-                    'aperiam',
+                    'dignissimos',
                 ],
                 discount_type=shared.DiscountDiscountType.PERCENTAGE,
                 percentage_discount=0.15,
-                trial_amount_discount='ea',
-                usage_discount=3100.67,
+                trial_amount_discount='dicta',
+                usage_discount=9816.4,
             ),
-            minimum_amount='consequuntur',
-            order=8315.2,
+            minimum_amount='natus',
+            order=2446.51,
         ),
     ],
     plan_id='ZMwNQefe7J3ecf7W',
     price_overrides=[
-        operations.CreateSubscriptionRequestBodyPriceOverrides6(
-            bulk_bps_config=operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfig(
+        shared.NewSubscriptionPriceOverrides3(
+            bulk_config=shared.NewSubscriptionPriceOverrides3BulkConfig(
                 tiers=[
-                    operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfigTiers(
-                        bps=6400.24,
-                        maximum_amount='asperiores',
-                        per_unit_maximum='nemo',
+                    shared.NewSubscriptionPriceOverrides3BulkConfigTiers(
+                        maximum_units='aperiam',
+                        unit_amount='ea',
                     ),
-                    operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfigTiers(
-                        bps=653.04,
-                        maximum_amount='quaerat',
-                        per_unit_maximum='porro',
+                    shared.NewSubscriptionPriceOverrides3BulkConfigTiers(
+                        maximum_units='quaerat',
+                        unit_amount='consequuntur',
+                    ),
+                    shared.NewSubscriptionPriceOverrides3BulkConfigTiers(
+                        maximum_units='repellendus',
+                        unit_amount='officia',
+                    ),
+                    shared.NewSubscriptionPriceOverrides3BulkConfigTiers(
+                        maximum_units='maxime',
+                        unit_amount='dignissimos',
                     ),
                 ],
             ),
             discount=shared.CreateDiscount(
-                amount_discount='quod',
-                discount_type=shared.CreateDiscountDiscountType.PERCENTAGE,
-                percentage_discount='ab',
-                usage_discount='adipisci',
+                amount_discount='officia',
+                discount_type=shared.CreateDiscountDiscountType.AMOUNT,
+                percentage_discount='nemo',
+                usage_discount='quae',
             ),
-            id='aa63aae8-d678-464d-bb67-5fd5e60b375e',
+            id='5cc413aa-63aa-4e8d-a786-4dbb675fd5e6',
             minimum_amount='1.23',
-            model_type=operations.CreateSubscriptionRequestBodyPriceOverrides6ModelType.BULK_BPS,
+            model_type=shared.NewSubscriptionPriceOverrides3ModelType.BULK,
         ),
-        operations.CreateSubscriptionRequestBodyPriceOverrides6(
-            bulk_bps_config=operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfig(
+        shared.NewSubscriptionPriceOverrides1(
+            discount=shared.CreateDiscount(
+                amount_discount='cum',
+                discount_type=shared.CreateDiscountDiscountType.PERCENTAGE,
+                percentage_discount='in',
+                usage_discount='exercitationem',
+            ),
+            id='2dbSXs47wDkmtEME',
+            minimum_amount='1.23',
+            model_type=shared.NewSubscriptionPriceOverrides1ModelType.TIERED,
+            tiered_config=shared.NewSubscriptionPriceOverrides1TieredConfig(
                 tiers=[
-                    operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfigTiers(
+                    shared.NewSubscriptionPriceOverrides1TieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
+                    ),
+                    shared.NewSubscriptionPriceOverrides1TieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
+                    ),
+                    shared.NewSubscriptionPriceOverrides1TieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
+                    ),
+                    shared.NewSubscriptionPriceOverrides1TieredConfigTiers(
+                        first_unit='0',
+                        last_unit='10',
+                        unit_amount='2.5',
+                    ),
+                ],
+            ),
+        ),
+        shared.NewSubscriptionPriceOverrides6(
+            bulk_bps_config=shared.NewSubscriptionPriceOverrides6BulkBpsConfig(
+                tiers=[
+                    shared.NewSubscriptionPriceOverrides6BulkBpsConfigTiers(
                         bps=9854.92,
                         maximum_amount='suscipit',
                         per_unit_maximum='reiciendis',
                     ),
-                    operations.CreateSubscriptionRequestBodyPriceOverrides6BulkBpsConfigTiers(
+                    shared.NewSubscriptionPriceOverrides6BulkBpsConfigTiers(
                         bps=6971.42,
                         maximum_amount='saepe',
                         per_unit_maximum='necessitatibus',
@@ -507,9 +546,9 @@ req = operations.CreateSubscriptionRequestBody(
             ),
             id='3317fe35-b60e-4b1e-a426-555ba3c28744',
             minimum_amount='1.23',
-            model_type=operations.CreateSubscriptionRequestBodyPriceOverrides6ModelType.BULK_BPS,
+            model_type=shared.NewSubscriptionPriceOverrides6ModelType.BULK_BPS,
         ),
-        operations.CreateSubscriptionRequestBodyPriceOverrides7(
+        shared.NewSubscriptionPriceOverrides7(
             discount=shared.CreateDiscount(
                 amount_discount='temporibus',
                 discount_type=shared.CreateDiscountDiscountType.USAGE,
@@ -518,10 +557,10 @@ req = operations.CreateSubscriptionRequestBody(
             ),
             id='88f3a8d8-f5c0-4b2f-afb7-b194a276b269',
             minimum_amount='1.23',
-            model_type=operations.CreateSubscriptionRequestBodyPriceOverrides7ModelType.TIERED_BPS,
-            tiered_bps_config=operations.CreateSubscriptionRequestBodyPriceOverrides7TieredBpsConfig(
+            model_type=shared.NewSubscriptionPriceOverrides7ModelType.TIERED_BPS,
+            tiered_bps_config=shared.NewSubscriptionPriceOverrides7TieredBpsConfig(
                 tiers=[
-                    operations.CreateSubscriptionRequestBodyPriceOverrides7TieredBpsConfigTiers(
+                    shared.NewSubscriptionPriceOverrides7TieredBpsConfigTiers(
                         bps=3828.08,
                         maximum_amount='sapiente',
                         minimum_amount='debitis',
@@ -542,7 +581,7 @@ if res.subscription is not None:
 
 ## fetch
 
-This endpoint is used to fetch a [Subscription](../reference/Orb-API.json/components/schemas/Subscription) given an identifier.
+This endpoint is used to fetch a [Subscription](../guides/concepts#subscription) given an identifier.
 
 ### Example Usage
 
@@ -575,7 +614,7 @@ The semantics of this endpoint exactly mirror those of [fetching a customer's co
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -586,14 +625,14 @@ s = orb.Orb(
 req = operations.FetchSubscriptionCostsRequest(
     group_by='perferendis',
     subscription_id='corrupti',
-    timeframe_end=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
-    timeframe_start=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
-    view_mode='maiores',
+    timeframe_end='2022-03-01T05:00:00Z',
+    timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
+    view_mode=shared.ViewMode.CUMULATIVE,
 )
 
 res = s.subscription.fetch_costs(req)
 
-if res.fetch_subscription_costs_200_application_json_object is not None:
+if res.subscription_costs is not None:
     # handle response
 ```
 
@@ -616,7 +655,7 @@ s = orb.Orb(
 
 res = s.subscription.fetch_schedule('incidunt')
 
-if res.fetch_subscription_schedule_200_application_json_object is not None:
+if res.subscription_schedule is not None:
     # handle response
 ```
 
@@ -750,7 +789,7 @@ For example, if your compute metric has a separate unit price (i.e. a matrix pri
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -763,20 +802,20 @@ req = operations.FetchSubscriptionUsageRequest(
     granularity=operations.FetchSubscriptionUsageGranularity.DAY,
     group_by='provident',
     subscription_id='eius',
-    timeframe_end=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
-    timeframe_start=dateutil.parser.isoparse('2022-02-02T05:00:00Z'),
-    view_mode=operations.FetchSubscriptionUsageViewMode.CUMULATIVE,
+    timeframe_end='2022-03-01T05:00:00Z',
+    timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
+    view_mode=shared.ViewMode.CUMULATIVE,
 )
 
 res = s.subscription.fetch_usage(req)
 
-if res.fetch_subscription_usage_200_application_json_object is not None:
+if res.subscription_usage is not None:
     # handle response
 ```
 
 ## list
 
-This endpoint returns a list of all subscriptions for an account as a [paginated](../api/pagination) list, ordered starting from the most recently created subscription. For a full discussion of the subscription resource, see [Subscription](../reference/Orb-API.json/components/schemas/Subscription).
+This endpoint returns a list of all subscriptions for an account as a [paginated](../api/pagination) list, ordered starting from the most recently created subscription. For a full discussion of the subscription resource, see [Subscription](../guides/concepts#subscription).
 
 Subscriptions can be filtered to a single customer by passing in the `customer_id` query parameter or the `external_customer_id` query parameter. 
 
@@ -795,7 +834,7 @@ s = orb.Orb(
 
 res = s.subscription.list('ipsum', 'ea')
 
-if res.list_subscriptions_200_application_json_object is not None:
+if res.subscriptions is not None:
     # handle response
 ```
 
@@ -826,7 +865,7 @@ By default, Orb calculates the prorated difference in any fixed fees when making
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -835,32 +874,32 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.schedule_plan_change('occaecati', operations.SchedulePlanChangeRequestBody(
+res = s.subscription.schedule_plan_change('occaecati', shared.SubscriptionPlanChange(
     align_billing_with_plan_change_date=False,
     change_date=dateutil.parser.isoparse('2017-07-21T17:32:28Z'),
-    change_option=operations.SchedulePlanChangeRequestBodyChangeOption.END_OF_SUBSCRIPTION_TERM,
+    change_option=shared.SubscriptionPlanChangeChangeOption.END_OF_SUBSCRIPTION_TERM,
     coupon_redemption_code='voluptatibus',
     external_plan_id='ZMwNQefe7J3ecf7W',
     minimum_amount='1.23',
     plan_id='ZMwNQefe7J3ecf7W',
     price_overrides=[
-        operations.SchedulePlanChangeRequestBodyPriceOverrides2(
+        shared.SubscriptionPlanChangePriceOverrides2(
             id='7f603e8b-445e-480c-a55e-fd20e457e185',
             minimum_amount='1.23',
-            model_type=operations.SchedulePlanChangeRequestBodyPriceOverrides2ModelType.UNIT,
-            unit_config=operations.SchedulePlanChangeRequestBodyPriceOverrides2UnitConfig(
+            model_type=shared.SubscriptionPlanChangePriceOverrides2ModelType.UNIT,
+            unit_config=shared.SubscriptionPlanChangePriceOverrides2UnitConfig(
                 unit_amount='praesentium',
             ),
         ),
-        operations.SchedulePlanChangeRequestBodyPriceOverrides6(
-            bulk_bps_config=operations.SchedulePlanChangeRequestBodyPriceOverrides6BulkBpsConfig(
+        shared.SubscriptionPlanChangePriceOverrides6(
+            bulk_bps_config=shared.SubscriptionPlanChangePriceOverrides6BulkBpsConfig(
                 tiers=[
-                    operations.SchedulePlanChangeRequestBodyPriceOverrides6BulkBpsConfigTiers(
+                    shared.SubscriptionPlanChangePriceOverrides6BulkBpsConfigTiers(
                         bps=6805.15,
                         maximum_amount='voluptatum',
                         per_unit_maximum='error',
                     ),
-                    operations.SchedulePlanChangeRequestBodyPriceOverrides6BulkBpsConfigTiers(
+                    shared.SubscriptionPlanChangePriceOverrides6BulkBpsConfigTiers(
                         bps=9447.08,
                         maximum_amount='expedita',
                         per_unit_maximum='debitis',
@@ -869,7 +908,7 @@ res = s.subscription.schedule_plan_change('occaecati', operations.SchedulePlanCh
             ),
             id='3a5aa8e4-824d-40ab-8075-088e51862065',
             minimum_amount='1.23',
-            model_type=operations.SchedulePlanChangeRequestBodyPriceOverrides6ModelType.BULK_BPS,
+            model_type=shared.SubscriptionPlanChangePriceOverrides6ModelType.BULK_BPS,
         ),
     ],
 ))
@@ -941,7 +980,7 @@ If the fee is an in-advance fixed fee, it will also issue an immediate invoice f
 ```python
 import orb
 import dateutil.parser
-from orb.models import operations
+from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
@@ -950,8 +989,8 @@ s = orb.Orb(
 )
 
 
-res = s.subscription.update_fixed_fee_quantity('consequatur', operations.UpdateFixedFeeQuantityRequestBody(
-    change_option=operations.UpdateFixedFeeQuantityRequestBodyChangeOption.EFFECTIVE_DATE,
+res = s.subscription.update_fixed_fee_quantity('consequatur', shared.FixedFeeQuantityChange(
+    change_option=shared.FixedFeeQuantityChangeChangeOption.EFFECTIVE_DATE,
     effective_date=dateutil.parser.parse('"2022-12-21"').date(),
     price_id='incidunt',
     quantity=9688.65,

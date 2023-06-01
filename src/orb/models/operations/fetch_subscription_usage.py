@@ -2,23 +2,16 @@
 
 from __future__ import annotations
 import dataclasses
-import dateutil.parser
 import requests as requests_http
-from dataclasses_json import Undefined, dataclass_json
+from ..shared import subscriptionusage as shared_subscriptionusage
+from ..shared import viewmode as shared_viewmode
 from datetime import datetime
 from enum import Enum
-from marshmallow import fields
-from orb import utils
 from typing import Optional
 
 class FetchSubscriptionUsageGranularity(str, Enum):
     r"""This determines the windowing of usage reporting."""
     DAY = 'day'
-
-class FetchSubscriptionUsageViewMode(str, Enum):
-    r"""`periodic` returns usage for each window (configured by `granularity`) and `cumulative` returns the usage since the beginning of the billing period. The default is `periodic`."""
-    PERIODIC = 'periodic'
-    CUMULATIVE = 'cumulative'
 
 
 @dataclasses.dataclass
@@ -30,42 +23,13 @@ class FetchSubscriptionUsageRequest:
     granularity: Optional[FetchSubscriptionUsageGranularity] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'granularity', 'style': 'form', 'explode': True }})
     r"""This determines the windowing of usage reporting."""
     group_by: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'group_by', 'style': 'form', 'explode': True }})
-    r"""When specified in conjunction with `billable_metric_id`, this parameter groups by the key provided. Note that both `group_by` and `billable_metric_id` must be specific together."""
-    timeframe_end: Optional[datetime] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'timeframe_end', 'style': 'form', 'explode': True }})
-    r"""Usage returned is _exclusive_ of `timeframe_end`"""
+    r"""Groups per-price costs by the key provided."""
+    timeframe_end: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'timeframe_end', 'style': 'form', 'explode': True }})
+    r"""Costs returned are exclusive of `timeframe_end`."""
     timeframe_start: Optional[datetime] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'timeframe_start', 'style': 'form', 'explode': True }})
-    r"""Usage returned is _inclusive_ of `timeframe_start`"""
-    view_mode: Optional[FetchSubscriptionUsageViewMode] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'view_mode', 'style': 'form', 'explode': True }})
-    r"""`periodic` returns usage for each window (configured by `granularity`) and `cumulative` returns the usage since the beginning of the billing period. The default is `periodic`."""
-    
-class FetchSubscriptionUsage200ApplicationJSONDataModelType(str, Enum):
-    USAGE = 'usage'
-
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class FetchSubscriptionUsage200ApplicationJSONDataUsage:
-    
-    quantity: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('quantity') }})
-    timeframe_end: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timeframe_end'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
-    timeframe_start: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timeframe_start'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
-    
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class FetchSubscriptionUsage200ApplicationJSONData:
-    
-    id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    model_type: FetchSubscriptionUsage200ApplicationJSONDataModelType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('model_type') }})
-    usage: list[FetchSubscriptionUsage200ApplicationJSONDataUsage] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('usage') }})
-    
-
-@dataclass_json(undefined=Undefined.EXCLUDE)
-@dataclasses.dataclass
-class FetchSubscriptionUsage200ApplicationJSON:
-    r"""OK"""
-    
-    data: Optional[list[FetchSubscriptionUsage200ApplicationJSONData]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data'), 'exclude': lambda f: f is None }})
+    r"""Costs returned are inclusive of `timeframe_start`."""
+    view_mode: Optional[shared_viewmode.ViewMode] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'view_mode', 'style': 'form', 'explode': True }})
+    r"""Controls whether Orb returns cumulative costs since the start of the billing period, or incremental day-by-day costs. If your customer has minimums or discounts, it's strongly recommended that you use the default cumulative behavior."""
     
 
 @dataclasses.dataclass
@@ -73,7 +37,7 @@ class FetchSubscriptionUsageResponse:
     
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
-    fetch_subscription_usage_200_application_json_object: Optional[FetchSubscriptionUsage200ApplicationJSON] = dataclasses.field(default=None)
-    r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
+    subscription_usage: Optional[shared_subscriptionusage.SubscriptionUsage] = dataclasses.field(default=None)
+    r"""OK"""
     

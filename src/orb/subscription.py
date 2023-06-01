@@ -23,7 +23,7 @@ class Subscription:
         self._gen_version = gen_version
         
     
-    def cancel(self, subscription_id: str, request_body: Optional[operations.CancelSubscriptionRequestBody] = None) -> operations.CancelSubscriptionResponse:
+    def cancel(self, subscription_id: str, subscription_cancellation: Optional[shared.SubscriptionCancellation] = None) -> operations.CancelSubscriptionResponse:
         r"""Cancel subscription
         This endpoint can be used to cancel an existing subscription. It returns the serialized subscription object with an `end_date` parameter that signifies when the subscription will transition to an ended state.
         
@@ -49,14 +49,14 @@ class Subscription:
         """
         request = operations.CancelSubscriptionRequest(
             subscription_id=subscription_id,
-            request_body=request_body,
+            subscription_cancellation=subscription_cancellation,
         )
         
         base_url = self._server_url
         
         url = utils.generate_url(operations.CancelSubscriptionRequest, base_url, '/subscriptions/{subscription_id}/cancel', request)
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        req_content_type, data, form = utils.serialize_request_body(request, "subscription_cancellation", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         headers['Accept'] = 'application/json'
@@ -77,13 +77,13 @@ class Subscription:
         return res
 
     
-    def create(self, request: operations.CreateSubscriptionRequestBody) -> operations.CreateSubscriptionResponse:
+    def create(self, request: shared.NewSubscription) -> operations.CreateSubscriptionResponse:
         r"""Create subscription
         A subscription represents the purchase of a plan by a customer. The customer is identified by either the `customer_id` or the `external_customer_id`, and exactly one of these fields must be provided.
         
         By default, subscriptions begin on the day that they're created and renew automatically for each billing cycle at the cadence that's configured in the plan definition.
         
-        The default configuration for subscriptions in Orb is **In-advance billing** and **Beginning of month alignment** (see [Subscription](../reference/Orb-API.json/components/schemas/Subscription) for more details).
+        The default configuration for subscriptions in Orb is **In-advance billing** and **Beginning of month alignment** (see [Subscription](../guides/concepts#subscription) for more details).
         
         In order to change the alignment behavior, Orb also supports billing subscriptions on the day of the month they are created. If `align_billing_with_subscription_start_date = true` is specified, subscriptions have billing cycles that are aligned with their `start_date`. For example, a subscription that begins on January 15th will have a billing cycle from January 15th to February 15th. Every subsequent billing cycle will continue to start and invoice on the 15th.
         
@@ -450,7 +450,7 @@ class Subscription:
     
     def fetch(self, subscription_id: str) -> operations.FetchSubscriptionResponse:
         r"""Retrieve a subscription
-        This endpoint is used to fetch a [Subscription](../reference/Orb-API.json/components/schemas/Subscription) given an identifier.
+        This endpoint is used to fetch a [Subscription](../guides/concepts#subscription) given an identifier.
         """
         request = operations.FetchSubscriptionRequest(
             subscription_id=subscription_id,
@@ -502,8 +502,8 @@ class Subscription:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchSubscriptionCosts200ApplicationJSON])
-                res.fetch_subscription_costs_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.SubscriptionCosts])
+                res.subscription_costs = out
 
         return res
 
@@ -532,8 +532,8 @@ class Subscription:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchSubscriptionSchedule200ApplicationJSON])
-                res.fetch_subscription_schedule_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.SubscriptionSchedule])
+                res.subscription_schedule = out
 
         return res
 
@@ -680,15 +680,15 @@ class Subscription:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.FetchSubscriptionUsage200ApplicationJSON])
-                res.fetch_subscription_usage_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.SubscriptionUsage])
+                res.subscription_usage = out
 
         return res
 
     
     def list(self, customer_id: Optional[str] = None, external_customer_id: Optional[str] = None) -> operations.ListSubscriptionsResponse:
         r"""List subscriptions
-        This endpoint returns a list of all subscriptions for an account as a [paginated](../api/pagination) list, ordered starting from the most recently created subscription. For a full discussion of the subscription resource, see [Subscription](../reference/Orb-API.json/components/schemas/Subscription).
+        This endpoint returns a list of all subscriptions for an account as a [paginated](../api/pagination) list, ordered starting from the most recently created subscription. For a full discussion of the subscription resource, see [Subscription](../guides/concepts#subscription).
         
         Subscriptions can be filtered to a single customer by passing in the `customer_id` query parameter or the `external_customer_id` query parameter.
         """
@@ -714,13 +714,13 @@ class Subscription:
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
-                out = utils.unmarshal_json(http_res.text, Optional[operations.ListSubscriptions200ApplicationJSON])
-                res.list_subscriptions_200_application_json_object = out
+                out = utils.unmarshal_json(http_res.text, Optional[shared.Subscriptions])
+                res.subscriptions = out
 
         return res
 
     
-    def schedule_plan_change(self, subscription_id: str, request_body: Optional[operations.SchedulePlanChangeRequestBody] = None) -> operations.SchedulePlanChangeResponse:
+    def schedule_plan_change(self, subscription_id: str, subscription_plan_change: Optional[shared.SubscriptionPlanChange] = None) -> operations.SchedulePlanChangeResponse:
         r"""Schedule plan change
         This endpoint can be used to change the plan on an existing subscription. It returns the serialized updated subscription object.
         
@@ -744,14 +744,14 @@ class Subscription:
         """
         request = operations.SchedulePlanChangeRequest(
             subscription_id=subscription_id,
-            request_body=request_body,
+            subscription_plan_change=subscription_plan_change,
         )
         
         base_url = self._server_url
         
         url = utils.generate_url(operations.SchedulePlanChangeRequest, base_url, '/subscriptions/{subscription_id}/schedule_plan_change', request)
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        req_content_type, data, form = utils.serialize_request_body(request, "subscription_plan_change", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         headers['Accept'] = 'application/json'
@@ -834,7 +834,7 @@ class Subscription:
         return res
 
     
-    def update_fixed_fee_quantity(self, subscription_id: str, request_body: Optional[operations.UpdateFixedFeeQuantityRequestBody] = None) -> operations.UpdateFixedFeeQuantityResponse:
+    def update_fixed_fee_quantity(self, subscription_id: str, fixed_fee_quantity_change: Optional[shared.FixedFeeQuantityChange] = None) -> operations.UpdateFixedFeeQuantityResponse:
         r"""Update fixed fee quantity
         This endpoint can be used to update the quantity for a fixed fee.
         
@@ -846,14 +846,14 @@ class Subscription:
         """
         request = operations.UpdateFixedFeeQuantityRequest(
             subscription_id=subscription_id,
-            request_body=request_body,
+            fixed_fee_quantity_change=fixed_fee_quantity_change,
         )
         
         base_url = self._server_url
         
         url = utils.generate_url(operations.UpdateFixedFeeQuantityRequest, base_url, '/subscriptions/{subscription_id}/update_fixed_fee_quantity', request)
         headers = {}
-        req_content_type, data, form = utils.serialize_request_body(request, "request_body", 'json')
+        req_content_type, data, form = utils.serialize_request_body(request, "fixed_fee_quantity_change", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
             headers['content-type'] = req_content_type
         headers['Accept'] = 'application/json'

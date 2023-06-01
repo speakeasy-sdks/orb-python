@@ -23,23 +23,23 @@ class Plan:
         self._gen_version = gen_version
         
     
-    def fetch(self, plan_id: str) -> operations.GetPlansPlanIDResponse:
+    def fetch(self, plan_id: str) -> operations.FetchPlanResponse:
         r"""Retrieve a plan
-        This endpoint is used to fetch [plan](../reference/Orb-API.json/components/schemas/Plan) details given a plan identifier. It returns information about the prices included in the plan and their configuration, as well as the product that the plan is attached to.
+        This endpoint is used to fetch [plan](../guides/concepts##plan-and-price) details given a plan identifier. It returns information about the prices included in the plan and their configuration, as well as the product that the plan is attached to.
         
         ## Serialized prices
-        Orb supports a few different pricing models out of the box. Each of these models is serialized differently in a given [Price](../reference/Orb-API.json/components/schemas/Price) object. The `model_type` field determines the key for the configuration object that is present. A detailed explanation of price types can be found in the [Price schema](../reference/Orb-API.json/components/schemas/Price). 
+        Orb supports a few different pricing models out of the box. Each of these models is serialized differently in a given [Price](../guides/concepts#plan-and-price) object. The `model_type` field determines the key for the configuration object that is present. A detailed explanation of price types can be found in the [Price schema](../guides/concepts#plan-and-price). 
         
         ## Phases
         Orb supports plan phases, also known as contract ramps. For plans with phases, the serialized prices refer to all prices across all phases.
         """
-        request = operations.GetPlansPlanIDRequest(
+        request = operations.FetchPlanRequest(
             plan_id=plan_id,
         )
         
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetPlansPlanIDRequest, base_url, '/plans/{plan_id}', request)
+        url = utils.generate_url(operations.FetchPlanRequest, base_url, '/plans/{plan_id}', request)
         headers = {}
         headers['Accept'] = 'application/json'
         headers['user-agent'] = f'speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}'
@@ -49,7 +49,7 @@ class Plan:
         http_res = client.request('GET', url, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetPlansPlanIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.FetchPlanResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
@@ -59,21 +59,21 @@ class Plan:
         return res
 
     
-    def get_by_external_id(self, external_plan_id: str, plan: Optional[shared.Plan] = None) -> operations.GetPlansExternalPlanIDResponse:
+    def get_by_external_id(self, external_plan_id: str, plan: Optional[shared.Plan] = None) -> operations.FetchPlanExternalIDResponse:
         r"""Retrieve a plan by external plan ID
-        This endpoint is used to fetch [plan](../reference/Orb-API.json/components/schemas/Plan) details given an external_plan_id identifier. It returns information about the prices included in the plan and their configuration, as well as the product that the plan is attached to.
+        This endpoint is used to fetch [plan](../guides/concepts##plan-and-price) details given an external_plan_id identifier. It returns information about the prices included in the plan and their configuration, as well as the product that the plan is attached to.
         
         ## Serialized prices
-        Orb supports a few different pricing models out of the box. Each of these models is serialized differently in a given [Price](../reference/Orb-API.json/components/schemas/Price) object. The `model_type` field determines the key for the configuration object that is present. A detailed explanation of price types can be found in the [Price schema](../reference/Orb-API.json/components/schemas/Price).
+        Orb supports a few different pricing models out of the box. Each of these models is serialized differently in a given [Price](../guides/concepts#plan-and-price) object. The `model_type` field determines the key for the configuration object that is present. A detailed explanation of price types can be found in the [Price schema](../guides/concepts#plan-and-price).
         """
-        request = operations.GetPlansExternalPlanIDRequest(
+        request = operations.FetchPlanExternalIDRequest(
             external_plan_id=external_plan_id,
             plan=plan,
         )
         
         base_url = self._server_url
         
-        url = utils.generate_url(operations.GetPlansExternalPlanIDRequest, base_url, '/plans/external_plan_id/{external_plan_id}', request)
+        url = utils.generate_url(operations.FetchPlanExternalIDRequest, base_url, '/plans/external_plan_id/{external_plan_id}', request)
         headers = {}
         req_content_type, data, form = utils.serialize_request_body(request, "plan", 'json')
         if req_content_type not in ('multipart/form-data', 'multipart/mixed'):
@@ -86,7 +86,7 @@ class Plan:
         http_res = client.request('GET', url, data=data, files=form, headers=headers)
         content_type = http_res.headers.get('Content-Type')
 
-        res = operations.GetPlansExternalPlanIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
+        res = operations.FetchPlanExternalIDResponse(status_code=http_res.status_code, content_type=content_type, raw_response=http_res)
         
         if http_res.status_code == 200:
             if utils.match_content_type(content_type, 'application/json'):
@@ -98,7 +98,7 @@ class Plan:
     
     def list(self) -> operations.ListPlansResponse:
         r"""List plans
-        This endpoint returns a list of all [plans](../reference/Orb-API.json/components/schemas/Plan) for an account in a list format. 
+        This endpoint returns a list of all [plans](../guides/concepts##plan-and-price) for an account in a list format. 
         
         The list of plans is ordered starting from the most recently created plan. The response also includes [`pagination_metadata`](../api/pagination), which lets the caller retrieve the next page of results if they exist.
         """
