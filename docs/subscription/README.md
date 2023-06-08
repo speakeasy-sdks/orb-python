@@ -51,7 +51,7 @@ from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
@@ -420,7 +420,7 @@ from orb.models import shared
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
@@ -438,128 +438,61 @@ req = shared.NewSubscription(
         "asperiores": 'facilis',
     },
     minimum_amount='1.23',
-    net_terms=451822,
+    net_terms=0,
     phase_overrides=[
         shared.PhaseOverride(
             discount=shared.Discount(
-                amount_discount='ab',
+                amount_discount='expedita',
                 applies_to_price_ids=[
-                    'dolore',
-                    'laborum',
-                    'sed',
+                    'iste',
                 ],
                 discount_type=shared.DiscountType.PERCENTAGE,
                 percentage_discount=0.15,
-                trial_amount_discount='in',
-                usage_discount=4174.86,
+                trial_amount_discount='dolore',
+                usage_discount=6719.07,
             ),
-            minimum_amount='quidem',
-            order=1312.89,
+            minimum_amount='sed',
+            order=4475.16,
         ),
         shared.PhaseOverride(
             discount=shared.Discount(
-                amount_discount='voluptas',
+                amount_discount='commodi',
                 applies_to_price_ids=[
-                    'architecto',
-                    'suscipit',
-                    'sapiente',
+                    'explicabo',
+                    'voluptas',
+                    'unde',
                 ],
                 discount_type=shared.DiscountType.PERCENTAGE,
                 percentage_discount=0.15,
-                trial_amount_discount='debitis',
-                usage_discount=724.34,
+                trial_amount_discount='architecto',
+                usage_discount=3828.08,
             ),
-            minimum_amount='reiciendis',
-            order=193,
-        ),
-        shared.PhaseOverride(
-            discount=shared.Discount(
-                amount_discount='corrupti',
-                applies_to_price_ids=[
-                    'incidunt',
-                    'sed',
-                    'provident',
-                    'eius',
-                ],
-                discount_type=shared.DiscountType.PERCENTAGE,
-                percentage_discount=0.15,
-                trial_amount_discount='necessitatibus',
-                usage_discount=2155.29,
-            ),
-            minimum_amount='ea',
-            order=5799.12,
+            minimum_amount='sapiente',
+            order=8953.86,
         ),
     ],
     plan_id='ZMwNQefe7J3ecf7W',
     price_overrides=[
         shared.TieredBPSPriceOverride(
-            id='447f603e-8b44-45e8-8ca5-5efd20e457e1',
+            id='08f4294e-3698-4f44-bf60-3e8b445e80ca',
             minimum_amount='1.23',
             model_type=shared.TieredBpsModelType.TIERED_BPS,
             tiered_bps_config=shared.TieredBPSPriceOverrideTieredBPSConfig(
                 tiers=[
                     shared.TieredBPSPriceOverrideTieredBPSConfigTiers(
-                        bps=3484.76,
-                        maximum_amount='praesentium',
-                        minimum_amount='cum',
-                        per_unit_maximum='laboriosam',
+                        bps=3295.43,
+                        maximum_amount='recusandae',
+                        minimum_amount='reiciendis',
+                        per_unit_maximum='nulla',
                     ),
                     shared.TieredBPSPriceOverrideTieredBPSConfigTiers(
-                        bps=6805.15,
-                        maximum_amount='voluptatum',
-                        minimum_amount='error',
-                        per_unit_maximum='hic',
-                    ),
-                    shared.TieredBPSPriceOverrideTieredBPSConfigTiers(
-                        bps=7105.29,
-                        maximum_amount='debitis',
-                        minimum_amount='neque',
-                        per_unit_maximum='dolorum',
+                        bps=1685.76,
+                        maximum_amount='aperiam',
+                        minimum_amount='saepe',
+                        per_unit_maximum='numquam',
                     ),
                 ],
             ),
-        ),
-        shared.BulkPriceOverride(
-            bulk_config=shared.BulkPriceOverrideBulkConfig(
-                tiers=[
-                    shared.BulkPriceOverrideBulkConfigTiers(
-                        maximum_units='dolorum',
-                        unit_amount='corrupti',
-                    ),
-                    shared.BulkPriceOverrideBulkConfigTiers(
-                        maximum_units='accusamus',
-                        unit_amount='tempora',
-                    ),
-                    shared.BulkPriceOverrideBulkConfigTiers(
-                        maximum_units='atque',
-                        unit_amount='fugit',
-                    ),
-                ],
-            ),
-            id='4d0ab407-5088-4e51-8620-65e904f3b119',
-            minimum_amount='1.23',
-            model_type=shared.BulkModelType.BULK,
-        ),
-        shared.BulkPriceOverride(
-            bulk_config=shared.BulkPriceOverrideBulkConfig(
-                tiers=[
-                    shared.BulkPriceOverrideBulkConfigTiers(
-                        maximum_units='atque',
-                        unit_amount='laborum',
-                    ),
-                    shared.BulkPriceOverrideBulkConfigTiers(
-                        maximum_units='nam',
-                        unit_amount='tenetur',
-                    ),
-                    shared.BulkPriceOverrideBulkConfigTiers(
-                        maximum_units='laboriosam',
-                        unit_amount='alias',
-                    ),
-                ],
-            ),
-            id='3a79f9df-e0ab-47da-8a50-ce187f86bc17',
-            minimum_amount='1.23',
-            model_type=shared.BulkModelType.BULK,
         ),
     ],
     start_date=dateutil.parser.parse('2022-01-01').date(),
@@ -583,12 +516,12 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
 
-res = s.subscription.fetch('amet')
+res = s.subscription.fetch('veniam')
 
 if res.subscription is not None:
     # handle response
@@ -610,16 +543,16 @@ from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
 req = operations.FetchSubscriptionCostsRequest(
-    group_by='assumenda',
-    subscription_id='ea',
+    group_by='in',
+    subscription_id='officiis',
     timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
-    view_mode=shared.ViewMode.CUMULATIVE,
+    view_mode=shared.ViewMode.PERIODIC,
 )
 
 res = s.subscription.fetch_costs(req)
@@ -640,12 +573,12 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
 
-res = s.subscription.fetch_schedule('error')
+res = s.subscription.fetch_schedule('laudantium')
 
 if res.subscription_schedule is not None:
     # handle response
@@ -785,18 +718,18 @@ from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
 req = operations.FetchSubscriptionUsageRequest(
-    billable_metric_id='officiis',
+    billable_metric_id='exercitationem',
     granularity=operations.FetchSubscriptionUsageGranularity.DAY,
-    group_by='officiis',
-    subscription_id='accusamus',
+    group_by='praesentium',
+    subscription_id='cum',
     timeframe_end='2022-03-01T05:00:00Z',
     timeframe_start=dateutil.parser.isoparse('2022-02-01T05:00:00Z'),
-    view_mode=shared.ViewMode.CUMULATIVE,
+    view_mode=shared.ViewMode.PERIODIC,
 )
 
 res = s.subscription.fetch_usage(req)
@@ -819,12 +752,12 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
 
-res = s.subscription.list('minima', 'aspernatur')
+res = s.subscription.list('dolorum', 'voluptatum')
 
 if res.subscriptions is not None:
     # handle response
@@ -861,44 +794,26 @@ from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
 
-res = s.subscription.schedule_plan_change('ex', shared.SubscriptionPlanChange(
+res = s.subscription.schedule_plan_change('error', shared.SubscriptionPlanChange(
     align_billing_with_plan_change_date=False,
     change_date=dateutil.parser.isoparse('2017-07-21T17:32:28Z'),
     change_option=shared.ChangeOptions.IMMEDIATE,
-    coupon_redemption_code='corrupti',
+    coupon_redemption_code='expedita',
     external_plan_id='ZMwNQefe7J3ecf7W',
     minimum_amount='1.23',
     plan_id='ZMwNQefe7J3ecf7W',
     price_overrides=[
-        shared.BPSPriceOverride(
-            bps_config=shared.BPSPriceOverrideBPSConfig(
-                bps=5027.21,
-                per_unit_maximum='suscipit',
-            ),
-            id='e881ead4-f0e1-4012-963f-94e29e973e92',
-            minimum_amount='1.23',
-            model_type=shared.BpsModelType.BPS,
-        ),
         shared.UnitPriceOverride(
-            id='a57a15be-3e06-4080-be2b-6e3ab8845f05',
+            id='a5aa8e48-24d0-4ab4-8750-88e51862065e',
             minimum_amount='1.23',
             model_type=shared.UnitModelType.UNIT,
             unit_config=shared.UnitPriceOverrideUnitConfig(
-                unit_amount='perspiciatis',
-            ),
-        ),
-        shared.PackagePriceOverride(
-            id='a60ff2a5-4a31-4e94-b64a-3e865e7956f9',
-            minimum_amount='1.23',
-            model_type=shared.PackageModelType.PACKAGE,
-            package_config=shared.PackagePriceOverridePackageConfig(
-                num_units=1334.39,
-                unit_amount='ullam',
+                unit_amount='error',
             ),
         ),
         shared.TieredPriceOverride(
@@ -917,12 +832,31 @@ res = s.subscription.schedule_plan_change('ex', shared.SubscriptionPlanChange(
                         last_unit='10',
                         unit_amount='2.5',
                     ),
-                    shared.TieredPriceOverrideTieredConfigTiers(
-                        first_unit='0',
-                        last_unit='10',
-                        unit_amount='2.5',
+                ],
+            ),
+        ),
+        shared.TieredBPSPriceOverride(
+            id='3b1194b8-abf6-403a-b9f9-dfe0ab7da8a5',
+            minimum_amount='1.23',
+            model_type=shared.TieredBpsModelType.TIERED_BPS,
+            tiered_bps_config=shared.TieredBPSPriceOverrideTieredBPSConfig(
+                tiers=[
+                    shared.TieredBPSPriceOverrideTieredBPSConfigTiers(
+                        bps=7908.4,
+                        maximum_amount='repudiandae',
+                        minimum_amount='quasi',
+                        per_unit_maximum='atque',
                     ),
                 ],
+            ),
+        ),
+        shared.PackagePriceOverride(
+            id='f86bc173-d689-4eee-9526-f8d986e881ea',
+            minimum_amount='1.23',
+            model_type=shared.PackageModelType.PACKAGE,
+            package_config=shared.PackagePriceOverridePackageConfig(
+                num_units=8298.98,
+                unit_amount='labore',
             ),
         ),
     ],
@@ -946,12 +880,12 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
 
-res = s.subscription.unschedule_cancellation('nostrum')
+res = s.subscription.unschedule_cancellation('reiciendis')
 
 if res.subscription is not None:
     # handle response
@@ -969,12 +903,12 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
 
-res = s.subscription.unschedule_plan_change('mollitia')
+res = s.subscription.unschedule_plan_change('doloremque')
 
 if res.subscription is not None:
     # handle response
@@ -999,16 +933,16 @@ from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
 
-res = s.subscription.update_fixed_fee_quantity('provident', shared.FixedFeeQuantityChange(
+res = s.subscription.update_fixed_fee_quantity('repudiandae', shared.FixedFeeQuantityChange(
     change_option=shared.FeeChangeOption.EFFECTIVE_DATE,
     effective_date=dateutil.parser.parse('"2022-12-21"').date(),
-    price_id='possimus',
-    quantity=6591.77,
+    price_id='dicta',
+    quantity=360.33,
 ))
 
 if res.subscription is not None:

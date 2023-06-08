@@ -28,7 +28,7 @@ from orb.models import operations
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
@@ -55,7 +55,7 @@ from orb.models import operations, shared
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
@@ -470,7 +470,7 @@ import orb
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 

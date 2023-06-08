@@ -22,7 +22,7 @@ import orb
 
 s = orb.Orb(
     security=shared.Security(
-        api_key_auth="YOUR_BEARER_TOKEN_HERE",
+        api_key_auth="",
     ),
 )
 
