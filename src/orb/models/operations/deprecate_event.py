@@ -9,27 +9,31 @@ from orb import utils
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class DeprecateEventRequest:
-    
     event_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'event_id', 'style': 'simple', 'explode': False }})
     r"""Identical to the `idempotency_key` provided on event ingestion. Uniquely identifies an event in the system."""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class DeprecateEvent400ApplicationJSONValidationErrors:
-    
     idempotency_key: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('idempotency_key'), 'exclude': lambda f: f is None }})
     validation_errors: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('validation_errors'), 'exclude': lambda f: f is None }})
     r"""An array of strings corresponding to each validation failure"""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class DeprecateEvent400ApplicationJSON:
     r"""Bad Request"""
-    
     status: int = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status') }})
     r"""HTTP Code"""
     title: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('title') }})
@@ -39,9 +43,11 @@ class DeprecateEvent400ApplicationJSON:
     r"""Contains all failing validation events."""
     
 
+
+
+
 @dataclasses.dataclass
 class DeprecateEventResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     deprecate_event_400_application_json_object: Optional[DeprecateEvent400ApplicationJSON] = dataclasses.field(default=None)
@@ -50,3 +56,4 @@ class DeprecateEventResponse:
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

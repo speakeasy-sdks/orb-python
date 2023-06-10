@@ -7,18 +7,21 @@ from ..shared import credits as shared_credits
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class FetchCustomerCreditsExternalIDRequest:
-    
     external_customer_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'external_customer_id', 'style': 'simple', 'explode': False }})
     
 
+
+
+
 @dataclasses.dataclass
 class FetchCustomerCreditsExternalIDResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     credits: Optional[shared_credits.Credits] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

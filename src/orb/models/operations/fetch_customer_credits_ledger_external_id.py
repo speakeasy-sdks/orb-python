@@ -8,9 +8,9 @@ from ..shared import entrystatus as shared_entrystatus
 from typing import Any, Optional
 
 
+
 @dataclasses.dataclass
 class FetchCustomerCreditsLedgerExternalIDRequest:
-    
     external_customer_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'external_customer_id', 'style': 'simple', 'explode': False }})
     entry_status: Optional[shared_entrystatus.EntryStatus] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'entry_status', 'style': 'form', 'explode': True }})
     r"""Filters to a single status of ledger entry"""
@@ -20,12 +20,15 @@ class FetchCustomerCreditsLedgerExternalIDRequest:
     r"""Filter to ledger entries that affect at least this amount"""
     
 
+
+
+
 @dataclasses.dataclass
 class FetchCustomerCreditsLedgerExternalIDResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     credit_ledger_entries: Optional[shared_creditledgerentries.CreditLedgerEntries] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

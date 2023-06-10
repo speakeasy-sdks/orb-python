@@ -1,0 +1,12 @@
+# CustomerCost
+
+
+## Fields
+
+| Field                                                                               | Type                                                                                | Required                                                                            | Description                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `per_price_costs`                                                                   | list[[CustomerCostPerPriceCosts](../../models/shared/customercostperpricecosts.md)] | :heavy_check_mark:                                                                  | N/A                                                                                 |
+| `subtotal`                                                                          | *str*                                                                               | :heavy_check_mark:                                                                  | Total costs for the timeframe, excluding minimums and discounts.                    |
+| `timeframe_end`                                                                     | [date](https://docs.python.org/3/library/datetime.html#date-objects)                | :heavy_check_mark:                                                                  | N/A                                                                                 |
+| `timeframe_start`                                                                   | [date](https://docs.python.org/3/library/datetime.html#date-objects)                | :heavy_check_mark:                                                                  | N/A                                                                                 |
+| `total`                                                                             | *str*                                                                               | :heavy_check_mark:                                                                  | Total costs for the timeframe, including minimums and discounts.                    |

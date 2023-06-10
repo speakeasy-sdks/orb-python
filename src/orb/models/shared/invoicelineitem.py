@@ -14,9 +14,9 @@ from orb import utils
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class InvoiceLineItemTaxAmounts:
-    
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
     r"""The amount of additional tax incurred by this tax rate."""
     tax_rate_description: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tax_rate_description') }})
@@ -25,11 +25,13 @@ class InvoiceLineItemTaxAmounts:
     r"""The tax rate percentage, out of 100."""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class InvoiceLineItem:
     r"""The component line of an [Invoice](../guides/concepts#invoice)"""
-    
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
     r"""The final amount after any discounts or minimums."""
     discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
@@ -230,3 +232,4 @@ class InvoiceLineItem:
     tax_amounts: list[InvoiceLineItemTaxAmounts] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tax_amounts') }})
     r"""An array of tax rates and their incurred tax amounts. Empty if no tax integration is configured."""
     
+

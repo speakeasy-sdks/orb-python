@@ -8,10 +8,11 @@ from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class Debug:
     r"""Optional debug information (only present when debug=true is passed to the endpoint). Contains ingested and duplicate event idempotency keys."""
-    
     duplicate: Optional[list[str]] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'duplicate' }, 'dataclasses_json': { 'letter_case': utils.get_field_name('duplicate'), 'exclude': lambda f: f is None }})
     ingested: Optional[list[str]] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'ingested' }, 'dataclasses_json': { 'letter_case': utils.get_field_name('ingested'), 'exclude': lambda f: f is None }})
     
+

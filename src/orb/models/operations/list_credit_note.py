@@ -7,9 +7,9 @@ from ..shared import creditnotes as shared_creditnotes
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class ListCreditNoteRequest:
-    
     customer_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'customer_id', 'style': 'form', 'explode': True }})
     r"""Filter by a specific customer (cannot be used with `external_customer_id`)"""
     external_customer_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'external_customer_id', 'style': 'form', 'explode': True }})
@@ -18,12 +18,15 @@ class ListCreditNoteRequest:
     r"""Filter by a specific subscription"""
     
 
+
+
+
 @dataclasses.dataclass
 class ListCreditNoteResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     credit_notes: Optional[shared_creditnotes.CreditNotes] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

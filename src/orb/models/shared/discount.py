@@ -15,9 +15,9 @@ class DiscountType(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class Discount:
-    
     discount_type: DiscountType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount_type') }})
     amount_discount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount_discount'), 'exclude': lambda f: f is None }})
     r"""Only available if discount_type is `amount`."""
@@ -30,3 +30,4 @@ class Discount:
     usage_discount: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('usage_discount'), 'exclude': lambda f: f is None }})
     r"""Only available if discount_type is `usage`. Number of usage units that this discount is for"""
     
+

@@ -8,10 +8,11 @@ from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class AmendEventResult:
     r"""OK"""
-    
     amended: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amended'), 'exclude': lambda f: f is None }})
     r"""event_id of the amended event, if successfully ingested"""
     
+

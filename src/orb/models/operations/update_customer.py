@@ -8,20 +8,23 @@ from ..shared import newcustomer as shared_newcustomer
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class UpdateCustomerRequest:
-    
     customer_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'customer_id', 'style': 'simple', 'explode': False }})
     r"""Orb customer ID"""
     new_customer: Optional[shared_newcustomer.NewCustomer] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
     
 
+
+
+
 @dataclasses.dataclass
 class UpdateCustomerResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     customer: Optional[shared_customer.Customer] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

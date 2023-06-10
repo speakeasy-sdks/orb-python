@@ -11,9 +11,9 @@ from orb import utils
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class IngestRequest:
-    
     backfill_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'backfill_id', 'style': 'form', 'explode': True }})
     r"""If this ingestion request is part of a backfill, this parameter ties the ingested events to the backfill"""
     debug: Optional[shared_debug.Debug] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'debug', 'style': 'form', 'explode': True }})
@@ -21,20 +21,24 @@ class IngestRequest:
     request_body: Optional[list[shared_event.Event]] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class Ingest400ApplicationJSONValidationErrors:
-    
     idempotency_key: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('idempotency_key'), 'exclude': lambda f: f is None }})
     validation_errors: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('validation_errors'), 'exclude': lambda f: f is None }})
     r"""An array of strings corresponding to each validation failure"""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class Ingest400ApplicationJSON:
     r"""Bad Request"""
-    
     status: int = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status') }})
     r"""HTTP Code"""
     title: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('title') }})
@@ -44,9 +48,11 @@ class Ingest400ApplicationJSON:
     r"""Contains all failing validation events."""
     
 
+
+
+
 @dataclasses.dataclass
 class IngestResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     ingest_400_application_json_object: Optional[Ingest400ApplicationJSON] = dataclasses.field(default=None)
@@ -55,3 +61,4 @@ class IngestResponse:
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

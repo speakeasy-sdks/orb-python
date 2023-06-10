@@ -7,12 +7,13 @@ from ..shared import eventsearchresults as shared_eventsearchresults
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class SearchEventsResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     event_search_results: Optional[shared_eventsearchresults.EventSearchResults] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

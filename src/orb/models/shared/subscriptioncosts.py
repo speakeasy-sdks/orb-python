@@ -9,10 +9,11 @@ from orb import utils
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class SubscriptionCosts:
     r"""OK"""
-    
     data: list[shared_subscriptioncost.SubscriptionCost] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data') }})
     pagination_metadata: shared_pagination_metadata.PaginationMetadata = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata') }})
     
+

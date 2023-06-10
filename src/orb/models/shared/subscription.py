@@ -10,29 +10,40 @@ from datetime import datetime
 from enum import Enum
 from marshmallow import fields
 from orb import utils
-from typing import Any, Optional
+from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class SubscriptionFixedFeeQuantitySchedule:
-    
     end_date: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('end_date'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     price_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('price_id'), 'exclude': lambda f: f is None }})
     quantity: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('quantity'), 'exclude': lambda f: f is None }})
     start_date: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('start_date'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     
 
+
+
+
+@dataclasses.dataclass
+class SubscriptionMetadata:
+    r"""User specified key-value pairs. If no metadata was specified at subscription creation time, this defaults to an empty dictionary."""
+    pass
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class SubscriptionRedeemedCoupon:
-    
     coupon_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('coupon_id'), 'exclude': lambda f: f is None }})
     end_date: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('end_date'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     r"""The effective end time for the coupon, after which point  it'll no longer apply to invoices for this subscription."""
     start_date: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('start_date'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     r"""The effective start time of this coupon - that is, when its corresponding discount starts applying."""
     
+
+
 class SubscriptionStatus(str, Enum):
     ACTIVE = 'active'
     ENDED = 'ended'
@@ -40,6 +51,7 @@ class SubscriptionStatus(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class Subscription:
     r"""A subscription represents the purchase of a plan by a customer.
@@ -50,7 +62,6 @@ class Subscription:
     
     Depending on the plan configuration, any _flat_ recurring fees will be billed either at the beginning (in-advance) or end (in-arrears) of each billing cycle. Plans default to **in-advance billing**. Usage-based fees are billed in arrears as usage is accumulated. In the normal course of events, you can expect an invoice to contain usage-based charges for the previous period, and a recurring fee for the following period.
     """
-    
     billing_cycle_day: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('billing_cycle_day') }})
     r"""The day of the month on which the billing cycle is anchored. If the maximum number of days in a month is greater than this value, the last day of the month is the billing cycle day (e.g. billing_cycle_day=31 for April means the billing period begins on the 30th."""
     created_at: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
@@ -68,7 +79,7 @@ class Subscription:
     fixed_fee_quantity_schedule: list[SubscriptionFixedFeeQuantitySchedule] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('fixed_fee_quantity_schedule') }})
     r"""List of all fixed fee quantities associated with this subscription, with their start and end dates. This list contains the initial quantity along with quantity changes."""
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
-    metadata: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata') }})
+    metadata: SubscriptionMetadata = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata') }})
     r"""User specified key-value pairs. If no metadata was specified at subscription creation time, this defaults to an empty dictionary."""
     plan: shared_plan.Plan = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('plan') }})
     start_date: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('start_date'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
@@ -88,3 +99,4 @@ class Subscription:
     r"""Determines the difference between the invoice issue date for subscription invoices as the date that they are due. A value of \\"0\\" here represents that the invoice is due on issue, whereas a value of 30 represents that the customer has a month to pay the invoice."""
     redeemed_coupon: Optional[SubscriptionRedeemedCoupon] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('redeemed_coupon'), 'exclude': lambda f: f is None }})
     
+

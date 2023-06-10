@@ -17,20 +17,22 @@ from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class InvoiceAutoCollection:
     r"""Information about payment auto-collection for this invoice."""
-    
     next_attempt_at: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('next_attempt_at'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     r"""If the invoice is scheduled for auto-collection, this field will reflect when the next attempt will occur. If dunning has been exhausted, or auto-collection is not enabled for this invoice, this field will be `null`."""
     previously_attempted_at: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('previously_attempted_at'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     r"""If Orb has ever attempted payment auto-collection for this invoice, this field will reflect when that attempt occurred. In conjunction with `next_attempt_at`, this can be used to tell whether the invoice is currently in dunning (that is, `previously_attempted_at` is non-null, and `next_attempt_time` is non-null), or if dunning has been exhausted (`previously_attempted_at` is non-null, but `next_attempt_time` is null)."""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class InvoiceCreditNotes:
-    
     credit_note_number: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('credit_note_number'), 'exclude': lambda f: f is None }})
     id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id'), 'exclude': lambda f: f is None }})
     reason: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('reason'), 'exclude': lambda f: f is None }})
@@ -39,14 +41,18 @@ class InvoiceCreditNotes:
     voided_at: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('voided_at'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class InvoiceCustomer:
     r"""The customer receiving this invoice."""
-    
     external_customer_id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id') }})
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     
+
+
 class InvoiceStatus(str, Enum):
     r"""The status of this invoice as known to Orb. Invoices start in `\\"draft\\"` state for a given billing period, and are automatically transitioned to `\\"issued\\"` when that billing period ends. Invoices will be marked `\\"paid\\"` upon confirmation of successful automatic payment collection by Orb. Invoices may be manually voided; those will be in the terminal `\\"void\\"` state. Invoices synced to an external billing provider (such as Bill.com, QuickBooks, or Stripe Invoicing) will be marked as `\\"synced\\"`."""
     ISSUED = 'issued'
@@ -57,18 +63,20 @@ class InvoiceStatus(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class InvoiceSubscription:
     r"""The associated subscription for this invoice."""
-    
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class Invoice:
     r"""An [`Invoice`](../guides/concepts#invoice) is a fundamental billing entity, representing the request for payment for a single subscription. This includes a set of line items, which correspond to prices in the subscription's plan and can represent fixed recurring fees or usage-based fees. They are generated at the end of a billing period, or as the result of an action, such as a cancellation."""
-    
     amount_due: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount_due') }})
     r"""This is the final amount required to be charged to the customer and reflects the application of the customer balance to the `total` of the invoice."""
     created_at: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
@@ -209,3 +217,4 @@ class Invoice:
     voided_at: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('voided_at'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     r"""If the invoice has a status of `void`, this gives a timestamp when the invoice was voided."""
     
+

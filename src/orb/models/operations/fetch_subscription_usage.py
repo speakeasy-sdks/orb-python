@@ -14,9 +14,9 @@ class FetchSubscriptionUsageGranularity(str, Enum):
     DAY = 'day'
 
 
+
 @dataclasses.dataclass
 class FetchSubscriptionUsageRequest:
-    
     subscription_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'subscription_id', 'style': 'simple', 'explode': False }})
     billable_metric_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'billable_metric_id', 'style': 'form', 'explode': True }})
     r"""When specified in conjunction with `group_by`, this parameter filters usage to a single billable metric. Note that both `group_by` and `billable_metric_id` must be specific together."""
@@ -32,12 +32,15 @@ class FetchSubscriptionUsageRequest:
     r"""Controls whether Orb returns cumulative costs since the start of the billing period, or incremental day-by-day costs. If your customer has minimums or discounts, it's strongly recommended that you use the default cumulative behavior."""
     
 
+
+
+
 @dataclasses.dataclass
 class FetchSubscriptionUsageResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     subscription_usage: Optional[shared_subscriptionusage.SubscriptionUsage] = dataclasses.field(default=None)
     r"""OK"""
     
+

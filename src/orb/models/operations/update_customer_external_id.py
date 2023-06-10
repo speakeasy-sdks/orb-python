@@ -8,19 +8,22 @@ from ..shared import newcustomer as shared_newcustomer
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class UpdateCustomerExternalIDRequest:
-    
     external_customer_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'external_customer_id', 'style': 'simple', 'explode': False }})
     new_customer: Optional[shared_newcustomer.NewCustomer] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
     
 
+
+
+
 @dataclasses.dataclass
 class UpdateCustomerExternalIDResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     customer: Optional[shared_customer.Customer] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

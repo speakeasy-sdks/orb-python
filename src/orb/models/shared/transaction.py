@@ -19,28 +19,32 @@ class ActionType(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class TransactionCreditNote:
     r"""The Credit note associated with this transaction. This may appear as the result of a credit note being applied to an invoice and balance is added back to the customer balance or it is being reapplied to the invoice."""
-    
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     r"""The id of the Credit note"""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class TransactionInvoice:
     r"""The Invoice associated with this transaction"""
-    
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     r"""The Invoice id"""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class Transaction:
     r"""A single change to the customer balance. All amounts are in the customer's currency."""
-    
     action: ActionType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('action') }})
     r"""Describes the reason that this transaction took place."""
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
@@ -61,3 +65,4 @@ class Transaction:
     credit_note: Optional[TransactionCreditNote] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('credit_note'), 'exclude': lambda f: f is None }})
     r"""The Credit note associated with this transaction. This may appear as the result of a credit note being applied to an invoice and balance is added back to the customer balance or it is being reapplied to the invoice."""
     
+

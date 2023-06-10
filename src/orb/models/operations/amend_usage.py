@@ -11,9 +11,9 @@ from orb import utils
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class AmendUsageRequest:
-    
     customer_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'customer_id', 'style': 'simple', 'explode': False }})
     request_body: Optional[list[shared_event.Event]] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
     timeframe_end: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'timeframe_end', 'style': 'form', 'explode': True }})
@@ -22,20 +22,24 @@ class AmendUsageRequest:
     r"""Costs returned are inclusive of `timeframe_start`."""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class AmendUsage400ApplicationJSONValidationErrors:
-    
     idempotency_key: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('idempotency_key'), 'exclude': lambda f: f is None }})
     validation_errors: Optional[list[str]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('validation_errors'), 'exclude': lambda f: f is None }})
     r"""An array of strings corresponding to each validation failure"""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class AmendUsage400ApplicationJSON:
     r"""Bad Request"""
-    
     status: int = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('status') }})
     r"""HTTP Code"""
     title: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('title') }})
@@ -45,9 +49,11 @@ class AmendUsage400ApplicationJSON:
     r"""Contains all failing validation events."""
     
 
+
+
+
 @dataclasses.dataclass
 class AmendUsageResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     amend_usage_400_application_json_object: Optional[AmendUsage400ApplicationJSON] = dataclasses.field(default=None)
@@ -56,3 +62,4 @@ class AmendUsageResponse:
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

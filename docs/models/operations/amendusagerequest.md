@@ -1,0 +1,11 @@
+# AmendUsageRequest
+
+
+## Fields
+
+| Field                                                                | Type                                                                 | Required                                                             | Description                                                          | Example                                                              |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `customer_id`                                                        | *str*                                                                | :heavy_check_mark:                                                   | N/A                                                                  |                                                                      |
+| `request_body`                                                       | list[[shared.Event](../../models/shared/event.md)]                   | :heavy_minus_sign:                                                   | N/A                                                                  |                                                                      |
+| `timeframe_end`                                                      | *Optional[str]*                                                      | :heavy_minus_sign:                                                   | Costs returned are exclusive of `timeframe_end`.                     | 2022-03-01T05:00:00Z                                                 |
+| `timeframe_start`                                                    | [date](https://docs.python.org/3/library/datetime.html#date-objects) | :heavy_minus_sign:                                                   | Costs returned are inclusive of `timeframe_start`.                   | 2022-02-01T05:00:00Z                                                 |

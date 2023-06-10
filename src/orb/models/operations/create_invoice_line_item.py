@@ -7,12 +7,13 @@ from ..shared import invoicelineitem as shared_invoicelineitem
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class CreateInvoiceLineItemResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     invoice_line_item: Optional[shared_invoicelineitem.InvoiceLineItem] = dataclasses.field(default=None)
     r"""Created"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

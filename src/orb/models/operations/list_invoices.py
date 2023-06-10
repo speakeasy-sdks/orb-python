@@ -7,9 +7,9 @@ from ..shared import invoices as shared_invoices
 from typing import Any, Optional
 
 
+
 @dataclasses.dataclass
 class ListInvoicesRequest:
-    
     customer_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'customer_id', 'style': 'form', 'explode': True }})
     r"""Filter by a specific customer (cannot be used with `external_customer_id`)"""
     external_customer_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'external_customer_id', 'style': 'form', 'explode': True }})
@@ -20,12 +20,15 @@ class ListInvoicesRequest:
     r"""Filter by a specific subscription"""
     
 
+
+
+
 @dataclasses.dataclass
 class ListInvoicesResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     invoices: Optional[shared_invoices.Invoices] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

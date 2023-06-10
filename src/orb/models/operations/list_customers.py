@@ -7,12 +7,13 @@ from ..shared import customers as shared_customers
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class ListCustomersResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     customers: Optional[shared_customers.Customers] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

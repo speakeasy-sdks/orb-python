@@ -1,0 +1,13 @@
+# BulkPriceOverride
+
+Bulk price override
+
+
+## Fields
+
+| Field                                                                             | Type                                                                              | Required                                                                          | Description                                                                       | Example                                                                           |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `bulk_config`                                                                     | [BulkPriceOverrideBulkConfig](../../models/shared/bulkpriceoverridebulkconfig.md) | :heavy_check_mark:                                                                | N/A                                                                               |                                                                                   |
+| `id`                                                                              | *str*                                                                             | :heavy_check_mark:                                                                | N/A                                                                               |                                                                                   |
+| `minimum_amount`                                                                  | *Optional[str]*                                                                   | :heavy_minus_sign:                                                                | The subscription's override minimum amount for this price.                        | 1.23                                                                              |
+| `model_type`                                                                      | [BulkModelType](../../models/shared/bulkmodeltype.md)                             | :heavy_check_mark:                                                                | N/A                                                                               | bulk                                                                              |

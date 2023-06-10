@@ -18,9 +18,9 @@ class ChangeOptions(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class SubscriptionPlanChange:
-    
     change_option: ChangeOptions = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('change_option') }})
     r"""Determines the timing of the plan change"""
     align_billing_with_plan_change_date: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('align_billing_with_plan_change_date'), 'exclude': lambda f: f is None }})
@@ -38,3 +38,4 @@ class SubscriptionPlanChange:
     price_overrides: Optional[list[Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('price_overrides'), 'exclude': lambda f: f is None }})
     r"""Optionally provide a list of overrides for prices on the plan"""
     
+

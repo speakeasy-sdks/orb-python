@@ -8,13 +8,20 @@ from ..shared import paymentprovider as shared_paymentprovider
 from ..shared import shipping_address as shared_shipping_address
 from dataclasses_json import Undefined, dataclass_json
 from orb import utils
-from typing import Any, Optional
+from typing import Optional
+
+
+
+@dataclasses.dataclass
+class NewCustomerMetadata:
+    r"""User-specified key value pairs, often useful for referencing internal resources or IDs. Returned as-is in the customer resource."""
+    pass
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class NewCustomer:
-    
     email: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('email') }})
     r"""A valid customer email, to be used for invoicing and notifications."""
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
@@ -27,7 +34,7 @@ class NewCustomer:
     r"""An ISO 4217 currency string used for the customer's invoices and balance. If not set at creation time, will be set at subscription creation time."""
     external_customer_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id'), 'exclude': lambda f: f is None }})
     r"""An optional user-defined ID for this customer resource, used throughout the system as an alias for this Customer. Use this field to identify a customer by an existing identifier in your system."""
-    metadata: Optional[dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata'), 'exclude': lambda f: f is None }})
+    metadata: Optional[NewCustomerMetadata] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata'), 'exclude': lambda f: f is None }})
     r"""User-specified key value pairs, often useful for referencing internal resources or IDs. Returned as-is in the customer resource."""
     payment_provider: Optional[shared_paymentprovider.PaymentProvider] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider'), 'exclude': lambda f: f is None }})
     r"""This is used for creating charges or invoices in an external system via Orb. When not in test mode:
@@ -128,3 +135,4 @@ class NewCustomer:
     timezone: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timezone'), 'exclude': lambda f: f is None }})
     r"""A timezone identifier from the IANA timezone database, such as \\"America/Los_Angeles\\". This defaults to your account's timezone if not set. This cannot be changed after customer creation."""
     
+

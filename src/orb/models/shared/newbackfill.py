@@ -11,9 +11,9 @@ from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class NewBackfill:
-    
     replace_existing_events: bool = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('replace_existing_events') }})
     r"""If true, replaces all existing events in the timeframe with the newly ingested events. If false, adds the newly ingested events to the existing events."""
     timeframe_end: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('timeframe_end'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
@@ -27,3 +27,4 @@ class NewBackfill:
     external_customer_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id'), 'exclude': lambda f: f is None }})
     r"""The external customer ID of the customer to which this backfill is scoped."""
     
+
