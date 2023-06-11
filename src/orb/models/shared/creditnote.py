@@ -13,13 +13,15 @@ from orb import utils
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class CreditNoteCustomer:
     r"""The Customer who is receiving this credit note."""
-    
     external_customer_id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id') }})
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     
+
+
 class CreditNoteReason(str, Enum):
     r"""A reason for this credit note, which can be one of \\"Duplicate\\", \\"Fraudulent\\", \\"Order change\\", \\"Product unsatisfactory\\" """
     DUPLICATE = 'Duplicate'
@@ -34,9 +36,9 @@ class AdjustmentType(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class CreditNote:
-    
     created_at: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
     r"""The creation time of the resource in Orb."""
     credit_note_number: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('credit_note_number') }})
@@ -68,3 +70,4 @@ class CreditNote:
     voided_at: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('voided_at'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
     r"""The time when the credit note was voided in Orb, if applicable."""
     
+

@@ -17,9 +17,9 @@ class FeeChangeOption(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class FixedFeeQuantityChange:
-    
     price_id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('price_id') }})
     r"""Price for which the quantity should be updated. Must be a fixed fee."""
     quantity: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('quantity') }})
@@ -28,3 +28,4 @@ class FixedFeeQuantityChange:
     effective_date: Optional[date] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('effective_date'), 'encoder': utils.dateisoformat(True), 'decoder': utils.datefromisoformat, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     r"""The date that the quantity change should take effect, localized to the customer's timezone. If this parameter is not passed in, the quantity change is effective immediately."""
     
+

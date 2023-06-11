@@ -17,10 +17,10 @@ class DurationUnit(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class PlanPhase:
     r"""A plan can optionally consist of plan phases, which represents a pricing configuration that's only active for the length of time specified by `duration` and `duration_unit`. All plans must have an evergreen phase, which is the last phase and active indefinitely."""
-    
     discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
     duration_unit: DurationUnit = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('duration_unit') }})
     r"""Term for this plan, which is the maximum cadence among all component prices"""
@@ -32,3 +32,4 @@ class PlanPhase:
     order: Optional[int] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('order'), 'exclude': lambda f: f is None }})
     r"""Determines the ordering of the phase in a plan's lifecycle. 1 = first phase."""
     
+

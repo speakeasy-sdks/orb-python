@@ -4,15 +4,22 @@ from __future__ import annotations
 import dataclasses
 from dataclasses_json import Undefined, dataclass_json
 from orb import utils
-from typing import Any, Optional
+from typing import Optional
+
+
+
+@dataclasses.dataclass
+class ValidationErrorsValidationErrors:
+    pass
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class ValidationErrors:
-    
     idempotency_key: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('idempotency_key'), 'exclude': lambda f: f is None }})
     r"""The passed idempotency_key corresponding to the validation_errors"""
-    validation_errors: Optional[list[dict[str, Any]]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('validation_errors'), 'exclude': lambda f: f is None }})
+    validation_errors: Optional[list[ValidationErrorsValidationErrors]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('validation_errors'), 'exclude': lambda f: f is None }})
     r"""An array of objects corresponding to validation failures for each idempotency_key."""
     
+

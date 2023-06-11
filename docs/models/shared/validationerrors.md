@@ -1,0 +1,9 @@
+# ValidationErrors
+
+
+## Fields
+
+| Field                                                                                             | Type                                                                                              | Required                                                                                          | Description                                                                                       |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `idempotency_key`                                                                                 | *Optional[str]*                                                                                   | :heavy_minus_sign:                                                                                | The passed idempotency_key corresponding to the validation_errors                                 |
+| `validation_errors`                                                                               | list[[ValidationErrorsValidationErrors](../../models/shared/validationerrorsvalidationerrors.md)] | :heavy_minus_sign:                                                                                | An array of objects corresponding to validation failures for each idempotency_key.                |

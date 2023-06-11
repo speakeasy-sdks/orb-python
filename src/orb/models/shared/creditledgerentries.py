@@ -8,18 +8,21 @@ from orb import utils
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class CreditLedgerEntriesPaginationMetadata:
-    
     has_more: bool = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('has_more') }})
     next_cursor: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('next_cursor') }})
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class CreditLedgerEntries:
     r"""OK"""
-    
     data: list[shared_creditledgerentry.CreditLedgerEntry] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('data') }})
     pagination_metadata: CreditLedgerEntriesPaginationMetadata = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('pagination_metadata') }})
     
+

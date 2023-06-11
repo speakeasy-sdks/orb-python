@@ -17,10 +17,18 @@ class ExternalMarketplace(str, Enum):
     AZURE = 'azure'
 
 
+
+@dataclasses.dataclass
+class NewSubscriptionMetadata:
+    r"""User-specified key value pairs, often useful for referencing internal resources or IDs. Returned as-is in the subscription resource."""
+    
+
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class NewSubscription:
-    
     align_billing_with_subscription_start_date: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('align_billing_with_subscription_start_date'), 'exclude': lambda f: f is None }})
     r"""Align billing periods with the subscription's start_date. If this is not provided, this defaults to aligning billing periods with the start of the month."""
     auto_collection: Optional[bool] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('auto_collection'), 'exclude': lambda f: f is None }})
@@ -39,7 +47,7 @@ class NewSubscription:
     r"""The reporting ID to associate this subscription with the external marketplace. Required if external_marketplace is specified."""
     external_plan_id: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_plan_id'), 'exclude': lambda f: f is None }})
     r"""The external ID of the plan, which can be used in place of the `plan_id`."""
-    metadata: Optional[dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata'), 'exclude': lambda f: f is None }})
+    metadata: Optional[NewSubscriptionMetadata] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata'), 'exclude': lambda f: f is None }})
     r"""User-specified key value pairs, often useful for referencing internal resources or IDs. Returned as-is in the subscription resource."""
     minimum_amount: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount'), 'exclude': lambda f: f is None }})
     r"""The subscription's override minimum amount for the plan."""
@@ -54,3 +62,4 @@ class NewSubscription:
     start_date: Optional[date] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('start_date'), 'encoder': utils.dateisoformat(True), 'decoder': utils.datefromisoformat, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     r"""The date that Orb should start billing for the subscription, localized to the customer's timezone. If this is not provided, this defaults to the current date in the customer's timezone."""
     
+

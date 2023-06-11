@@ -7,14 +7,14 @@ from dataclasses_json import Undefined, dataclass_json
 from datetime import date
 from marshmallow import fields
 from orb import utils
-from typing import Any, Optional
+from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class NewCreditLedgerEntryInvoiceSettings:
     r"""Passing `invoice_settings` automatically generates an invoice for the newly added credits. If `invoice_settings` is passed, you must specify `per_unit_cost_basis`, as the calculation of the invoice total is done on that basis."""
-    
     auto_collection: bool = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('auto_collection') }})
     r"""Whether the credits purchase invoice should auto collect with the customer's saved payment method."""
     net_terms: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('net_terms') }})
@@ -23,10 +23,20 @@ class NewCreditLedgerEntryInvoiceSettings:
     r"""An optional memo to display on the invoice."""
     
 
+
+
+
+@dataclasses.dataclass
+class NewCreditLedgerEntryMetadata:
+    r"""User-specified key/value pairs for the ledger entry resource."""
+    
+
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class NewCreditLedgerEntry:
-    
     entry_type: shared_entrytype.EntryType = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('entry_type') }})
     amount: Optional[float] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount'), 'exclude': lambda f: f is None }})
     r"""The number of credits to effect. Note that this is required for increment or decrement operations."""
@@ -38,10 +48,11 @@ class NewCreditLedgerEntry:
     r"""A future date (specified in YYYY-MM-DD format) that denotes when this credit balance should expire."""
     invoice_settings: Optional[NewCreditLedgerEntryInvoiceSettings] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('invoice_settings'), 'exclude': lambda f: f is None }})
     r"""Passing `invoice_settings` automatically generates an invoice for the newly added credits. If `invoice_settings` is passed, you must specify `per_unit_cost_basis`, as the calculation of the invoice total is done on that basis."""
-    metadata: Optional[dict[str, Any]] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata'), 'exclude': lambda f: f is None }})
+    metadata: Optional[NewCreditLedgerEntryMetadata] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata'), 'exclude': lambda f: f is None }})
     r"""User-specified key/value pairs for the ledger entry resource."""
     per_unit_cost_basis: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_unit_cost_basis'), 'exclude': lambda f: f is None }})
     r"""Can only be specified when `entry_type=increment`. How much, in USD, a customer paid for a single credit in this block"""
     target_expiry_date: Optional[date] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('target_expiry_date'), 'encoder': utils.dateisoformat(True), 'decoder': utils.datefromisoformat, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     r"""A future date (specified in YYYY-MM-DD) used for `expiration_change`"""
     
+

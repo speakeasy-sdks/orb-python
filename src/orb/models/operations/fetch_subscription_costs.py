@@ -9,9 +9,9 @@ from datetime import datetime
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class FetchSubscriptionCostsRequest:
-    
     subscription_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'subscription_id', 'style': 'simple', 'explode': False }})
     group_by: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'group_by', 'style': 'form', 'explode': True }})
     r"""Groups per-price costs by the key provided."""
@@ -23,12 +23,15 @@ class FetchSubscriptionCostsRequest:
     r"""Controls whether Orb returns cumulative costs since the start of the billing period, or incremental day-by-day costs. If your customer has minimums or discounts, it's strongly recommended that you use the default cumulative behavior."""
     
 
+
+
+
 @dataclasses.dataclass
 class FetchSubscriptionCostsResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     subscription_costs: Optional[shared_subscriptioncosts.SubscriptionCosts] = dataclasses.field(default=None)
     r"""OK"""
     
+

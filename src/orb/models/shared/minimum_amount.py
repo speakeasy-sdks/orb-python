@@ -7,11 +7,12 @@ from orb import utils
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class MinimumAmount:
-    
     applies_to_price_ids: list[str] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('applies_to_price_ids') }})
     r"""List of price_ids that this minimum amount applies to. For plan/plan phase minimums, this can be a subset of prices."""
     minimum_amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('minimum_amount') }})
     r"""Minimum amount applied"""
     
+

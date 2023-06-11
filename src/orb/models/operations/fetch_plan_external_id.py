@@ -7,19 +7,22 @@ from ..shared import plan as shared_plan
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class FetchPlanExternalIDRequest:
-    
     external_plan_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'external_plan_id', 'style': 'simple', 'explode': False }})
     plan: Optional[shared_plan.Plan] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
     
 
+
+
+
 @dataclasses.dataclass
 class FetchPlanExternalIDResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     plan: Optional[shared_plan.Plan] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

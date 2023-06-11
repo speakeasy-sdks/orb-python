@@ -12,9 +12,9 @@ from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class CustomerCostPerPriceCostsPriceGroups:
-    
     grouping_key: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('grouping_key') }})
     r"""Grouping key to break down a single price's costs"""
     grouping_value: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('grouping_value') }})
@@ -25,11 +25,13 @@ class CustomerCostPerPriceCostsPriceGroups:
     secondary_grouping_value: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('secondary_grouping_value'), 'exclude': lambda f: f is None }})
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class CustomerCostPerPriceCosts:
     r"""Price's contributions for the timeframe, excluding any transforms (minimums and discounts)."""
-    
     price_groups: list[CustomerCostPerPriceCostsPriceGroups] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('price_groups') }})
     r"""If a `group_by` attribute is passed in, array of costs per `grouping_key`, `grouping_value` or `secondary_grouping_key`, `secondary_grouping_value`."""
     price: Optional[shared_price.Price] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('price'), 'exclude': lambda f: f is None }})
@@ -216,10 +218,12 @@ class CustomerCostPerPriceCosts:
     r"""Price's contributions for the timeframe, including any minimums and discounts."""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class CustomerCost:
-    
     per_price_costs: list[CustomerCostPerPriceCosts] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('per_price_costs') }})
     subtotal: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('subtotal') }})
     r"""Total costs for the timeframe, excluding minimums and discounts."""
@@ -228,3 +232,4 @@ class CustomerCost:
     total: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('total') }})
     r"""Total costs for the timeframe, including minimums and discounts."""
     
+

@@ -18,11 +18,12 @@ class CancelOptions(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class SubscriptionCancellation:
-    
     cancel_option: CancelOptions = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cancel_option') }})
     r"""Determines the timing of subscription cancellation"""
     cancellation_date: Optional[datetime] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('cancellation_date'), 'encoder': utils.datetimeisoformat(True), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso'), 'exclude': lambda f: f is None }})
     r"""The date that the cancellation should take effect. This parameter can only be passed if the `cancel_option` is `requested_date`."""
     
+

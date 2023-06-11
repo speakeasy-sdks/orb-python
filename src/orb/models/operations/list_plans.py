@@ -7,12 +7,13 @@ from ..shared import plans as shared_plans
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class ListPlansResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     plans: Optional[shared_plans.Plans] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

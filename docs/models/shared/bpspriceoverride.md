@@ -1,0 +1,13 @@
+# BPSPriceOverride
+
+BPS price override
+
+
+## Fields
+
+| Field                                                                         | Type                                                                          | Required                                                                      | Description                                                                   | Example                                                                       |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `bps_config`                                                                  | [BPSPriceOverrideBPSConfig](../../models/shared/bpspriceoverridebpsconfig.md) | :heavy_check_mark:                                                            | N/A                                                                           |                                                                               |
+| `id`                                                                          | *str*                                                                         | :heavy_check_mark:                                                            | N/A                                                                           |                                                                               |
+| `minimum_amount`                                                              | *Optional[str]*                                                               | :heavy_minus_sign:                                                            | The subscription's override minimum amount for this price.                    | 1.23                                                                          |
+| `model_type`                                                                  | [BpsModelType](../../models/shared/bpsmodeltype.md)                           | :heavy_check_mark:                                                            | N/A                                                                           | bps                                                                           |

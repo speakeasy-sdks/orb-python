@@ -10,12 +10,13 @@ from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class IngestionResponse:
     r"""OK"""
-    
     validation_failed: list[shared_validationerrors.ValidationErrors] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('validation_failed') }})
     r"""Contains all failing validation events. In the case of a 200, this array will always be empty. This field will always be present."""
     debug: Optional[shared_debug.Debug] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('debug'), 'exclude': lambda f: f is None }})
     r"""Optional debug information (only present when debug=true is passed to the endpoint). Contains ingested and duplicate event idempotency keys."""
     
+

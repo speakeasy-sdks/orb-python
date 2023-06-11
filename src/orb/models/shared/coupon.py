@@ -12,13 +12,13 @@ from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class Coupon:
     r"""A coupon represents a reusable discount configuration, and have an attached redemption code that can be issued to your end users. Coupons are most often used in self-serve signup or upgrade flows in your checkout experience or billing portal.
     
     To redeem a coupon, pass the `redemption_code` property in the [create subscription](https://docs.withorb.com/docs/orb-docs/api-reference/operations/create-a-subscription) or [schedule plan change](https://docs.withorb.com/docs/orb-docs/api-reference/operations/create-a-subscription-schedule-plan-change) request.
     """
-    
     discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
     redemption_code: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('redemption_code') }})
     r"""This string can be used to redeem this coupon for a given subscription."""
@@ -33,14 +33,16 @@ class Coupon:
     r"""The number of times this coupon has been redeemed."""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class CouponInput:
     r"""A coupon represents a reusable discount configuration, and have an attached redemption code that can be issued to your end users. Coupons are most often used in self-serve signup or upgrade flows in your checkout experience or billing portal.
     
     To redeem a coupon, pass the `redemption_code` property in the [create subscription](https://docs.withorb.com/docs/orb-docs/api-reference/operations/create-a-subscription) or [schedule plan change](https://docs.withorb.com/docs/orb-docs/api-reference/operations/create-a-subscription-schedule-plan-change) request.
     """
-    
     discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
     redemption_code: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('redemption_code') }})
     r"""This string can be used to redeem this coupon for a given subscription."""
@@ -52,3 +54,4 @@ class CouponInput:
     times_redeemed: Optional[int] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('times_redeemed'), 'exclude': lambda f: f is None }})
     r"""The number of times this coupon has been redeemed."""
     
+

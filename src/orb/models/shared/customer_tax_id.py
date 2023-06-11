@@ -7,6 +7,7 @@ from orb import utils
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class CustomerTaxID:
     r"""Tax IDs are commonly required to be displayed on customer invoices, which are added to the headers of invoices.
@@ -95,7 +96,6 @@ class CustomerTaxID:
     | United Kingdom       | `gb_vat` | United Kingdom VAT number                          |
     | United States        | `us_ein` | United States EIN                                  |
     """
-    
     country: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('country') }})
     r"""Two-letter ISO code representing the country of the tax ID"""
     type: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('type') }})
@@ -103,3 +103,4 @@ class CustomerTaxID:
     value: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('value') }})
     r"""The value of the ID"""
     
+

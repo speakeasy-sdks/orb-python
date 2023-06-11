@@ -9,32 +9,38 @@ from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class SubLineItemGrouping:
     r"""For configured prices that are split by a grouping key, this will be populated with the key and a value. The `amount` will be the values for this particular grouping."""
-    
     key: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('key'), 'exclude': lambda f: f is None }})
     value: Optional[str] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('value'), 'exclude': lambda f: f is None }})
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class SubLineItemMatrixConfig:
     r"""Only available if `type` is `matrix`. Contains the values of the matrix that this `sub_line_item` represents."""
-    
     dimension_values: list[str] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dimension_values') }})
     r"""The ordered dimension values for this line item."""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class SubLineItemTierConfig:
     r"""Only available if `type` is `tier`. Contains the range of units in this tier and the unit amount."""
-    
     first_unit: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('first_unit') }})
     last_unit: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('last_unit') }})
     unit_amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount') }})
     
+
+
 class SubLineItemType(str, Enum):
     r"""An identifier for a sub line item that is specific to a pricing model."""
     MATRIX = 'matrix'
@@ -42,9 +48,9 @@ class SubLineItemType(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class SubLineItem:
-    
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
     r"""The total amount for this sub line item."""
     grouping: SubLineItemGrouping = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('grouping') }})
@@ -58,3 +64,4 @@ class SubLineItem:
     tier_config: Optional[SubLineItemTierConfig] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('tier_config'), 'exclude': lambda f: f is None }})
     r"""Only available if `type` is `tier`. Contains the range of units in this tier and the unit amount."""
     
+

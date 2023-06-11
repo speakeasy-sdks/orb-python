@@ -1,0 +1,11 @@
+# SubscriptionFixedFeeQuantitySchedule
+
+
+## Fields
+
+| Field                                                                | Type                                                                 | Required                                                             | Description                                                          | Example                                                              |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| `end_date`                                                           | [date](https://docs.python.org/3/library/datetime.html#date-objects) | :heavy_minus_sign:                                                   | N/A                                                                  | 2022-06-12T07:00:00+00:00                                            |
+| `price_id`                                                           | *Optional[str]*                                                      | :heavy_minus_sign:                                                   | N/A                                                                  |                                                                      |
+| `quantity`                                                           | *Optional[float]*                                                    | :heavy_minus_sign:                                                   | N/A                                                                  | 4.0                                                                  |
+| `start_date`                                                         | [date](https://docs.python.org/3/library/datetime.html#date-objects) | :heavy_minus_sign:                                                   | N/A                                                                  | 2022-05-12T07:00:00+00:00                                            |

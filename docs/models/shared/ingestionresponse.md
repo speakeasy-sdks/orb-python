@@ -1,0 +1,11 @@
+# IngestionResponse
+
+OK
+
+
+## Fields
+
+| Field                                                                                                                                        | Type                                                                                                                                         | Required                                                                                                                                     | Description                                                                                                                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `debug`                                                                                                                                      | [Optional[Debug]](../../models/shared/debug.md)                                                                                              | :heavy_minus_sign:                                                                                                                           | Optional debug information (only present when debug=true is passed to the endpoint). Contains ingested and duplicate event idempotency keys. |
+| `validation_failed`                                                                                                                          | list[[ValidationErrors](../../models/shared/validationerrors.md)]                                                                            | :heavy_check_mark:                                                                                                                           | Contains all failing validation events. In the case of a 200, this array will always be empty. This field will always be present.            |

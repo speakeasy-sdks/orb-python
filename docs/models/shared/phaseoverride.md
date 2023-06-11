@@ -1,0 +1,10 @@
+# PhaseOverride
+
+
+## Fields
+
+| Field                                                                                                 | Type                                                                                                  | Required                                                                                              | Description                                                                                           |
+| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `discount`                                                                                            | [Optional[Discount]](../../models/shared/discount.md)                                                 | :heavy_minus_sign:                                                                                    | N/A                                                                                                   |
+| `minimum_amount`                                                                                      | *Optional[str]*                                                                                       | :heavy_minus_sign:                                                                                    | The new minimum amount for the phase. Providing `null` will clear the existing minimum, if it exists. |
+| `order`                                                                                               | *Optional[float]*                                                                                     | :heavy_minus_sign:                                                                                    | The phase order that is being modified.                                                               |

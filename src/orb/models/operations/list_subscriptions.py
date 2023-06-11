@@ -7,19 +7,22 @@ from ..shared import subscriptions as shared_subscriptions
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class ListSubscriptionsRequest:
-    
     customer_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'customer_id', 'style': 'form', 'explode': True }})
     external_customer_id: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'external_customer_id', 'style': 'form', 'explode': True }})
     
 
+
+
+
 @dataclasses.dataclass
 class ListSubscriptionsResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     subscriptions: Optional[shared_subscriptions.Subscriptions] = dataclasses.field(default=None)
     r"""OK"""
     
+

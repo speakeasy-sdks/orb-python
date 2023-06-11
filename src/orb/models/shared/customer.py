@@ -11,10 +11,19 @@ from dataclasses_json import Undefined, dataclass_json
 from datetime import datetime
 from marshmallow import fields
 from orb import utils
-from typing import Any, Optional
+from typing import Optional
+
+
+
+@dataclasses.dataclass
+class CustomerMetadata:
+    r"""User specified key-value pairs. If there is no metadata for the customer, this defaults to an empty dictionary."""
+    
+
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class Customer:
     r"""A customer is a buyer of your products, and the other party to the billing relationship.
@@ -25,7 +34,6 @@ class Customer:
     
     A customer also has a timezone (from the standard [IANA timezone database](https://www.iana.org/time-zones)), which defaults to your account's timezone. See [Timezone localization](../guides/product-catalog/) for information on what this timezone parameter influences within Orb.
     """
-    
     balance: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('balance') }})
     r"""The customer's current balance in their currency."""
     created_at: datetime = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('created_at'), 'encoder': utils.datetimeisoformat(False), 'decoder': dateutil.parser.isoparse, 'mm_field': fields.DateTime(format='iso') }})
@@ -35,7 +43,7 @@ class Customer:
     r"""A valid customer email, to be used for notifications. When Orb triggers payment through a payment gateway, this email will be used for any automatically issued receipts."""
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     r"""The full name of the customer"""
-    metadata: dict[str, Any] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata') }})
+    metadata: CustomerMetadata = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('metadata') }})
     r"""User specified key-value pairs. If there is no metadata for the customer, this defaults to an empty dictionary."""
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
     payment_provider: shared_paymentprovider.PaymentProvider = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('payment_provider') }})
@@ -145,3 +153,4 @@ class Customer:
     shipping_address: Optional[shared_shipping_address.ShippingAddress] = dataclasses.field(default=None, metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('shipping_address'), 'exclude': lambda f: f is None }})
     r"""The customer's shipping address; all fields in the address are optional. Note that downstream tax calculations are based on the shipping address."""
     
+

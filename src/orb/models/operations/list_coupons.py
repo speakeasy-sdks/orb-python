@@ -7,21 +7,24 @@ from ..shared import coupons as shared_coupons
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class ListCouponsRequest:
-    
     redemption_code: Optional[str] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'redemption_code', 'style': 'form', 'explode': True }})
     r"""Filter to coupons matching this redemption code."""
     show_archived: Optional[bool] = dataclasses.field(default=None, metadata={'query_param': { 'field_name': 'show_archived', 'style': 'form', 'explode': True }})
     r"""Show archived coupons as well (by default, this endpoint only returns active coupons)."""
     
 
+
+
+
 @dataclasses.dataclass
 class ListCouponsResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     coupons: Optional[shared_coupons.Coupons] = dataclasses.field(default=None)
     r"""OK"""
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     
+

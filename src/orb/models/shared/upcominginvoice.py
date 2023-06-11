@@ -14,41 +14,49 @@ from typing import Optional
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class UpcomingInvoiceCustomer:
     r"""The customer receiving this invoice."""
-    
     external_customer_id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('external_customer_id') }})
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class UpcomingInvoiceLineItemsGrouping:
     r"""For configured prices that are split by a grouping key, this will be populated with the key and a value. The `amount` and `subtotal` will be the values for this particular grouping."""
-    
     key: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('key') }})
     value: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('value') }})
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class UpcomingInvoiceLineItemsSubLineItemsMatrixConfig:
     r"""Only available if `type` is `matrix`. Contains the values of the matrix that this `sub_line_item` represents."""
-    
     dimension_values: list[str] = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('dimension_values') }})
     r"""The ordered dimension values for this line item."""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class UpcomingInvoiceLineItemsSubLineItemsTierConfig:
     r"""Only available if `type` is `tier`. Contains the range of units in this tier and the unit amount."""
-    
     first_unit: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('first_unit') }})
     last_unit: float = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('last_unit') }})
     unit_amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('unit_amount') }})
     
+
+
 class UpcomingInvoiceLineItemsSubLineItemsType(str, Enum):
     r"""An identifier for a sub line item that is specific to a pricing model."""
     MATRIX = 'matrix'
@@ -56,9 +64,9 @@ class UpcomingInvoiceLineItemsSubLineItemsType(str, Enum):
 
 
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class UpcomingInvoiceLineItemsSubLineItems:
-    
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
     r"""The total amount for this sub line item."""
     name: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('name') }})
@@ -71,10 +79,12 @@ class UpcomingInvoiceLineItemsSubLineItems:
     r"""Only available if `type` is `tier`. Contains the range of units in this tier and the unit amount."""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class UpcomingInvoiceLineItems:
-    
     amount: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount') }})
     r"""The final amount after any discounts or minimums."""
     discount: shared_discount.Discount = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('discount') }})
@@ -94,15 +104,20 @@ class UpcomingInvoiceLineItems:
     r"""The line amount before any line item-specific discounts or minimums."""
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class UpcomingInvoiceSubscription:
     r"""The associated subscription for this invoice."""
-    
     id: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('id') }})
     
 
+
+
 @dataclass_json(undefined=Undefined.EXCLUDE)
+
 @dataclasses.dataclass
 class UpcomingInvoice:
     r"""Upcoming invoices contain a line-by-line breakdown of an upcoming amount due for a subscription, including incurred usage in the billing period as well as any recurring fees.
@@ -111,7 +126,6 @@ class UpcomingInvoice:
     
     Since an invoice resource has not been created for this upcoming invoice, this endpoint intentionally does not return an `id` field.
     """
-    
     amount_due: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('amount_due') }})
     r"""The final amount to be charged to the customer after all minimums and discounts have been applied. Only populated for non-pre-paid plans."""
     currency: str = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('currency') }})
@@ -131,3 +145,4 @@ class UpcomingInvoice:
     target_date: date = dataclasses.field(metadata={'dataclasses_json': { 'letter_case': utils.get_field_name('target_date'), 'encoder': utils.dateisoformat(False), 'decoder': utils.datefromisoformat, 'mm_field': fields.DateTime(format='iso') }})
     r"""The expected issue date of the invoice."""
     
+

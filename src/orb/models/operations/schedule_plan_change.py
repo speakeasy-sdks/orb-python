@@ -8,19 +8,22 @@ from ..shared import subscriptionplanchange as shared_subscriptionplanchange
 from typing import Optional
 
 
+
 @dataclasses.dataclass
 class SchedulePlanChangeRequest:
-    
     subscription_id: str = dataclasses.field(metadata={'path_param': { 'field_name': 'subscription_id', 'style': 'simple', 'explode': False }})
     subscription_plan_change: Optional[shared_subscriptionplanchange.SubscriptionPlanChange] = dataclasses.field(default=None, metadata={'request': { 'media_type': 'application/json' }})
     
 
+
+
+
 @dataclasses.dataclass
 class SchedulePlanChangeResponse:
-    
     content_type: str = dataclasses.field()
     status_code: int = dataclasses.field()
     raw_response: Optional[requests_http.Response] = dataclasses.field(default=None)
     subscription: Optional[shared_subscription.Subscription] = dataclasses.field(default=None)
     r"""OK"""
     
+
