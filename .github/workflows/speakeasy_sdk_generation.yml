@@ -11,7 +11,8 @@ jobs:
     uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-generation.yaml@v14
     with:
       force: ${{ github.event.inputs.force }}
-      languages: '- python'
+      languages: |
+        - python
       mode: pr
       openapi_doc_auth_header: x-api-key
       openapi_doc_location: ./openapi/openapi.yaml
